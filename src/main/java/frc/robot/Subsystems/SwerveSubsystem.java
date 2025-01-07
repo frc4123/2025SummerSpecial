@@ -1,7 +1,7 @@
-package frc.robot.generated;
+package frc.robot.Subsystems;
 
-import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.Constants;
+import frc.robot.Commands.swerve.CommandSwerveDrivetrain;
 
 import static edu.wpi.first.units.Units.*;
 
@@ -17,7 +17,7 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.units.measure.*;
 
-public class TunerConstants {
+public class SwerveSubsystem {
     // Both sets of gains need to be tuned to your individual robot.
 
     // The steer motor uses any SwerveModule.SteerRequestType control request with the
