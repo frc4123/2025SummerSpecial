@@ -6,6 +6,9 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import frc.robot.commands.autos.MiddleCoral;
+import frc.robot.commands.autos.Test;
+
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
@@ -15,6 +18,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 //import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
@@ -41,13 +45,15 @@ public class RobotContainer {
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
     /* Path follower */
-    private final SendableChooser<Command> autoChooser;
+    private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
     public RobotContainer() {
-        autoChooser = AutoBuilder.buildAutoChooser("newtest");
-        SmartDashboard.putData("Auto Mode", autoChooser);
+        //autoChooser = AutoBuilder.buildAutoChooser("newtest");
+        //autoChooser = AutoBuilder.buildAutoChooser("middlecoral");
+        //SmartDashboard.putData("Auto Mode", autoChooser);
 
         configureBindings();
+        initializeAutoChooser();
     }
 
     private void configureBindings() {
@@ -68,10 +74,10 @@ public class RobotContainer {
         ));
 
         joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0.5).withVelocityY(0))
+            forwardStraight.withVelocityX(0.2).withVelocityY(0))
         );
         joystick.pov(180).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(-0.5).withVelocityY(0))
+            forwardStraight.withVelocityX(-0.2).withVelocityY(0))
         );
 
         // Run SysId routines when holding back/start and X/Y.
@@ -85,6 +91,12 @@ public class RobotContainer {
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         drivetrain.registerTelemetry(logger::telemeterize);
+    }
+
+    public void initializeAutoChooser(){
+        autoChooser.setDefaultOption("1 Middle Coral",new MiddleCoral().middleCoral());
+        autoChooser.addOption("Test", new Test().test());
+        SmartDashboard.putData("Auto Selector", autoChooser);
     }
 
     public Command getAutonomousCommand() {
