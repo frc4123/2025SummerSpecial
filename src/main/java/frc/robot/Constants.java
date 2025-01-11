@@ -85,4 +85,8 @@ public class Constants {
         new Translation2d(-kWheelBase / 2, kTrackWidth / 2), // back left
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)); // back right
     }
+
+    public static final class VisionConstants{
+        
+    }
 }
