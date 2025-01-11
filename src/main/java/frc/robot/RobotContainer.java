@@ -66,21 +66,19 @@ public class RobotContainer {
         );
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().whileTrue(drivetrain.applyRequest(() ->
-            point.withModuleDirection(new Rotation2d(-joystick.getLeftY(), -joystick.getLeftX()))
-        ));
+        joystick.b().whileTrue(drivetrain.faceDirection(new Rotation2d(90)));
 
         joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0.2).withVelocityY(0))
+            forwardStraight.withVelocityX(0.2 * MaxSpeed).withVelocityY(0))
         );
         joystick.pov(90).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0).withVelocityY(-0.2))
+            forwardStraight.withVelocityX(0).withVelocityY(-0.2 * MaxSpeed))
         );
         joystick.pov(180).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(-0.2).withVelocityY(0))
+            forwardStraight.withVelocityX(-0.2 * MaxSpeed).withVelocityY(0))
         );
         joystick.pov(270).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0).withVelocityY(0.2))
+            forwardStraight.withVelocityX(0).withVelocityY(0.2 * MaxSpeed))
         );
 
         // Run SysId routines when holding back/start and X/Y.

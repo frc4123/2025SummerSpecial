@@ -5,11 +5,9 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
-import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.geometry.Translation3d;
-import edu.wpi.first.wpilibj.RobotState;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.VisionConstants;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -22,7 +20,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
-import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.PhotonPoseEstimator.PoseStrategy;
@@ -58,9 +55,6 @@ public class Vision extends SubsystemBase{
     public enum DetectedAlliance {RED, BLUE, NONE};
 
 
-    public Vision(RobotState state) {
-    }
-
     public static AprilTagFieldLayout loadAprilTagFieldLayout(String resourceFile) { 
         try (InputStream is = Vision.class.getResourceAsStream(resourceFile); 
         InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8)) { 
@@ -77,12 +71,17 @@ public class Vision extends SubsystemBase{
             PhotonTrackedTarget target = result.getBestTarget(); 
             Optional<Pose3d> optionalPose = aprilTagFieldLayout.getTagPose(target.getFiducialId()); 
 
-
             Pose3d cameraRobotPose = PhotonUtils.estimateFieldToRobotAprilTag(target.getBestCameraToTarget(), optionalPose.get(), robotToCam);
             return cameraRobotPose; 
-        } else { 
-            return null; 
-        }
+        } else return null; 
+    }
+    
+    public Pose2d get2dPose() {
+        if (get3dPose() != null) {
+            Pose2d convertedPose2d = get3dPose().toPose2d();
+            return convertedPose2d;
+        } else return null;
+
     }
 
     public DetectedAlliance getAllianceStatus() {
@@ -126,9 +125,20 @@ public class Vision extends SubsystemBase{
         var imageCaptureTime = getCamResult().getTimestampSeconds(); 
         return imageCaptureTime; 
     }
+
+    public PhotonTrackedTarget getBestTarget() {
+        var result = getCamResult();
+        PhotonTrackedTarget target = result.getBestTarget();
+        return target;
+    }
+
+    public int getBestAprilTagId(){
+        return getBestTarget().getFiducialId();
+    }
            
     @Override
     public void periodic() {
+        SmartDashboard.putNumber("Focused April Tag: ", getBestAprilTagId());
     }
 
 

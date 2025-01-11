@@ -279,9 +279,6 @@ public class TunerConstants {
 
         public Pose2d getPose2d(){
             return odometer.getPoseMeters();
-            //Pose2d startPose = odometer.getPoseMeters(); // Your desired starting pose
-            //Supplier<Pose2d> poseSupplier = () -> startPose;
-            //return poseSupplier;
         }
 
         public void resetOdometer(Pose2d pose) {
