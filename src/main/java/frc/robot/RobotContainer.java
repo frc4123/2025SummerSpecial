@@ -69,6 +69,7 @@ public class RobotContainer {
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
         joystick.b().whileTrue(drivetrain.applyRequest(()-> faceDirection.withTargetDirection(vision.getAngleToAprilTag())));
+        //WILL NEED TO PID THE COMMAND ABOVE
 
         joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0.2 * MaxSpeed).withVelocityY(0))

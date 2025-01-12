@@ -87,6 +87,5 @@ public class Constants {
     }
 
     public static final class VisionConstants{
-        
     }
 }

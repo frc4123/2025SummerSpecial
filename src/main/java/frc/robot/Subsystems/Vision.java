@@ -18,6 +18,7 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -67,6 +68,28 @@ public class Vision extends SubsystemBase{
         } 
     }
 
+        public DetectedAlliance getAllianceStatus() {
+        var result = getCamResult();
+        List<PhotonTrackedTarget> targets = result.getTargets();
+        var redTargetCount = 0;
+        var blueTargetCount = 0;
+
+        for (PhotonTrackedTarget target : targets) {
+            if (redTargets.contains(target.getFiducialId())) {
+                redTargetCount += 1;
+            }
+            if (blueTargets.contains(target.getFiducialId())) {
+                blueTargetCount += 1;
+            }
+        }
+
+        if (redTargetCount > blueTargetCount && redTargetCount >= 1) {
+            return DetectedAlliance.RED;
+        } else if (blueTargetCount > redTargetCount && blueTargetCount >= 1) {
+            return DetectedAlliance.BLUE;
+        } else return DetectedAlliance.NONE;
+    }
+
     public Pose3d get3dPose() {
         var result = getCamResult(); 
         if (result.hasTargets()) { 
@@ -83,7 +106,6 @@ public class Vision extends SubsystemBase{
             Pose2d convertedPose2d = get3dPose().toPose2d();
             return convertedPose2d;
         } else return null;
-
     }
 
     public PhotonPipelineResult getCamResult(){
@@ -130,23 +152,77 @@ public class Vision extends SubsystemBase{
         
     }
 
-    public String getClosestGamePiece(int tag) {
+    public int getDegreesToGamePiece() {
+        if (hasTarget()) {
+            int id = getBestAprilTagId();
+            switch (getClosestGamePiece(id)) {
+                case "Blue Reef":
+                    switch (id) {
+                        case 17: return 300;
+                        case 18: return 0;
+                        case 19: return 60;
+                        case 20: return 120;
+                        case 21: return 180;
+                        case 22: return 240;
+                    }
+                case "Red Reef":
+                    switch (id) {
+                        case 6: return 60;
+                        case 7: return 0;
+                        case 8: return 300;
+                        case 9: return 240;
+                        case 10: return 180;
+                        case 11: return 120;
+                    }
+                case "Blue Barge":
+                    switch (id) {
+                        case 14: return 0;
+                        case 4: return 180;
+                    }
+                case "Red Barge":
+                    switch (id) {
+                        case 15: return 180;
+                        case 5: return 0;
+                    }
+                case "Blue Coral Station":
+                    switch (id) {
+                        case 12: return 120;
+                        case 13: return 240;
+                    }
+                case "Red Coral Station":
+                    switch (id) {
+                        case 2: return 120;
+                        case 1: return 240;
+                    }
+                case "Blue Processor":
+                    return 90;
+                case "Red Processor":
+                    return 90;
+                default:
+                    return -1;
+            }
+        } else {
+            return -1;
+        }
+    }
+    
+    public String getClosestGamePiece(int id) {
         if(hasTarget()){
-            if (blueReef.contains(tag)){
+            if (blueReef.contains(id)){
                 return "Blue Reef";
-            } else if(redReef.contains(tag)){
+            } else if(redReef.contains(id)){
                 return "Red Reef";
-            } else if(blueBarge.contains(tag)){
+            } else if(blueBarge.contains(id)){
                 return "Blue Barge";
-            } else if(redBarge.contains(tag)){
+            } else if(redBarge.contains(id)){
                 return "Red Barge";
-            } else if(blueCoralStation.contains(tag)){
+            } else if(blueCoralStation.contains(id)){
                 return "Blue Coral Station";
-            } else if(redCoralStation.contains(tag)){
+            } else if(redCoralStation.contains(id)){
                 return "Red Coral Station";
-            } else if(blueProcessor.contains(tag)){
+            } else if(blueProcessor.contains(id)){
                 return "Blue Processor";
-            } else if(redProcessor.contains(tag)){
+            } else if(redProcessor.contains(id)){
                 return "Red Processor";
             } else return "Detected ID but not game piece, check code";
         } else return "none";
@@ -157,6 +233,4 @@ public class Vision extends SubsystemBase{
             SmartDashboard.putNumber("Focused April Tag: ", getBestAprilTagId());
             SmartDashboard.putString("Game Piece in Focus: ", getClosestGamePiece(getBestAprilTagId()));
     }
-
-
 }
