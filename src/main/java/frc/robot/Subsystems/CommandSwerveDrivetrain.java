@@ -261,10 +261,6 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         return m_sysIdRoutineToApply.dynamic(direction);
     }
 
-    public Command faceDirection(Rotation2d angle){
-            return this.applyRequest(() -> new SwerveRequest.FieldCentricFacingAngle().withTargetDirection(angle));
-    }
-
     @Override
     public void periodic() {
         /*

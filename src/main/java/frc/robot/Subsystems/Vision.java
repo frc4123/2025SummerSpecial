@@ -1,8 +1,10 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
@@ -16,7 +18,6 @@ import java.io.UncheckedIOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -34,7 +35,8 @@ public class Vision extends SubsystemBase{
     PhotonCamera camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
 
     public Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
-    public AprilTagFieldLayout aprilTagFieldLayout = loadAprilTagFieldLayout("/edu/wpi/first/apriltag/2025-reefscape.json");
+   // public AprilTagFieldLayout aprilTagFieldLayout = loadAprilTagFieldLayout("Reefscape 2025.json");
+    public AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);    
     public PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, robotToCam);
     
     static final Set<Integer> redTargets = new HashSet<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10,11));
@@ -84,36 +86,9 @@ public class Vision extends SubsystemBase{
 
     }
 
-    public DetectedAlliance getAllianceStatus() {
-        var result = getCamResult(); 
-        List<PhotonTrackedTarget> targets = result.getTargets(); 
-        var redTargetCount = 0;
-        var blueTargetCount = 0;
-
-        for (PhotonTrackedTarget target : targets) {
-            if (redTargets.contains(target.getFiducialId())) {
-                redTargetCount += 1;
-            }
-            if (blueTargets.contains(target.getFiducialId())) {
-                blueTargetCount += 1;
-            }
-        }
-
-        if (redTargetCount > blueTargetCount && redTargetCount >= 1) {
-            return DetectedAlliance.RED;
-        } else if (blueTargetCount > redTargetCount && blueTargetCount >= 1) {
-            return DetectedAlliance.BLUE;
-        } else {
-            return DetectedAlliance.NONE;
-        }
-    }
-
-    public PhotonPipelineResult getCamResult() {
-        List<PhotonPipelineResult> results = camera.getAllUnreadResults(); 
-        if (results.isEmpty()) { 
-            return new PhotonPipelineResult(); 
-        } 
-        return results.get(results.size() - 1); 
+    public PhotonPipelineResult getCamResult(){
+        var result = camera.getLatestResult();
+        return result;
     }
 
     public boolean hasTarget() {
@@ -126,19 +101,38 @@ public class Vision extends SubsystemBase{
         return imageCaptureTime; 
     }
 
-    public PhotonTrackedTarget getBestTarget() {
-        var result = getCamResult();
-        PhotonTrackedTarget target = result.getBestTarget();
-        return target;
-    }
+    // public PhotonTrackedTarget getBestTarget() {
+    //     if (hasTarget()){
+    //         PhotonTrackedTarget target = getCamResult().
+    //         return target;
+    //     } else {
+    //         return null;
+    //     }
+        
+    // }
 
     public int getBestAprilTagId(){
-        return getBestTarget().getFiducialId();
+        if(hasTarget()){
+            return getCamResult().getBestTarget().getFiducialId();
+        } else return 0;
+        
+    }
+
+    public Rotation2d getAngleToAprilTag() {
+        if (hasTarget()){
+            double yaw = getCamResult().getBestTarget().getYaw(); 
+            Rotation2d cameraYaw = Rotation2d.fromDegrees(yaw);
+            Rotation2d robotToCamera = new Rotation2d(0); // Replace with your camera's mounting ang
+            return cameraYaw.plus(robotToCamera);
+        } else {
+            return null;
+        }
+        
     }
            
     @Override
     public void periodic() {
-        SmartDashboard.putNumber("Focused April Tag: ", getBestAprilTagId());
+            SmartDashboard.putNumber("Focused April Tag: ", getBestAprilTagId());
     }
 
 
