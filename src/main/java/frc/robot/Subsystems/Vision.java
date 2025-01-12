@@ -152,59 +152,66 @@ public class Vision extends SubsystemBase{
         
     }
 
-    public int getDegreesToGamePiece() {
+    public Rotation2d getDegreesToGamePiece() {
+        // Axis are flipped due to FieldCentric M
         if (hasTarget()) {
             int id = getBestAprilTagId();
             switch (getClosestGamePiece(id)) {
                 case "Blue Reef":
                     switch (id) {
-                        case 17: return 300;
-                        case 18: return 0;
-                        case 19: return 60;
-                        case 20: return 120;
-                        case 21: return 180;
-                        case 22: return 240;
+                        case 17: return Rotation2d.fromDegrees(60);
+                        case 18: return Rotation2d.fromDegrees(0);
+                        case 19: return Rotation2d.fromDegrees(300);
+                        case 20: return Rotation2d.fromDegrees(240);
+                        case 21: return Rotation2d.fromDegrees(180);
+                        case 22: return Rotation2d.fromDegrees(120);
                     }
+                    break;
                 case "Red Reef":
                     switch (id) {
-                        case 6: return 60;
-                        case 7: return 0;
-                        case 8: return 300;
-                        case 9: return 240;
-                        case 10: return 180;
-                        case 11: return 120;
+                        case 6: return Rotation2d.fromDegrees(300);
+                        case 7: return Rotation2d.fromDegrees(0);
+                        case 8: return Rotation2d.fromDegrees(60);
+                        case 9: return Rotation2d.fromDegrees(120);
+                        case 10: return Rotation2d.fromDegrees(180);
+                        case 11: return Rotation2d.fromDegrees(240);
                     }
+                    break;
                 case "Blue Barge":
                     switch (id) {
-                        case 14: return 0;
-                        case 4: return 180;
+                        case 14: return Rotation2d.fromDegrees(180);
+                        case 4: return Rotation2d.fromDegrees(0);
                     }
+                    break;
                 case "Red Barge":
                     switch (id) {
-                        case 15: return 180;
-                        case 5: return 0;
+                        case 15: return Rotation2d.fromDegrees(0);
+                        case 5: return Rotation2d.fromDegrees(180);
                     }
+                    break;
                 case "Blue Coral Station":
                     switch (id) {
-                        case 12: return 120;
-                        case 13: return 240;
+                        case 12: return Rotation2d.fromDegrees(240);
+                        case 13: return Rotation2d.fromDegrees(120);
                     }
+                    break;
                 case "Red Coral Station":
                     switch (id) {
-                        case 2: return 120;
-                        case 1: return 240;
+                        case 2: return Rotation2d.fromDegrees(240);
+                        case 1: return Rotation2d.fromDegrees(120);
                     }
+                    break;
                 case "Blue Processor":
-                    return 90;
+                    return Rotation2d.fromDegrees(270);
                 case "Red Processor":
-                    return 90;
+                    return Rotation2d.fromDegrees(270);
                 default:
-                    return -1;
+                    return Rotation2d.fromDegrees(-1); // Invalid case
             }
-        } else {
-            return -1;
         }
+        return Rotation2d.fromDegrees(-1); // No target case
     }
+    
     
     public String getClosestGamePiece(int id) {
         if(hasTarget()){
