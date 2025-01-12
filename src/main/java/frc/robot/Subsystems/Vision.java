@@ -51,8 +51,8 @@ public class Vision extends SubsystemBase{
     static final Set<Integer> blueCoralStation = new HashSet<>(Arrays.asList(12,13));
     static final Set<Integer> redCoralStation = new HashSet<>(Arrays.asList(1,2));
 
-    static final int blueProcessor = 16;
-    static final int redProcessor = 3;
+    static final Set<Integer> blueProcessor = new HashSet<>(Arrays.asList(16));
+    static final Set<Integer> redProcessor = new HashSet<>(Arrays.asList(3));
 
     public enum DetectedAlliance {RED, BLUE, NONE};
 
@@ -129,10 +129,33 @@ public class Vision extends SubsystemBase{
         }
         
     }
+
+    public String getClosestGamePiece(int tag) {
+        if(hasTarget()){
+            if (blueReef.contains(tag)){
+                return "Blue Reef";
+            } else if(redReef.contains(tag)){
+                return "Red Reef";
+            } else if(blueBarge.contains(tag)){
+                return "Blue Barge";
+            } else if(redBarge.contains(tag)){
+                return "Red Barge";
+            } else if(blueCoralStation.contains(tag)){
+                return "Blue Coral Station";
+            } else if(redCoralStation.contains(tag)){
+                return "Red Coral Station";
+            } else if(blueProcessor.contains(tag)){
+                return "Blue Processor";
+            } else if(redProcessor.contains(tag)){
+                return "Red Processor";
+            } else return "Detected ID but not game piece, check code";
+        } else return "none";
+    }
            
     @Override
     public void periodic() {
             SmartDashboard.putNumber("Focused April Tag: ", getBestAprilTagId());
+            SmartDashboard.putString("Game Piece in Focus: ", getClosestGamePiece(getBestAprilTagId()));
     }
 
 
