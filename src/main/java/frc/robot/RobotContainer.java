@@ -12,6 +12,7 @@ import frc.robot.commands.autos.Test;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -37,11 +38,13 @@ public class RobotContainer {
     //private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-    private SwerveRequest.FieldCentricFacingAngle faceDirection = new SwerveRequest.FieldCentricFacingAngle().withTargetDirection(vision.getAngleToAprilTag());
+    //private SwerveRequest.FieldCentricFacingAngle faceDirection = new SwerveRequest.FieldCentricFacingAngle().withTargetDirection(Rotation2d.fromDegrees(90)); //
 
     private final CommandXboxController joystick = new CommandXboxController(0);
 
     public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
+    private final Rotation2d test = Rotation2d.fromDegrees(90);
+    
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
@@ -68,7 +71,8 @@ public class RobotContainer {
         );
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().whileTrue(drivetrain.applyRequest(()-> faceDirection.withTargetDirection(vision.getAngleToAprilTag())));
+        //joystick.b().whileTrue((drivetrain.applyRequest(()-> faceDirection.withTargetDirection(vision.getDegreesToGamePiece()))));
+        //joystick.b().whileTrue(drivetrain.applyRequest(() -> faceDirection.withTargetDirection(test)));
         //WILL NEED TO PID THE COMMAND ABOVE
 
         joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->

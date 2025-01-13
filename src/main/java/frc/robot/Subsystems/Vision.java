@@ -57,6 +57,8 @@ public class Vision extends SubsystemBase{
 
     public enum DetectedAlliance {RED, BLUE, NONE};
 
+    private List<PhotonPipelineResult> currentResultList;
+    private PhotonPipelineResult currentResult;
 
     public static AprilTagFieldLayout loadAprilTagFieldLayout(String resourceFile) { 
         try (InputStream is = Vision.class.getResourceAsStream(resourceFile); 
@@ -67,9 +69,10 @@ public class Vision extends SubsystemBase{
             throw new UncheckedIOException(e); 
         } 
     }
+    
 
-        public DetectedAlliance getAllianceStatus() {
-        var result = getCamResult();
+    public DetectedAlliance getAllianceStatus() {
+        var result = currentResult;
         List<PhotonTrackedTarget> targets = result.getTargets();
         var redTargetCount = 0;
         var blueTargetCount = 0;
@@ -91,8 +94,8 @@ public class Vision extends SubsystemBase{
     }
 
     public Pose3d get3dPose() {
-        var result = getCamResult(); 
-        if (result.hasTargets()) { 
+        var result = currentResult; 
+        if (result.hasTargets() && result != null) { 
             PhotonTrackedTarget target = result.getBestTarget(); 
             Optional<Pose3d> optionalPose = aprilTagFieldLayout.getTagPose(target.getFiducialId()); 
 
@@ -108,19 +111,16 @@ public class Vision extends SubsystemBase{
         } else return null;
     }
 
-    public PhotonPipelineResult getCamResult(){
-        var result = camera.getLatestResult();
-        return result;
-    }
-
     public boolean hasTarget() {
-        var result = getCamResult(); 
-        return result.hasTargets(); 
+        if (currentResult != null){
+            var result = currentResult.hasTargets();
+            return result; 
+        } else return false;
     }
 
     public double getCamTimeStamp() {
-        var imageCaptureTime = getCamResult().getTimestampSeconds(); 
-        return imageCaptureTime; 
+            double imageCaptureTime = currentResult.getTimestampSeconds(); 
+            return imageCaptureTime; 
     }
 
     // public PhotonTrackedTarget getBestTarget() {
@@ -134,15 +134,15 @@ public class Vision extends SubsystemBase{
     // }
 
     public int getBestAprilTagId(){
-        if(hasTarget()){
-            return getCamResult().getBestTarget().getFiducialId();
+        if(hasTarget() && currentResult != null){
+            return currentResult.getBestTarget().getFiducialId();
         } else return 0;
         
     }
 
     public Rotation2d getAngleToAprilTag() {
-        if (hasTarget()){
-            double yaw = getCamResult().getBestTarget().getYaw(); 
+        if (hasTarget() && currentResult != null){
+            double yaw = currentResult.getBestTarget().getYaw(); 
             Rotation2d cameraYaw = Rotation2d.fromDegrees(yaw);
             Rotation2d robotToCamera = new Rotation2d(0); // Replace with your camera's mounting ang
             return cameraYaw.plus(robotToCamera);
@@ -154,7 +154,7 @@ public class Vision extends SubsystemBase{
 
     public Rotation2d getDegreesToGamePiece() {
         // Axis are flipped due to FieldCentric M
-        if (hasTarget()) {
+        if (hasTarget() && currentResult != null) {
             int id = getBestAprilTagId();
             switch (getClosestGamePiece(id)) {
                 case "Blue Reef":
@@ -191,14 +191,14 @@ public class Vision extends SubsystemBase{
                     break;
                 case "Blue Coral Station":
                     switch (id) {
-                        case 12: return Rotation2d.fromDegrees(240);
-                        case 13: return Rotation2d.fromDegrees(120);
+                        case 12: return Rotation2d.fromDegrees(245);
+                        case 13: return Rotation2d.fromDegrees(125);
                     }
                     break;
                 case "Red Coral Station":
                     switch (id) {
-                        case 2: return Rotation2d.fromDegrees(240);
-                        case 1: return Rotation2d.fromDegrees(120);
+                        case 2: return Rotation2d.fromDegrees(245);
+                        case 1: return Rotation2d.fromDegrees(125);
                     }
                     break;
                 case "Blue Processor":
@@ -214,7 +214,7 @@ public class Vision extends SubsystemBase{
     
     
     public String getClosestGamePiece(int id) {
-        if(hasTarget()){
+        if(hasTarget() && currentResult != null){
             if (blueReef.contains(id)){
                 return "Blue Reef";
             } else if(redReef.contains(id)){
@@ -237,7 +237,15 @@ public class Vision extends SubsystemBase{
            
     @Override
     public void periodic() {
-            SmartDashboard.putNumber("Focused April Tag: ", getBestAprilTagId());
-            SmartDashboard.putString("Game Piece in Focus: ", getClosestGamePiece(getBestAprilTagId()));
+        currentResultList = camera.getAllUnreadResults();
+        for (int i = currentResultList.size() - 1; i >= 0; i--) {
+            PhotonPipelineResult result = currentResultList.get(i);
+            if (result.hasTargets()) {
+                currentResult = result;
+                break;
+            } else currentResult = null;
+        }
+        SmartDashboard.putNumber("Focused April Tag: ", getBestAprilTagId());
+        SmartDashboard.putString("Game Piece in Focus: ", getClosestGamePiece(getBestAprilTagId()));
     }
 }
