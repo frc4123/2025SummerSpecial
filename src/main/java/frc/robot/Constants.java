@@ -2,6 +2,7 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -41,6 +42,9 @@ public class Constants {
     }
 
     public static final class SwerveConstants {
+
+        public static final PIDController rotationalPID = new PIDController(0.1, 0.0, 0.0);
+
         public static final boolean kInvertLeftSide = false;
         public static final boolean kInvertRightSide = true;
 

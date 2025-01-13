@@ -6,10 +6,13 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import frc.robot.Constants.SwerveConstants;
+import frc.robot.commands.autos.BlueLeftCoral;
 import frc.robot.commands.autos.MiddleCoral;
 import frc.robot.commands.autos.Test;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -27,7 +30,7 @@ public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
-    private final Vision vision = new Vision();
+
     private final Telemetry logger = new Telemetry(MaxSpeed);
 
     /* Setting up bindings for necessary control of the swerve drive platform */
@@ -38,24 +41,31 @@ public class RobotContainer {
     //private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
-    //private SwerveRequest.FieldCentricFacingAngle faceDirection = new SwerveRequest.FieldCentricFacingAngle().withTargetDirection(Rotation2d.fromDegrees(90)); //
+    private final SwerveRequest.FieldCentricFacingAngle faceAngle = new SwerveRequest.FieldCentricFacingAngle()
+        //.withDriveRequestType(DriveRequestType.Velocity) // Use velocity control for drive
+        .withSteerRequestType(SteerRequestType.Position); // Use position control for steer
+        //.withDeadband(MaxSpeed * 0.1) // Add a deadband for small inputs
+        //.withRotationalDeadband(MaxAngularRate * 0.1) // Add a rotational deadband
+        //.withDesaturateWheelSpeeds(true); // Desaturate wheel speeds to prevent overdriving
+        
 
     private final CommandXboxController joystick = new CommandXboxController(0);
 
-    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
-    private final Rotation2d test = Rotation2d.fromDegrees(90);
-    
+    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();    
 
     /* Path follower */
     private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
-    public RobotContainer() {
-        //autoChooser = AutoBuilder.buildAutoChooser("newtest");
-        //autoChooser = AutoBuilder.buildAutoChooser("middlecoral");
-        //SmartDashboard.putData("Auto Mode", autoChooser);
+    public double currentAngle = drivetrain.getState().Pose.getRotation().getDegrees();
 
+    public RobotContainer() {
         configureBindings();
         initializeAutoChooser();
+
+        faceAngle.HeadingController.setP(0.1); // Proportional gain
+        faceAngle.HeadingController.setI(0.0); // Integral gain
+        faceAngle.HeadingController.setD(0.01); // Derivative gain
+        faceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
     }
 
     private void configureBindings() {
@@ -71,6 +81,16 @@ public class RobotContainer {
         );
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+        joystick.b().whileTrue(drivetrain.applyRequest(() -> faceAngle
+            .withVelocityX(0)
+            .withVelocityY(0)
+            .withTargetDirection(Rotation2d.fromDegrees(90))
+        ));
+
+
+
+        
+
         //joystick.b().whileTrue((drivetrain.applyRequest(()-> faceDirection.withTargetDirection(vision.getDegreesToGamePiece()))));
         //joystick.b().whileTrue(drivetrain.applyRequest(() -> faceDirection.withTargetDirection(test)));
         //WILL NEED TO PID THE COMMAND ABOVE
@@ -104,6 +124,7 @@ public class RobotContainer {
     public void initializeAutoChooser(){
         autoChooser.setDefaultOption("1 Middle Coral",new MiddleCoral().middleCoral());
         autoChooser.addOption("Test", new Test().test());
+        autoChooser.addOption("Blue Coral Left 3", new BlueLeftCoral().blueLeftCoral());
         // each auto
         SmartDashboard.putData("Auto Selector", autoChooser);
     }
