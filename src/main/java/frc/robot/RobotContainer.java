@@ -42,11 +42,8 @@ public class RobotContainer {
     private final SwerveRequest.RobotCentric forwardStraight = new SwerveRequest.RobotCentric()
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
     private final SwerveRequest.FieldCentricFacingAngle faceAngle = new SwerveRequest.FieldCentricFacingAngle()
-        //.withDriveRequestType(DriveRequestType.Velocity) // Use velocity control for drive
-        .withSteerRequestType(SteerRequestType.Position); // Use position control for steer
-        //.withDeadband(MaxSpeed * 0.1) // Add a deadband for small inputs
-        //.withRotationalDeadband(MaxAngularRate * 0.1) // Add a rotational deadband
-        //.withDesaturateWheelSpeeds(true); // Desaturate wheel speeds to prevent overdriving
+            .withDriveRequestType(DriveRequestType.Velocity)
+            .withSteerRequestType(SteerRequestType.Position);
         
 
     private final CommandXboxController joystick = new CommandXboxController(0);
@@ -62,7 +59,7 @@ public class RobotContainer {
         configureBindings();
         initializeAutoChooser();
 
-        faceAngle.HeadingController.setP(0.1); // Proportional gain
+        faceAngle.HeadingController.setP(3); // Proportional gain
         faceAngle.HeadingController.setI(0.0); // Integral gain
         faceAngle.HeadingController.setD(0.01); // Derivative gain
         faceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);

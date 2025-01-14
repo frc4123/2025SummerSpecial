@@ -43,8 +43,6 @@ public class Constants {
 
     public static final class SwerveConstants {
 
-        public static final PIDController rotationalPID = new PIDController(0.1, 0.0, 0.0);
-
         public static final boolean kInvertLeftSide = false;
         public static final boolean kInvertRightSide = true;
 
