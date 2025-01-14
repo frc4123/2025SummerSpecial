@@ -1,7 +1,6 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
-import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -10,6 +9,7 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.generated.TunerConstants;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -59,6 +59,12 @@ public class Vision extends SubsystemBase{
 
     private List<PhotonPipelineResult> currentResultList;
     private PhotonPipelineResult currentResult;
+
+    private final CommandSwerveDrivetrain drivetrain; 
+
+    public Vision(CommandSwerveDrivetrain drivetrain){
+        this.drivetrain = drivetrain;
+    }
 
     public static AprilTagFieldLayout loadAprilTagFieldLayout(String resourceFile) { 
         try (InputStream is = Vision.class.getResourceAsStream(resourceFile); 
@@ -192,13 +198,13 @@ public class Vision extends SubsystemBase{
                 case "Blue Coral Station":
                     switch (id) {
                         case 12: return Rotation2d.fromDegrees(245);
-                        case 13: return Rotation2d.fromDegrees(125);
+                        case 13: return Rotation2d.fromDegrees(125); // 1.57 7.24
                     }
                     break;
                 case "Red Coral Station":
                     switch (id) {
-                        case 2: return Rotation2d.fromDegrees(245);
-                        case 1: return Rotation2d.fromDegrees(125);
+                        case 2: return Rotation2d.fromDegrees(245); // 16.15 7.14
+                        case 1: return Rotation2d.fromDegrees(125); // 16.24 1
                     }
                     break;
                 case "Blue Processor":
@@ -206,10 +212,10 @@ public class Vision extends SubsystemBase{
                 case "Red Processor":
                     return Rotation2d.fromDegrees(270);
                 default:
-                    return Rotation2d.fromDegrees(-1); // Invalid case
+                    return null; // Invalid case
             }
         }
-        return Rotation2d.fromDegrees(-1); // No target case
+        return null; // No target case
     }
     
     
@@ -245,6 +251,10 @@ public class Vision extends SubsystemBase{
                 break;
             } else currentResult = null;
         }
+        if (hasTarget()){
+            drivetrain.addVisionMeasurement(get2dPose(), getCamTimeStamp());
+        }
+
         SmartDashboard.putNumber("Focused April Tag: ", getBestAprilTagId());
         SmartDashboard.putString("Game Piece in Focus: ", getClosestGamePiece(getBestAprilTagId()));
     }

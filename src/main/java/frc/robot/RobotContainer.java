@@ -28,9 +28,6 @@ public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
-    private final Telemetry logger = new Telemetry(MaxSpeed);
-    private final Vision vision = new Vision();
-
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); 
@@ -44,9 +41,15 @@ public class RobotContainer {
         
 
     private final CommandXboxController joystick = new CommandXboxController(0);
-    public final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();    
+    private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();    
     private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
+
+    private final Telemetry logger = new Telemetry(MaxSpeed);
+    private final Vision vision = new Vision(drivetrain);
+
     public double currentAngle = drivetrain.getState().Pose.getRotation().getDegrees();
+
+
 
     public RobotContainer() {
         configureBindings();
