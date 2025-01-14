@@ -32,6 +32,7 @@ public class RobotContainer {
 
 
     private final Telemetry logger = new Telemetry(MaxSpeed);
+    private final Vision vision = new Vision();
 
     /* Setting up bindings for necessary control of the swerve drive platform */
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
@@ -81,7 +82,7 @@ public class RobotContainer {
         joystick.b().whileTrue(drivetrain.applyRequest(() -> faceAngle
             .withVelocityX(0)
             .withVelocityY(0)
-            .withTargetDirection(Rotation2d.fromDegrees(90))
+            .withTargetDirection(vision.getDegreesToGamePiece())
         ));
 
 
