@@ -85,26 +85,28 @@ public class RobotContainer {
             forwardStraight.withVelocityX(0.2 * MaxSpeed).withVelocityY(0))
         );
         joystick.pov(45).whileTrue(drivetrain.applyRequest(() -> 
-            forwardStraight.withVelocityX(0.2 * MaxSpeed).withVelocityY(-0.2 * MaxSpeed))
+            forwardStraight.withVelocityX(0.3464 * MaxSpeed).withVelocityY(-0.2 * MaxSpeed))
         );
         joystick.pov(90).whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0).withVelocityY(-0.2 * MaxSpeed))
         );
         joystick.pov(135).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(-0.2 * MaxSpeed).withVelocityY(-0.2 * MaxSpeed))
+            forwardStraight.withVelocityX(-0.3464 * MaxSpeed).withVelocityY(-0.2 * MaxSpeed))
         );
         joystick.pov(180).whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(-0.2 * MaxSpeed).withVelocityY(0))
         );
         joystick.pov(225).whileTrue(drivetrain.applyRequest(() -> 
-            forwardStraight.withVelocityX(-0.2 * MaxSpeed).withVelocityY(0.2 * MaxSpeed))
+            forwardStraight.withVelocityX(-0.3464 * MaxSpeed).withVelocityY(0.2 * MaxSpeed))
         );
         joystick.pov(270).whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0).withVelocityY(0.2 * MaxSpeed))
         );
         joystick.pov(315).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0.2 * MaxSpeed).withVelocityY(0.2 * MaxSpeed))
+            forwardStraight.withVelocityX(0.3464 * MaxSpeed).withVelocityY(0.2 * MaxSpeed))
         );
+        // 0.2, 0.3464, 60 at bottom
+        // this will result in diagonal controller inputs driving the robot 60 degrees to allign with the hexagonal reef shape
         
 
         // Run SysId routines when holding back/start and X/Y.
