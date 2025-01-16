@@ -261,7 +261,7 @@ public class Vision extends SubsystemBase{
                             case 7: return new Pose2d(0,0, Rotation2d.fromDegrees(0));
                             case 8: return new Pose2d(0,0, Rotation2d.fromDegrees(60));
                             case 9: return new Pose2d(0,0, Rotation2d.fromDegrees(120));
-                            case 10: return new Pose2d(0,0, Rotation2d.fromDegrees(180));
+                            case 10: return new Pose2d(0,0, Rotation2d.fromDegrees(180)); // L 11.71 4.18 | R
                             case 11: return new Pose2d(0,0, Rotation2d.fromDegrees(240));
                         }
                         break;
