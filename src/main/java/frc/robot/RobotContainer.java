@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 //import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.commands.generated.TunerConstants;
+import frc.robot.commands.swerve.DriveToPose;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Vision;
 
@@ -41,16 +42,16 @@ public class RobotContainer {
         
 
     private final CommandXboxController joystick = new CommandXboxController(0);
-    private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();    
     private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
+    private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();  
     private final Telemetry logger = new Telemetry(MaxSpeed);
     private final Vision vision = new Vision(drivetrain);
 
+    private final DriveToPose driveToPose = new DriveToPose(drivetrain, vision);
+
     public double currentAngle = drivetrain.getState().Pose.getRotation().getDegrees();
-
-
-
+    
     public RobotContainer() {
         configureBindings();
         initializeAutoChooser();
@@ -79,6 +80,8 @@ public class RobotContainer {
             .withVelocityY(0)
             .withTargetDirection(vision.getDegreesToGamePiece())
         ));
+
+        joystick.x().whileTrue(driveToPose);
 
         //need to configure angles to be 60 degrees and not 45
         joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
