@@ -102,7 +102,7 @@ public class Vision extends SubsystemBase{
 
     public Pose3d get3dPose() {
         var result = currentResult; 
-        if (result.hasTargets() && result != null) { 
+        if (result != null) { 
             PhotonTrackedTarget target = result.getBestTarget(); 
             Optional<Pose3d> optionalPose = aprilTagFieldLayout.getTagPose(target.getFiducialId()); 
 
