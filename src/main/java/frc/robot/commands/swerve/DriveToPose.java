@@ -6,8 +6,6 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -55,7 +53,7 @@ public class DriveToPose extends Command {
     public void execute() {
         // Get the current pose (use vision if available, otherwise use odometry)
         if (vision.hasTarget()){
-            Pose2d currentPose = vision.get2dPose() != null ? vision.get2dPose() : drivetrain.getState().Pose.;
+            Pose2d currentPose = vision.get2dPose() != null ? vision.get2dPose() : drivetrain.getState().Pose;
             double xTarget = vision.getTargetPose2d() != null ? vision.getTargetPose2d().getX() : 0;
             double yTarget = vision.getTargetPose2d() != null ? vision.getTargetPose2d().getY() : 0;
 
