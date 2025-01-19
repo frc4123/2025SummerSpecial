@@ -13,7 +13,6 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.config.PIDConstants;
 import com.pathplanner.lib.config.RobotConfig;
 import com.pathplanner.lib.controllers.PPHolonomicDriveController;
-
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.N1;
@@ -181,7 +180,9 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
      *                                  in the form [x, y, theta]ᵀ, with units in meters
      *                                  and radians
      * @param modules                    Constants for each specific module
+     * 
      */
+
     public CommandSwerveDrivetrain(
         SwerveDrivetrainConstants drivetrainConstants,
         double odometryUpdateFrequency,
@@ -292,6 +293,4 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         });
         m_simNotifier.startPeriodic(kSimLoopPeriod);
     }
-
-
 }

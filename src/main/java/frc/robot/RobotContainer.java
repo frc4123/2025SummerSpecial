@@ -82,6 +82,7 @@ public class RobotContainer {
         ));
 
         joystick.x().whileTrue(driveToPose);
+        joystick.y().whileTrue(vision.driveToPose());
 
         //need to configure angles to be 60 degrees and not 45
         joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
