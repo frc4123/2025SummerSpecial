@@ -164,7 +164,7 @@ public class Vision extends SubsystemBase{
     }
 
     public Command driveToPose(){
-        PathConstraints pathConstraints = new PathConstraints( // please tune this bro 😭🙏
+        PathConstraints pathConstraints = new PathConstraints( 
             TunerConstants.kSpeedAt12Volts, TunerConstants.kLinearAcceleration,
             TunerConstants.kAngularVelocity, TunerConstants.kAngularAcceleration);
 
@@ -306,9 +306,9 @@ public class Vision extends SubsystemBase{
                             case 17: return new Pose2d(3.687,2.922, Rotation2d.fromDegrees(60)); // L 3.687 2.922 | R 3.951 2.771
                             case 18: return new Pose2d(3.129,4.179, Rotation2d.fromDegrees(0)); // L 3.129 4.179 | R 3.129 3.850
                             case 19: return new Pose2d(3.96,5.271, Rotation2d.fromDegrees(300)); // L 3.96 5.271 | R 3.672 5.12
-                            case 20: return new Pose2d(0,0, Rotation2d.fromDegrees(240)); // L 5.298 5.110 | R 5.082 5.273
-                            case 21: return new Pose2d(0,0, Rotation2d.fromDegrees(180)); // L 5.839 3.853 | R 5.839 4.168
-                            case 22: return new Pose2d(0,0, Rotation2d.fromDegrees(120)); // L 5.013 2.788 | R 5.298 2.950
+                            case 20: return new Pose2d(5.298,5.11, Rotation2d.fromDegrees(240)); // L 5.298 5.110 | R 5.082 5.273
+                            case 21: return new Pose2d(5.839,3.853, Rotation2d.fromDegrees(180)); // L 5.839 3.853 | R 5.839 4.168
+                            case 22: return new Pose2d(5.013,2.788, Rotation2d.fromDegrees(120)); // L 5.013 2.788 | R 5.298 2.950
                         }
                         break;
                     case "Blue Barge":
@@ -342,10 +342,14 @@ public class Vision extends SubsystemBase{
                 break;
             } else currentResult = null;
         }
+        
         if (hasTarget()){
             drivetrain.addVisionMeasurement(get2dPose(), getCamTimeStamp());
         }
 
+        SmartDashboard.putNumber("Pose X", drivetrain.getState().Pose.getX());
+        SmartDashboard.putNumber("Pose Y", drivetrain.getState().Pose.getY());
+        SmartDashboard.putNumber("Pose Rotation (Degrees)", drivetrain.getState().Pose.getRotation().getDegrees());
         SmartDashboard.putNumber("Focused April Tag: ", getBestAprilTagId());
         SmartDashboard.putString("Game Piece in Focus: ", getClosestGamePiece(getBestAprilTagId()));
     }
