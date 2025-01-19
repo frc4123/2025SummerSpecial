@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.generated.TunerConstants;
 
@@ -164,15 +165,18 @@ public class Vision extends SubsystemBase{
     }
 
     public Command driveToPose(){
-        PathConstraints pathConstraints = new PathConstraints( 
-            TunerConstants.kSpeedAt12Volts, TunerConstants.kLinearAcceleration,
-            TunerConstants.kAngularVelocity, TunerConstants.kAngularAcceleration);
-
-            return AutoBuilder.pathfindToPose(
-                getTargetPose2d(),
-                pathConstraints,
-                0.0 
-            );
+        var targetPose2d = getTargetPose2d();
+            if(targetPose2d != null){
+                PathConstraints pathConstraints = new PathConstraints( 
+                    TunerConstants.kSpeedAt12Volts, TunerConstants.kLinearAcceleration,
+                    TunerConstants.kAngularVelocity, TunerConstants.kAngularAcceleration
+                );
+                return AutoBuilder.pathfindToPose(
+                    getTargetPose2d(),
+                    pathConstraints,
+                    0.0 
+                );
+            } else return Commands.none();
     }
         
     public Rotation2d getDegreesToGamePiece() {
@@ -342,7 +346,7 @@ public class Vision extends SubsystemBase{
                 break;
             } else currentResult = null;
         }
-        
+
         if (hasTarget()){
             drivetrain.addVisionMeasurement(get2dPose(), getCamTimeStamp());
         }
