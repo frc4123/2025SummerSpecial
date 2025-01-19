@@ -10,7 +10,9 @@ import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.generated.TunerConstants;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -31,6 +33,8 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.path.PathConstraints;
 
 public class Vision extends SubsystemBase{
 
@@ -159,6 +163,18 @@ public class Vision extends SubsystemBase{
         
     }
 
+    public Command driveToPose(){
+        PathConstraints pathConstraints = new PathConstraints( // please tune this bro 😭🙏
+            TunerConstants.kSpeedAt12Volts, TunerConstants.kLinearAcceleration,
+            TunerConstants.kAngularVelocity, TunerConstants.kAngularAcceleration);
+
+            return AutoBuilder.pathfindToPose(
+                getTargetPose2d(),
+                pathConstraints,
+                0.0 
+            );
+    }
+        
     public Rotation2d getDegreesToGamePiece() {
         // Axis are flipped due to FieldCentric M
         if (hasTarget() && currentResult != null) {
@@ -287,9 +303,9 @@ public class Vision extends SubsystemBase{
                 switch (getClosestGamePiece(id)) {      
                     case "Blue Reef":
                         switch (id) {
-                            case 17: return new Pose2d(0,0, Rotation2d.fromDegrees(60)); // L 3.687 2.922 | R 3.951 2.771
-                            case 18: return new Pose2d(0,0, Rotation2d.fromDegrees(0)); // L 3.129 4.179 | R 3.129 3.850
-                            case 19: return new Pose2d(0,0, Rotation2d.fromDegrees(300)); // L 3.96 5.271 | R 3.672 5.12
+                            case 17: return new Pose2d(3.687,2.922, Rotation2d.fromDegrees(60)); // L 3.687 2.922 | R 3.951 2.771
+                            case 18: return new Pose2d(3.129,4.179, Rotation2d.fromDegrees(0)); // L 3.129 4.179 | R 3.129 3.850
+                            case 19: return new Pose2d(3.96,5.271, Rotation2d.fromDegrees(300)); // L 3.96 5.271 | R 3.672 5.12
                             case 20: return new Pose2d(0,0, Rotation2d.fromDegrees(240)); // L 5.298 5.110 | R 5.082 5.273
                             case 21: return new Pose2d(0,0, Rotation2d.fromDegrees(180)); // L 5.839 3.853 | R 5.839 4.168
                             case 22: return new Pose2d(0,0, Rotation2d.fromDegrees(120)); // L 5.013 2.788 | R 5.298 2.950
