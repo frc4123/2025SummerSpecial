@@ -273,29 +273,29 @@ public class Vision extends SubsystemBase{
                 switch(getClosestGamePiece(id)){
                     case "Red Reef":
                         switch (id) {
-                            case 6: return new Pose2d(0,0, Rotation2d.fromDegrees(300));
-                            case 7: return new Pose2d(0,0, Rotation2d.fromDegrees(0));
-                            case 8: return new Pose2d(0,0, Rotation2d.fromDegrees(60));
-                            case 9: return new Pose2d(0,0, Rotation2d.fromDegrees(120));
-                            case 10: return new Pose2d(0,0, Rotation2d.fromDegrees(180)); // L 11.71 4.18 | R
-                            case 11: return new Pose2d(0,0, Rotation2d.fromDegrees(240));
+                            case 6: return new Pose2d(0,0, Rotation2d.fromDegrees(300)); // L 13.581 2.788 | R 13.887 | 2.941
+                            case 7: return new Pose2d(0,0, Rotation2d.fromDegrees(0)); // L 14.393 3.851 | R 14.393 4.182
+                            case 8: return new Pose2d(0,0, Rotation2d.fromDegrees(60)); // L 13.882 5.097 | R 13.595 5.259
+                            case 9: return new Pose2d(0,0, Rotation2d.fromDegrees(120)); // L 12.555 5.284 | R 12.250 5.113
+                            case 10: return new Pose2d(0,0, Rotation2d.fromDegrees(180)); // L 11.71 4.18 | R 11.700 3.857
+                            case 11: return new Pose2d(0,0, Rotation2d.fromDegrees(240)); // L 12.266 2.951 | R 12.536 2.788
                         }
                         break;
                     case "Red Barge":
                         switch (id) {
-                            case 15: return new Pose2d(0,0, Rotation2d.fromDegrees(180)); // 
-                            case 5: return new Pose2d(0,0, Rotation2d.fromDegrees(0)); // 
+                            case 15: return new Pose2d(0,0, Rotation2d.fromDegrees(180)); // X-> 7.711 Y -> use current state
+                            case 5: return new Pose2d(0,0, Rotation2d.fromDegrees(0)); // X -> 9.842 Y -> use current state
                         }
                         break;
 
                     case "Red Coral Station":
                         switch (id) {
-                            case 2: return new Pose2d(0,0, Rotation2d.fromDegrees(245)); // 
-                            case 1: return new Pose2d(0,0, Rotation2d.fromDegrees(125)); // 
+                            case 2: return new Pose2d(0,0, Rotation2d.fromDegrees(245)); // 16.258 7.049
+                            case 1: return new Pose2d(0,0, Rotation2d.fromDegrees(125)); // 16.305 1.017
                         }
                         break;
                     case "Red Processor":
-                        return new Pose2d(0,0, Rotation2d.fromDegrees(270));
+                        return new Pose2d(0,0, Rotation2d.fromDegrees(270)); // 11.524 7.471
                     default:
                         return null; 
                     }

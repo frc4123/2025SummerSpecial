@@ -246,7 +246,7 @@ public class TunerConstants {
         private final SwerveModule<TalonFX, TalonFX, CANcoder> frontLeft = getModule(0);
         private final SwerveModule<TalonFX, TalonFX, CANcoder> frontRight = getModule(1);
         private final SwerveModule<TalonFX, TalonFX, CANcoder> backLeft = getModule(2);
-        private final SwerveModule<TalonFX, TalonFX, CANcoder>backRight = getModule(3);
+        private final SwerveModule<TalonFX, TalonFX, CANcoder> backRight = getModule(3);
 
         private final TalonFX frontLeftDrive = frontLeft.getDriveMotor();
         private final TalonFX frontRightDrive = frontRight.getDriveMotor();
