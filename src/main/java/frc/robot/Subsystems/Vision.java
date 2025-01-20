@@ -41,10 +41,12 @@ public class Vision extends SubsystemBase{
 
     PhotonCamera camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
 
-    public Transform3d robotToCam = new Transform3d(new Translation3d(0.5, 0.0, 0.5), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
+    public Transform3d robotToCam = new Transform3d(new Translation3d(0.3556, 0.0, 0.13335), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
     public AprilTagFieldLayout aprilTagFieldLayout = loadAprilTagFieldLayout("/fields/Reefscape2025.json");
     //public AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);    
     public PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, robotToCam);
+
+    private Rotation2d lastGamePieceAngle = getDegreesToGamePiece();
     
     static final Set<Integer> redTargets = new HashSet<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10,11));
     static final Set<Integer> blueTargets = new HashSet<>(Arrays.asList(12,13,14,15,16,17,18,19,20,21,22));
@@ -177,6 +179,10 @@ public class Vision extends SubsystemBase{
                     0.0 
                 );
             } else return Commands.none();
+    }
+
+    public Rotation2d getLastGamePieceAngle(){
+        return lastGamePieceAngle;
     }
         
     public Rotation2d getDegreesToGamePiece() {
@@ -349,6 +355,10 @@ public class Vision extends SubsystemBase{
 
         if (hasTarget()){
             drivetrain.addVisionMeasurement(get2dPose(), getCamTimeStamp());
+        }
+
+        if(getDegreesToGamePiece() != null){
+        lastGamePieceAngle = getDegreesToGamePiece();
         }
 
         SmartDashboard.putNumber("Pose X", drivetrain.getState().Pose.getX());

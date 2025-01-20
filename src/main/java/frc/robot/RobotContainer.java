@@ -14,6 +14,7 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -56,7 +57,7 @@ public class RobotContainer {
         configureBindings();
         initializeAutoChooser();
 
-        faceAngle.HeadingController.setP(3);
+        faceAngle.HeadingController.setP(10); 
         faceAngle.HeadingController.setI(0.0);
         faceAngle.HeadingController.setD(0.01); 
         faceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
@@ -78,7 +79,7 @@ public class RobotContainer {
         joystick.b().whileTrue(drivetrain.applyRequest(() -> faceAngle
             .withVelocityX(0)
             .withVelocityY(0)
-            .withTargetDirection(vision.getDegreesToGamePiece())
+            .withTargetDirection(vision.getLastGamePieceAngle())
         ));
 
         joystick.x().whileTrue(driveToPose);
