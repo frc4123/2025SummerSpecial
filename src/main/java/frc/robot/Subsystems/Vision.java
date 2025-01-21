@@ -1,12 +1,16 @@
 package frc.robot.subsystems;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -63,6 +67,8 @@ public class Vision extends SubsystemBase{
     static final Set<Integer> blueProcessor = new HashSet<>(Arrays.asList(16));
     static final Set<Integer> redProcessor = new HashSet<>(Arrays.asList(3));
 
+    Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(0.01, 0.1, 0.1); 
+
     public enum DetectedAlliance {RED, BLUE, NONE};
 
     private List<PhotonPipelineResult> currentResultList;
@@ -72,6 +78,7 @@ public class Vision extends SubsystemBase{
 
     public Vision(CommandSwerveDrivetrain drivetrain){
         this.drivetrain = drivetrain;
+
     }
 
     public static AprilTagFieldLayout loadAprilTagFieldLayout(String resourceFile) { 
@@ -354,7 +361,7 @@ public class Vision extends SubsystemBase{
         }
 
         if (hasTarget()){
-            drivetrain.addVisionMeasurement(get2dPose(), getCamTimeStamp());
+            drivetrain.addVisionMeasurement(get2dPose(), getCamTimeStamp(), visionMeasurementStdDevs);
         }
 
         if(getDegreesToGamePiece() != null){
