@@ -7,6 +7,7 @@ package frc.robot;
 import static edu.wpi.first.units.Units.*;
 
 import frc.robot.commands.autos.BlueLeftCoral;
+import frc.robot.commands.autos.BlueRightCoral;
 import frc.robot.commands.autos.MiddleCoral;
 import frc.robot.commands.autos.Test;
 
@@ -14,7 +15,6 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -131,6 +131,7 @@ public class RobotContainer {
         autoChooser.setDefaultOption("1 Middle Coral",new MiddleCoral().middleCoral());
         autoChooser.addOption("Test", new Test().test());
         autoChooser.addOption("Blue Coral Left 3", new BlueLeftCoral().blueLeftCoral());
+        autoChooser.addOption("Blue Coral Right 3", new BlueRightCoral().blueRightCoral());
         SmartDashboard.putData("Auto Selector", autoChooser);
     }
 
