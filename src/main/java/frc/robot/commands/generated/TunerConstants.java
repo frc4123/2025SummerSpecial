@@ -60,7 +60,8 @@ public class TunerConstants {
             new CurrentLimitsConfigs()
                 // Swerve azimuth does not require much torque output, so we can set a relatively low
                 // stator current limit to help avoid brownouts without impacting performance.
-                .withStatorCurrentLimit(Amps.of(60))
+                .withStatorCurrentLimit(Amps.of(80))
+                .withSupplyCurrentLimit(Amps.of(60))
                 .withStatorCurrentLimitEnable(true)
         );
     private static final CANcoderConfiguration encoderInitialConfigs = new CANcoderConfiguration();
@@ -73,9 +74,9 @@ public class TunerConstants {
 
     // Theoretical free speed (m/s) at 12 V applied output;
     // This needs to be tuned to your individual robot
-    public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(10.82);
+    public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(11.2);
     public static final LinearAcceleration kLinearAcceleration = MetersPerSecondPerSecond.of(8.9);
-    public static final AngularVelocity kAngularVelocity = RadiansPerSecond.of(10.82); 
+    public static final AngularVelocity kAngularVelocity = RadiansPerSecond.of(11.2); 
     public static final AngularAcceleration kAngularAcceleration = RadiansPerSecondPerSecond.of(862); 
 
     // Every 1 rotation of the azimuth results in kCoupleRatio drive motor turns;
@@ -84,7 +85,7 @@ public class TunerConstants {
 
     private static final double kDriveGearRatio = 5.901;
     private static final double kSteerGearRatio = 12.8;
-    private static final Distance kWheelRadius = Inches.of(4);
+    private static final Distance kWheelRadius = Inches.of(2);
 
     private static final int kPigeonId = 10;
 
