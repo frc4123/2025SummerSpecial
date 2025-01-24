@@ -37,6 +37,7 @@ import org.photonvision.PhotonUtils;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import com.ctre.phoenix6.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
@@ -45,7 +46,7 @@ public class Vision extends SubsystemBase{
 
     PhotonCamera camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
 
-    public Transform3d robotToCam = new Transform3d(new Translation3d(0.3556, 0.0, 0.13335), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
+    public Transform3d robotToCam = new Transform3d(new Translation3d(-0.3556, 0.0, 0.13335), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
     public AprilTagFieldLayout aprilTagFieldLayout = loadAprilTagFieldLayout("/fields/Reefscape2025.json");
     //public AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);    
     public PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, robotToCam);
@@ -67,7 +68,7 @@ public class Vision extends SubsystemBase{
     static final Set<Integer> blueProcessor = new HashSet<>(Arrays.asList(16));
     static final Set<Integer> redProcessor = new HashSet<>(Arrays.asList(3));
 
-    Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(0.01, 0.1, 0.1); 
+    Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(0.9, 0.9, 0.9); 
 
     public enum DetectedAlliance {RED, BLUE, NONE};
 
@@ -78,6 +79,7 @@ public class Vision extends SubsystemBase{
 
     public Vision(CommandSwerveDrivetrain drivetrain){
         this.drivetrain = drivetrain;
+        drivetrain.setVisionMeasurementStdDevs(visionMeasurementStdDevs);
 
     }
 
@@ -141,7 +143,7 @@ public class Vision extends SubsystemBase{
 
     public double getCamTimeStamp() {
             double imageCaptureTime = currentResult.getTimestampSeconds(); 
-            return imageCaptureTime; 
+            return Utils.fpgaToCurrentTime(imageCaptureTime); 
     }
 
     // public PhotonTrackedTarget getBestTarget() {
@@ -361,7 +363,7 @@ public class Vision extends SubsystemBase{
         }
 
         if (hasTarget()){
-            drivetrain.addVisionMeasurement(get2dPose(), getCamTimeStamp(), visionMeasurementStdDevs);
+            drivetrain.addVisionMeasurement(get2dPose(), getCamTimeStamp());
         }
 
         if(getDegreesToGamePiece() != null){
@@ -370,7 +372,7 @@ public class Vision extends SubsystemBase{
 
         SmartDashboard.putNumber("Pose X", drivetrain.getState().Pose.getX());
         SmartDashboard.putNumber("Pose Y", drivetrain.getState().Pose.getY());
-        SmartDashboard.putNumber("Pose Rotation (Degrees)", drivetrain.getState().Pose.getRotation().getDegrees());
+        SmartDashboard.putNumber("Pose Rotation` (Degrees)", drivetrain.getState().Pose.getRotation().getDegrees());
         SmartDashboard.putNumber("Focused April Tag: ", getBestAprilTagId());
         SmartDashboard.putString("Game Piece in Focus: ", getClosestGamePiece(getBestAprilTagId()));
     }
