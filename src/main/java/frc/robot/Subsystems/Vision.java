@@ -1,4 +1,4 @@
-package frc.robot.Subsystems;
+package frc.robot.subsystems;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.Matrix;
@@ -38,7 +38,6 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import com.ctre.phoenix6.Utils;
-import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
@@ -52,7 +51,7 @@ public class Vision extends SubsystemBase{
     //public AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);    
     public PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, robotToCam);
 
-    private Rotation2d lastGamePieceAngle = getDegreesToGamePiece();
+    private Rotation2d lastGamePieceAngle = new Rotation2d();
     
     static final Set<Integer> redTargets = new HashSet<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10,11));
     static final Set<Integer> blueTargets = new HashSet<>(Arrays.asList(12,13,14,15,16,17,18,19,20,21,22));
@@ -75,6 +74,8 @@ public class Vision extends SubsystemBase{
 
     private List<PhotonPipelineResult> currentResultList;
     private PhotonPipelineResult currentResult;
+
+    private boolean seenAprilTagFlag = false;
 
     private final CommandSwerveDrivetrain drivetrain; 
 
@@ -213,11 +214,31 @@ public class Vision extends SubsystemBase{
     public Rotation2d getLastGamePieceAngle(){
         return lastGamePieceAngle;
     }
+
+    public int findClosestAprilTagJson(Pose2d robotPose) {
+        int closestTagId = -1;
+        double closestDistance = Double.MAX_VALUE;
+    
+        // Iterate through all AprilTags in the field layout
+        for (var tag : aprilTagFieldLayout.getTags()) {
+            Pose2d tagPose2d = tag.pose.toPose2d();
+    
+            // Calculate the distance between the robot and the tag
+            double distance = robotPose.getTranslation().getDistance(tagPose2d.getTranslation());
+    
+            // Update the closest tag if this tag is closer
+            if (distance < closestDistance) {
+                closestDistance = distance;
+                closestTagId = tag.ID;
+            }
+        }
+    
+        return closestTagId;
+    }
         
     public Rotation2d getDegreesToGamePiece() {
         // Axis are flipped due to FieldCentric M
-        if (hasTarget() && currentResult != null) {
-            int id = getClosestAprilTag(currentResult);
+            int id = findClosestAprilTagJson(drivetrain.getState().Pose);// int id = getClosestAprilTag(currentResult);
             if (DriverStation.getAlliance().get() == Alliance.Red){
                 switch(getClosestGamePiece(id)){
                     case "Red Reef":
@@ -277,13 +298,11 @@ public class Vision extends SubsystemBase{
                     default: return null;
                     }
             }  
-        }
         return null; 
     }
     
     
     public String getClosestGamePiece(int id) {
-        if(hasTarget() && currentResult != null){
             if (blueReef.contains(id)){
                 return "Blue Reef";
             } else if(redReef.contains(id)){
@@ -300,8 +319,7 @@ public class Vision extends SubsystemBase{
                 return "Blue Processor";
             } else if(redProcessor.contains(id)){
                 return "Red Processor";
-            } else return "Detected ID but not game piece, check code";
-        } else return "none";
+            } else return "none";
     }
 
     public Pose2d getTargetPose2d(){
@@ -384,11 +402,14 @@ public class Vision extends SubsystemBase{
 
         if (hasTarget()){
             drivetrain.addVisionMeasurement(get2dPose(), getCamTimeStamp());
+            seenAprilTagFlag = true;
         }
 
-        if(getDegreesToGamePiece() != null){
-        lastGamePieceAngle = getDegreesToGamePiece();
+        if(seenAprilTagFlag){
+            lastGamePieceAngle = getDegreesToGamePiece();
         }
+        
+        
 
         SmartDashboard.putNumber("Pose X", drivetrain.getState().Pose.getX());
         SmartDashboard.putNumber("Pose Y", drivetrain.getState().Pose.getY());
