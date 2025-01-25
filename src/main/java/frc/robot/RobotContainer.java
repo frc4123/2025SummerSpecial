@@ -59,7 +59,7 @@ public class RobotContainer {
 
         faceAngle.HeadingController.setP(10); 
         faceAngle.HeadingController.setI(0.0);
-        faceAngle.HeadingController.setD(0.01); 
+        faceAngle.HeadingController.setD(0.5); 
         faceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
     }
 
