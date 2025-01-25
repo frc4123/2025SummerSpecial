@@ -1,4 +1,4 @@
-package frc.robot.subsystems;
+package frc.robot.Subsystems;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.math.Matrix;
@@ -38,6 +38,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
 import com.ctre.phoenix6.Utils;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
@@ -68,7 +69,7 @@ public class Vision extends SubsystemBase{
     static final Set<Integer> blueProcessor = new HashSet<>(Arrays.asList(16));
     static final Set<Integer> redProcessor = new HashSet<>(Arrays.asList(3));
 
-    Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(0.9, 0.9, 0.9); 
+    Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(3, 3, 3); 
 
     public enum DetectedAlliance {RED, BLUE, NONE};
 
@@ -156,9 +157,28 @@ public class Vision extends SubsystemBase{
         
     // }
 
-    public int getBestAprilTagId(){
-        if(hasTarget() && currentResult != null){
-            return currentResult.getBestTarget().getFiducialId();
+    // public int getBestAprilTagId(){
+    //     if(hasTarget() && currentResult != null){
+    //         return currentResult.getBestTarget().getFiducialId();
+    //     } else return 0;
+        
+    // }
+
+    private int getClosestAprilTag(PhotonPipelineResult result) {
+        if (hasTarget() && currentResult != null){
+            double closestDistance = Double.MAX_VALUE;
+            PhotonTrackedTarget closestTarget = null;
+
+            for (PhotonTrackedTarget target : result.getTargets()) {
+                double distance = target.getBestCameraToTarget().getTranslation().getNorm();
+                    if (distance < closestDistance) {
+                        closestDistance = distance;
+                        closestTarget = target;
+                    }
+            }
+
+            return closestTarget.getFiducialId();
+
         } else return 0;
         
     }
@@ -197,7 +217,7 @@ public class Vision extends SubsystemBase{
     public Rotation2d getDegreesToGamePiece() {
         // Axis are flipped due to FieldCentric M
         if (hasTarget() && currentResult != null) {
-            int id = getBestAprilTagId();
+            int id = getClosestAprilTag(currentResult);
             if (DriverStation.getAlliance().get() == Alliance.Red){
                 switch(getClosestGamePiece(id)){
                     case "Red Reef":
@@ -287,7 +307,7 @@ public class Vision extends SubsystemBase{
     public Pose2d getTargetPose2d(){
         // Axis are flipped due to FieldCentric M
         if (hasTarget() && currentResult != null) {
-            int id = getBestAprilTagId();
+            int id = getClosestAprilTag(currentResult);
             if (DriverStation.getAlliance().get() == Alliance.Red){
                 switch(getClosestGamePiece(id)){
                     case "Red Reef":
@@ -373,7 +393,7 @@ public class Vision extends SubsystemBase{
         SmartDashboard.putNumber("Pose X", drivetrain.getState().Pose.getX());
         SmartDashboard.putNumber("Pose Y", drivetrain.getState().Pose.getY());
         SmartDashboard.putNumber("Pose Rotation` (Degrees)", drivetrain.getState().Pose.getRotation().getDegrees());
-        SmartDashboard.putNumber("Focused April Tag: ", getBestAprilTagId());
-        SmartDashboard.putString("Game Piece in Focus: ", getClosestGamePiece(getBestAprilTagId()));
+        SmartDashboard.putNumber("Focused April Tag: ", getClosestAprilTag(currentResult));
+        SmartDashboard.putString("Game Piece in Focus: ", getClosestGamePiece(getClosestAprilTag(currentResult)));
     }
 }
