@@ -18,13 +18,14 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 //import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.commands.generated.TunerConstants;
 import frc.robot.commands.swerve.DriveToPose;
-import frc.robot.Subsystems.CommandSwerveDrivetrain;
-import frc.robot.Subsystems.Vision;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
@@ -76,16 +77,27 @@ public class RobotContainer {
         );
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.b().whileTrue(drivetrain.applyRequest(() -> faceAngle
-            .withVelocityX(0)
-            .withVelocityY(0)
-            .withTargetDirection(vision.getLastGamePieceAngle())
-        ));
-
+        // joystick.b().whileTrue(
+        //     new ParallelCommandGroup(
+        //         drivetrain.applyRequest(() -> faceAngle
+        //             .withTargetDirection(vision.getLastGamePieceAngle())
+        //         ),
+        //         drivetrain.applyRequest(() -> drive
+        //             .withVelocityX(-joystick.getLeftY() * MaxSpeed) 
+        //             .withVelocityY(-joystick.getLeftX() * MaxSpeed) 
+        //         )
+        //     )
+        // );
         joystick.x().whileTrue(driveToPose);
         joystick.y().whileTrue(vision.driveToPose());
+        joystick.b().whileTrue(
+                drivetrain.applyRequest(() -> faceAngle
+                    .withVelocityX(-joystick.getLeftY() * MaxSpeed) 
+                    .withVelocityY(-joystick.getLeftX() * MaxSpeed) 
+                    .withTargetDirection(vision.getLastGamePieceAngle())
+                )
+        );
 
-        //need to configure angles to be 60 degrees and not 45
         joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0.2 * MaxSpeed).withVelocityY(0))
         );

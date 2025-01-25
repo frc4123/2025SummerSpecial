@@ -1,4 +1,4 @@
-package frc.robot.Subsystems;
+package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.*;
 
@@ -212,7 +212,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                 ),
                 new PPHolonomicDriveController(
                     // PID constants for translation
-                    new PIDConstants(10, 0, 0.022),
+                    new PIDConstants(10, 0, 0.0224123), // 8 0.02
                     // PID constants for rotation
                     new PIDConstants(10, 0, 0.01)
                 ),

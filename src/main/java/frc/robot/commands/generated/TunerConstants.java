@@ -1,6 +1,6 @@
 package frc.robot.commands.generated;
 
-import frc.robot.Subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.Constants;
 
 import static edu.wpi.first.units.Units.*;
@@ -74,10 +74,10 @@ public class TunerConstants {
 
     // Theoretical free speed (m/s) at 12 V applied output;
     // This needs to be tuned to your individual robot
-    public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(9.8);
-    public static final LinearAcceleration kLinearAcceleration = MetersPerSecondPerSecond.of(8.9);
-    public static final AngularVelocity kAngularVelocity = RadiansPerSecond.of(10.9); 
-    public static final AngularAcceleration kAngularAcceleration = RadiansPerSecondPerSecond.of(862); 
+    public static final LinearVelocity kSpeedAt12Volts = MetersPerSecond.of(6.5);
+    public static final LinearAcceleration kLinearAcceleration = MetersPerSecondPerSecond.of(6.5);
+    public static final AngularVelocity kAngularVelocity = RadiansPerSecond.of(6.5); 
+    public static final AngularAcceleration kAngularAcceleration = RadiansPerSecondPerSecond.of(720); 
 
     // Every 1 rotation of the azimuth results in kCoupleRatio drive motor turns;
     // This may need to be tuned to your individual robot
