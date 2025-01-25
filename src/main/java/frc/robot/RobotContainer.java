@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+// import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.commands.generated.TunerConstants;
 import frc.robot.commands.swerve.DriveToPose;
@@ -40,9 +40,9 @@ public class RobotContainer {
     private final SwerveRequest.FieldCentricFacingAngle faceAngle = new SwerveRequest.FieldCentricFacingAngle()
             .withDriveRequestType(DriveRequestType.Velocity)
             .withSteerRequestType(SteerRequestType.Position);
-    private final SwerveRequest.FieldCentricFacingAngle driveToPoseRequest = new SwerveRequest.FieldCentricFacingAngle()
-            .withDriveRequestType(DriveRequestType.Velocity)
-            .withSteerRequestType(SteerRequestType.Position);
+    // private final SwerveRequest.FieldCentricFacingAngle driveToPoseRequest = new SwerveRequest.FieldCentricFacingAngle()
+    //         .withDriveRequestType(DriveRequestType.Velocity)
+    //         .withSteerRequestType(SteerRequestType.Position);
         
 
     private final CommandXboxController joystick = new CommandXboxController(0);
@@ -52,7 +52,7 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
     private final Vision vision = new Vision(drivetrain);
 
-    private final DriveToPose driveToPose = new DriveToPose(drivetrain, vision);
+    private final DriveToPose driveToPose = new DriveToPose(vision);
 
     public double currentAngle = drivetrain.getState().Pose.getRotation().getDegrees();
     
