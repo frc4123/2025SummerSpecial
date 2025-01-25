@@ -15,6 +15,8 @@ public class DriveToPose extends Command {
 
     private Pose2d targetPose;
 
+    private Command pathfindingCommand;
+
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
 
     public DriveToPose(CommandSwerveDrivetrain drivetrain, Vision vision) {
@@ -28,6 +30,7 @@ public class DriveToPose extends Command {
 
     @Override
     public void initialize() {
+        targetPose = vision.getTargetPose2d();
     }
 
     @Override
@@ -36,12 +39,7 @@ public class DriveToPose extends Command {
         // No need to manually calculate speeds or apply requests
 
         // Get the target pose from vision
-        if (vision.hasTarget()) {
-            targetPose = vision.getTargetPose2d();
-        } else {
-            // If no vision target, use the current pose as a fallback
-            targetPose = drivetrain.getState().Pose;
-        }
+        targetPose = vision.getTargetPose2d();
 
         // Use AutoBuilder to drive to the target pose
         if (targetPose != null) {
@@ -54,26 +52,33 @@ public class DriveToPose extends Command {
             );
 
             // Use AutoBuilder to create a path to the target pose
-            AutoBuilder.pathfindToPose(
+            pathfindingCommand = AutoBuilder.pathfindToPose(
                 targetPose,
                 constraints,
                 0.0
-
             );
+
+            pathfindingCommand.schedule();
         }
+
+        
     }
 
     @Override
     public void end(boolean interrupted) {
         // Stop the drivetrain when the command ends
+        pathfindingCommand.cancel();
         drivetrain.applyRequest(() -> brake);
     }
 
     @Override
     public boolean isFinished() {
         // Check if the robot has reached the target pose
-        Pose2d currentPose = drivetrain.getState().Pose;
-        return currentPose.getTranslation().getDistance(targetPose.getTranslation()) < 0.05 // Position tolerance (m)
-            && Math.abs(currentPose.getRotation().minus(targetPose.getRotation()).getRadians()) < 0.05; // Rotation tolerance (rad)
+        if(targetPose != null){
+            Pose2d currentPose = drivetrain.getState().Pose;
+            return currentPose.getTranslation().getDistance(targetPose.getTranslation()) < 0.02 // Position tolerance (m)
+            && Math.abs(currentPose.getRotation().minus(targetPose.getRotation()).getRadians()) < 0.02; // Rotation tolerance (rad)
+        } else return true;
+        
     }
 }

@@ -196,20 +196,18 @@ public class Vision extends SubsystemBase{
         
     }
 
-    public Command driveToPose(){
-        var targetPose2d = getTargetPose2d();
-            if(targetPose2d != null){
-                PathConstraints pathConstraints = new PathConstraints( 
-                    TunerConstants.kSpeedAt12Volts, TunerConstants.kLinearAcceleration,
-                    TunerConstants.kAngularVelocity, TunerConstants.kAngularAcceleration
-                );
-                return AutoBuilder.pathfindToPose(
-                    getTargetPose2d(),
-                    pathConstraints,
-                    0.0 
-                );
-            } else return Commands.none();
-    }
+    // public Command driveToPose(){
+    //     var targetPose2d = getTargetPose2d();
+    //             PathConstraints pathConstraints = new PathConstraints( 
+    //                 TunerConstants.kSpeedAt12Volts, TunerConstants.kLinearAcceleration,
+    //                 TunerConstants.kAngularVelocity, TunerConstants.kAngularAcceleration
+    //             );
+    //             return AutoBuilder.pathfindToPose(
+    //                 targetPose2d,
+    //                 pathConstraints,
+    //                 0.0 
+    //             );
+    // }
 
     public Rotation2d getLastGamePieceAngle(){
         return lastGamePieceAngle;
@@ -325,7 +323,7 @@ public class Vision extends SubsystemBase{
     public Pose2d getTargetPose2d(){
         // Axis are flipped due to FieldCentric M
         if (hasTarget() && currentResult != null) {
-            int id = getClosestAprilTag(currentResult);
+            int id = findClosestAprilTagJson(drivetrain.getState().Pose);
             if (DriverStation.getAlliance().get() == Alliance.Red){
                 switch(getClosestGamePiece(id)){
                     case "Red Reef":
@@ -347,12 +345,12 @@ public class Vision extends SubsystemBase{
 
                     case "Red Coral Station":
                         switch (id) {
-                            case 2: return new Pose2d(0,0, Rotation2d.fromDegrees(245)); // 16.258 7.049
-                            case 1: return new Pose2d(0,0, Rotation2d.fromDegrees(125)); // 16.305 1.017
+                            case 2: return new Pose2d( 16.258,7.049, Rotation2d.fromDegrees(245)); // 16.258 7.049
+                            case 1: return new Pose2d(16.305,1.017, Rotation2d.fromDegrees(125)); // 16.305 1.017
                         }
                         break;
                     case "Red Processor":
-                        return new Pose2d(0,0, Rotation2d.fromDegrees(270)); // 11.524 7.471
+                        return new Pose2d(11.524,7.471, Rotation2d.fromDegrees(270)); // 11.524 7.471
                     default:
                         return null; 
                     }
@@ -370,18 +368,18 @@ public class Vision extends SubsystemBase{
                         break;
                     case "Blue Barge":
                         switch (id) {
-                            case 14: return new Pose2d(0,0,  Rotation2d.fromDegrees(0)); // 7.652 6.170
-                            case 4: return new Pose2d(0,0, Rotation2d.fromDegrees(180)); // 9.865 6.170
+                            case 14: return new Pose2d(7.652,6.170,  Rotation2d.fromDegrees(0)); // 7.652 6.170
+                            case 4: return new Pose2d(9.865,6.170, Rotation2d.fromDegrees(180)); // 9.865 6.170
                         }
                         break;
                     case "Blue Coral Station":
                         switch (id) {
-                            case 12: return new Pose2d(0,0, Rotation2d.fromDegrees(245)); // 1.416 0.879
-                            case 13: return new Pose2d(0,0, Rotation2d.fromDegrees(125)); // 1.586 7.262
+                            case 12: return new Pose2d(1.416,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(245)); // 1.416 0.879
+                            case 13: return new Pose2d(1.586 ,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(125)); // 1.586 7.262
                         }
                         break;
                     case "Blue Processor":
-                        return new Pose2d(0,0, Rotation2d.fromDegrees(270)); // 6.371 0.645
+                        return new Pose2d(6.371,0.645, Rotation2d.fromDegrees(270)); // 6.371 0.645
                     default: return null;
                     }
             }  

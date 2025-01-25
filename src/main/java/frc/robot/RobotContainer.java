@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-//import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.commands.generated.TunerConstants;
 import frc.robot.commands.swerve.DriveToPose;
@@ -38,6 +38,9 @@ public class RobotContainer {
     private final SwerveRequest.FieldCentric forwardStraight = new SwerveRequest.FieldCentric()
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
     private final SwerveRequest.FieldCentricFacingAngle faceAngle = new SwerveRequest.FieldCentricFacingAngle()
+            .withDriveRequestType(DriveRequestType.Velocity)
+            .withSteerRequestType(SteerRequestType.Position);
+    private final SwerveRequest.FieldCentricFacingAngle driveToPoseRequest = new SwerveRequest.FieldCentricFacingAngle()
             .withDriveRequestType(DriveRequestType.Velocity)
             .withSteerRequestType(SteerRequestType.Position);
         
@@ -59,7 +62,7 @@ public class RobotContainer {
 
         faceAngle.HeadingController.setP(10); 
         faceAngle.HeadingController.setI(0.0);
-        faceAngle.HeadingController.setD(0.5); 
+        faceAngle.HeadingController.setD(0.4123); 
         faceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
     }
 
@@ -88,7 +91,7 @@ public class RobotContainer {
         //     )
         // );
         joystick.x().whileTrue(driveToPose);
-        joystick.y().whileTrue(vision.driveToPose());
+        //joystick.y().whileTrue(vision.driveToPose());
         joystick.b().whileTrue(
                 drivetrain.applyRequest(() -> faceAngle
                     .withVelocityX(-joystick.getLeftY() * MaxSpeed) 
