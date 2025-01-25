@@ -409,10 +409,10 @@ public class Vision extends SubsystemBase{
         
         
 
-        SmartDashboard.putNumber("Pose X", drivetrain.getState().Pose.getX());
-        SmartDashboard.putNumber("Pose Y", drivetrain.getState().Pose.getY());
-        SmartDashboard.putNumber("Pose Rotation` (Degrees)", drivetrain.getState().Pose.getRotation().getDegrees());
-        SmartDashboard.putNumber("Focused April Tag: ", getClosestAprilTag(currentResult));
-        SmartDashboard.putString("Game Piece in Focus: ", getClosestGamePiece(getClosestAprilTag(currentResult)));
+        // SmartDashboard.putNumber("Pose X", drivetrain.getState().Pose.getX());
+        // SmartDashboard.putNumber("Pose Y", drivetrain.getState().Pose.getY());
+        // SmartDashboard.putNumber("Pose Rotation` (Degrees)", drivetrain.getState().Pose.getRotation().getDegrees());
+        // SmartDashboard.putNumber("Focused April Tag: ", getClosestAprilTag(currentResult));
+        // SmartDashboard.putString("Game Piece in Focus: ", getClosestGamePiece(getClosestAprilTag(currentResult)));
     }
 }

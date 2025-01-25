@@ -17,8 +17,6 @@ public class DriveToPose extends Command {
 
     private Command pathfindingCommand;
 
-    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-
     public DriveToPose(CommandSwerveDrivetrain drivetrain, Vision vision) {
         this.drivetrain = drivetrain;
         this.vision = vision;
@@ -31,17 +29,7 @@ public class DriveToPose extends Command {
     @Override
     public void initialize() {
         targetPose = vision.getTargetPose2d();
-    }
 
-    @Override
-    public void execute() {
-        // The AutoBuilder handles the execution of the pathfinding and driving logic
-        // No need to manually calculate speeds or apply requests
-
-        // Get the target pose from vision
-        targetPose = vision.getTargetPose2d();
-
-        // Use AutoBuilder to drive to the target pose
         if (targetPose != null) {
             // Define path constraints (max velocity, max acceleration, max angular velocity)
             PathConstraints constraints = new PathConstraints(
@@ -51,34 +39,38 @@ public class DriveToPose extends Command {
                 Math.PI // Max angular acceleration (rad/s^2)
             );
 
-            // Use AutoBuilder to create a path to the target pose
             pathfindingCommand = AutoBuilder.pathfindToPose(
                 targetPose,
                 constraints,
                 0.0
             );
+        } 
+        
+    }
 
-            pathfindingCommand.schedule();
-        }
+    @Override
+    public void execute() {
+        pathfindingCommand.schedule();
+        // The AutoBuilder handles the execution of the pathfinding and driving logic
+        // No need to manually calculate speeds or apply requests
+
+        // Get the target pose from vision
+
+        // Use AutoBuilder to drive to the target pose
+
+
+            // Use AutoBuilder to create a path to the target pose
+            
+
+            
+        
 
         
     }
 
     @Override
     public void end(boolean interrupted) {
-        // Stop the drivetrain when the command ends
         pathfindingCommand.cancel();
-        drivetrain.applyRequest(() -> brake);
     }
 
-    @Override
-    public boolean isFinished() {
-        // Check if the robot has reached the target pose
-        if(targetPose != null){
-            Pose2d currentPose = drivetrain.getState().Pose;
-            return currentPose.getTranslation().getDistance(targetPose.getTranslation()) < 0.02 // Position tolerance (m)
-            && Math.abs(currentPose.getRotation().minus(targetPose.getRotation()).getRadians()) < 0.02; // Rotation tolerance (rad)
-        } else return true;
-        
-    }
 }
