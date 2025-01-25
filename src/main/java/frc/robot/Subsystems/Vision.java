@@ -13,11 +13,11 @@ import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.Commands;
+// import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+// import edu.wpi.first.wpilibj2.command.Command;
+// import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.generated.TunerConstants;
+// import frc.robot.commands.generated.TunerConstants;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -39,8 +39,8 @@ import org.photonvision.targeting.PhotonTrackedTarget;
 
 import com.ctre.phoenix6.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.path.PathConstraints;
+// import com.pathplanner.lib.auto.AutoBuilder;
+// import com.pathplanner.lib.path.PathConstraints;
 
 public class Vision extends SubsystemBase{
 
@@ -165,24 +165,24 @@ public class Vision extends SubsystemBase{
         
     // }
 
-    private int getClosestAprilTag(PhotonPipelineResult result) {
-        if (hasTarget() && currentResult != null){
-            double closestDistance = Double.MAX_VALUE;
-            PhotonTrackedTarget closestTarget = null;
+    // private int getClosestAprilTag(PhotonPipelineResult result) {
+    //     if (hasTarget() && currentResult != null){
+    //         double closestDistance = Double.MAX_VALUE;
+    //         PhotonTrackedTarget closestTarget = null;
 
-            for (PhotonTrackedTarget target : result.getTargets()) {
-                double distance = target.getBestCameraToTarget().getTranslation().getNorm();
-                    if (distance < closestDistance) {
-                        closestDistance = distance;
-                        closestTarget = target;
-                    }
-            }
+    //         for (PhotonTrackedTarget target : result.getTargets()) {
+    //             double distance = target.getBestCameraToTarget().getTranslation().getNorm();
+    //                 if (distance < closestDistance) {
+    //                     closestDistance = distance;
+    //                     closestTarget = target;
+    //                 }
+    //         }
 
-            return closestTarget.getFiducialId();
+    //         return closestTarget.getFiducialId();
 
-        } else return 0;
+    //     } else return 0;
         
-    }
+    // }
 
     public Rotation2d getAngleToAprilTag() {
         if (hasTarget() && currentResult != null){
