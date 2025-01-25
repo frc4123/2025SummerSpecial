@@ -289,8 +289,8 @@ public class Vision extends SubsystemBase{
                         break;
                     case "Blue Coral Station":
                         switch (id) {
-                            case 12: return Rotation2d.fromDegrees(245); // 
-                            case 13: return Rotation2d.fromDegrees(125); // 
+                            case 12: return Rotation2d.fromDegrees(245 + 180); // 
+                            case 13: return Rotation2d.fromDegrees(125 + 180); // 
                         }
                         break;
                     case "Blue Processor":
