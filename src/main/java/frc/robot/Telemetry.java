@@ -92,7 +92,7 @@ public class Telemetry {
         driveTimestamp.set(state.Timestamp);
         driveOdometryFrequency.set(1.0 / state.OdometryPeriod);
 
-        /* Also write to log file */
+        /* Also write to log file */  /*CONSIDER COMMENTING 95-109 OUT FOR IMPROVED PERFORMANCE */
         m_poseArray[0] = state.Pose.getX();
         m_poseArray[1] = state.Pose.getY();
         m_poseArray[2] = state.Pose.getRotation().getDegrees();
@@ -122,3 +122,33 @@ public class Telemetry {
         }
     }
 }
+
+/*package frc.robot;
+
+import edu.wpi.first.networktables.DoubleArrayPublisher;
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StringPublisher;
+import edu.wpi.first.math.geometry.Pose2d;
+import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
+
+public class Telemetry {
+    private final NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    private final NetworkTable table = inst.getTable("Pose");
+    private final DoubleArrayPublisher fieldPub = table.getDoubleArrayTopic("robotPose").publish();
+    private final StringPublisher fieldTypePub = table.getStringTopic(".type").publish();
+    
+    private final double[] poseArray = new double[3];
+
+    public Telemetry() {
+        fieldTypePub.set("Field2d");
+    }
+
+    public void telemeterize(SwerveDriveState state) {
+        poseArray[0] = state.Pose.getX();
+        poseArray[1] = state.Pose.getY();
+        poseArray[2] = state.Pose.getRotation().getDegrees();
+        
+        fieldPub.set(poseArray);
+    }
+} */
