@@ -47,10 +47,8 @@ public class Vision extends SubsystemBase{
     PhotonCamera camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
 
     public Transform3d robotToCam = new Transform3d(new Translation3d(-0.3556, 0.0, 0.13335), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
-    public AprilTagFieldLayout aprilTagFieldLayout = loadAprilTagFieldLayout("/fields/Reefscape2025.json");
-    //public AprilTagFieldLayout aprilTagFieldLayout = AprilTagFieldLayout.loadField(AprilTagFields.k2024Crescendo);    
+    public AprilTagFieldLayout aprilTagFieldLayout = loadAprilTagFieldLayout("/fields/Reefscape2025.json");   
     public PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, robotToCam);
-
     private Rotation2d lastGamePieceAngle = new Rotation2d();
     
     static final Set<Integer> redTargets = new HashSet<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10,11));
@@ -75,6 +73,9 @@ public class Vision extends SubsystemBase{
     private List<PhotonPipelineResult> currentResultList;
     private PhotonPipelineResult currentResult;
 
+    private int blueInversionFactor = 0;
+    private int redInversionFactor = 0;
+
     private boolean seenAprilTagFlag = false;
 
     private final CommandSwerveDrivetrain drivetrain; 
@@ -83,20 +84,23 @@ public class Vision extends SubsystemBase{
         this.drivetrain = drivetrain;
         drivetrain.setVisionMeasurementStdDevs(visionMeasurementStdDevs);
 
+        if(DriverStation.getAlliance().get() == Alliance.Blue){
+            redInversionFactor = 180;
+        } else blueInversionFactor = 180;
     }
 
     public static AprilTagFieldLayout loadAprilTagFieldLayout(String resourceFile) { 
         try (InputStream is = Vision.class.getResourceAsStream(resourceFile); 
-        InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8)) { 
-            ObjectMapper mapper = new ObjectMapper(); 
-            return mapper.readValue(isr, AprilTagFieldLayout.class); 
+        InputStreamReader isr = new InputStreamReader(is, StandardCharsets.UTF_8)) {
+            ObjectMapper mapper = new ObjectMapper();
+            return mapper.readValue(isr, AprilTagFieldLayout.class);
         } catch (IOException e) { 
             throw new UncheckedIOException(e); 
         } 
     }
     
 
-    public DetectedAlliance getAllianceStatus() {
+    public DetectedAlliance getAllianceStatus() { 
         var result = currentResult;
         List<PhotonTrackedTarget> targets = result.getTargets();
         var redTargetCount = 0;
@@ -144,8 +148,8 @@ public class Vision extends SubsystemBase{
     }
 
     public double getCamTimeStamp() {
-            double imageCaptureTime = currentResult.getTimestampSeconds(); 
-            return Utils.fpgaToCurrentTime(imageCaptureTime); 
+        double imageCaptureTime = currentResult.getTimestampSeconds(); 
+        return Utils.fpgaToCurrentTime(imageCaptureTime); 
     }
 
     // public PhotonTrackedTarget getBestTarget() {
@@ -235,155 +239,145 @@ public class Vision extends SubsystemBase{
     }
         
     public Rotation2d getDegreesToGamePiece() {
-        // Axis are flipped due to FieldCentric M
-            int id = findClosestAprilTagJson(drivetrain.getState().Pose);// int id = getClosestAprilTag(currentResult);
-            if (DriverStation.getAlliance().get() == Alliance.Red){
-                switch(getClosestGamePiece(id)){
-                    case "Red Reef":
-                        switch (id) {
-                            case 6: return Rotation2d.fromDegrees(300);
-                            case 7: return Rotation2d.fromDegrees(0);
-                            case 8: return Rotation2d.fromDegrees(60);
-                            case 9: return Rotation2d.fromDegrees(120);
-                            case 10: return Rotation2d.fromDegrees(180);
-                            case 11: return Rotation2d.fromDegrees(240);
-                        }
-                        break;
-                    case "Red Barge":
-                        switch (id) {
-                            case 15: return Rotation2d.fromDegrees(180); // 
-                            case 5: return Rotation2d.fromDegrees(0); // 
-                        }
-                        break;
+        int id = findClosestAprilTagJson(drivetrain.getState().Pose);// int id = getClosestAprilTag(currentResult);
+        switch(getClosestGamePiece(id)){
+            case "Red Reef":
+                switch (id) {
+                    case 6: return Rotation2d.fromDegrees(300 + redInversionFactor);
+                    case 7: return Rotation2d.fromDegrees(0 + redInversionFactor);
+                    case 8: return Rotation2d.fromDegrees(60 + redInversionFactor);
+                    case 9: return Rotation2d.fromDegrees(120 + redInversionFactor);
+                    case 10: return Rotation2d.fromDegrees(180 + redInversionFactor);
+                    case 11: return Rotation2d.fromDegrees(240 + redInversionFactor);
+                }
+                break;
+            case "Red Barge":
+                switch (id) {
+                    case 15: return Rotation2d.fromDegrees(180 + redInversionFactor); // 
+                    case 5: return Rotation2d.fromDegrees(0 + redInversionFactor); // 
+                }
+                break;
 
-                    case "Red Coral Station":
-                        switch (id) {
-                            case 2: return Rotation2d.fromDegrees(245); // 
-                            case 1: return Rotation2d.fromDegrees(125); // 
-                        }
-                        break;
-                    case "Red Processor":
-                        return Rotation2d.fromDegrees(270);
-                    default:
-                        return null; 
-                    }
-            } else {
-                switch (getClosestGamePiece(id)) {      
-                    case "Blue Reef":
-                        switch (id) {
-                            case 17: return Rotation2d.fromDegrees(60); // 
-                            case 18: return Rotation2d.fromDegrees(0); // 
-                            case 19: return Rotation2d.fromDegrees(300); // 
-                            case 20: return Rotation2d.fromDegrees(240); //
-                            case 21: return Rotation2d.fromDegrees(180); //
-                            case 22: return Rotation2d.fromDegrees(120); // 
-                        }
-                        break;
-                    case "Blue Barge":
-                        switch (id) {
-                            case 14: return Rotation2d.fromDegrees(0); // 
-                            case 4: return Rotation2d.fromDegrees(180); // 
-                        }
-                        break;
-                    case "Blue Coral Station":
-                        switch (id) {
-                            case 12: return Rotation2d.fromDegrees(245 + 180); // 
-                            case 13: return Rotation2d.fromDegrees(125 + 180); // 
-                        }
-                        break;
-                    case "Blue Processor":
-                        return Rotation2d.fromDegrees(270);
-                    default: return null;
-                    }
-            }  
-        return null; 
-    }
+            case "Red Coral Station":
+                switch (id) {
+                    case 2: return Rotation2d.fromDegrees(245 + redInversionFactor); // 
+                    case 1: return Rotation2d.fromDegrees(125 + redInversionFactor); // 
+                }
+                break;
+            case "Red Processor":
+                return Rotation2d.fromDegrees(270 + redInversionFactor);
+            case "Blue Reef":
+                switch (id) {
+                    case 17: return Rotation2d.fromDegrees(60 + blueInversionFactor); // 
+                    case 18: return Rotation2d.fromDegrees(0 + blueInversionFactor); // 
+                    case 19: return Rotation2d.fromDegrees(300 + blueInversionFactor); // 
+                    case 20: return Rotation2d.fromDegrees(240 + blueInversionFactor); //
+                    case 21: return Rotation2d.fromDegrees(180 + blueInversionFactor); //
+                    case 22: return Rotation2d.fromDegrees(120 + blueInversionFactor); // 
+                }
+                break;
+            case "Blue Barge":
+                switch (id) {
+                    case 14: return Rotation2d.fromDegrees(0 + blueInversionFactor); // 
+                    case 4: return Rotation2d.fromDegrees(180 + blueInversionFactor); // 
+                }
+                break;
+            case "Blue Coral Station":
+                switch (id) {
+                    case 12: return Rotation2d.fromDegrees(65 + blueInversionFactor); // 
+                    case 13: return Rotation2d.fromDegrees(305 + blueInversionFactor); // 
+                }
+                break;
+            case "Blue Processor":
+                return Rotation2d.fromDegrees(270 + blueInversionFactor);
+            default:
+                return Rotation2d.fromDegrees(0 + blueInversionFactor); 
+            }
+            return null; 
+        }
     
     
     public String getClosestGamePiece(int id) {
-            if (blueReef.contains(id)){
-                return "Blue Reef";
-            } else if(redReef.contains(id)){
-                return "Red Reef";
-            } else if(blueBarge.contains(id)){
-                return "Blue Barge";
-            } else if(redBarge.contains(id)){
-                return "Red Barge";
-            } else if(blueCoralStation.contains(id)){
-                return "Blue Coral Station";
-            } else if(redCoralStation.contains(id)){
-                return "Red Coral Station";
-            } else if(blueProcessor.contains(id)){
-                return "Blue Processor";
-            } else if(redProcessor.contains(id)){
-                return "Red Processor";
-            } else return "none";
+        if (blueReef.contains(id)){
+            return "Blue Reef";
+        } else if(redReef.contains(id)){
+            return "Red Reef";
+        } else if(blueBarge.contains(id)){
+            return "Blue Barge";
+        } else if(redBarge.contains(id)){
+            return "Red Barge";
+        } else if(blueCoralStation.contains(id)){
+            return "Blue Coral Station";
+        } else if(redCoralStation.contains(id)){
+            return "Red Coral Station";
+        } else if(blueProcessor.contains(id)){
+            return "Blue Processor";
+        } else if(redProcessor.contains(id)){
+            return "Red Processor";
+        } else return "none";
     }
 
     public Pose2d getTargetPose2d(){
         // Axis are flipped due to FieldCentric M
-        if (hasTarget() && currentResult != null) {
-            int id = findClosestAprilTagJson(drivetrain.getState().Pose);
-            if (DriverStation.getAlliance().get() == Alliance.Red){
-                switch(getClosestGamePiece(id)){
-                    case "Red Reef":
-                        switch (id) {
-                            case 6: return new Pose2d(13.581,2.788, Rotation2d.fromDegrees(300)); // L 13.581 2.788 | R 13.887 | 2.941
-                            case 7: return new Pose2d(14.393,3.851, Rotation2d.fromDegrees(0)); // L 14.393 3.851 | R 14.393 4.182
-                            case 8: return new Pose2d(13.882,5.097, Rotation2d.fromDegrees(60)); // L 13.882 5.097 | R 13.595 5.259
-                            case 9: return new Pose2d(12.555,5.284 , Rotation2d.fromDegrees(120)); // L 12.555 5.284 | R 12.250 5.113
-                            case 10: return new Pose2d(11.71,4.18, Rotation2d.fromDegrees(180)); // L 11.71 4.18 | R 11.700 3.857
-                            case 11: return new Pose2d(12.266,2.951, Rotation2d.fromDegrees(240)); // L 12.266 2.951 | R 12.536 2.788
-                        }
-                        break;
-                    case "Red Barge":
-                        switch (id) {
-                            case 15: return new Pose2d(9.84,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(180)); // X-> 7.711 Y -> use current state
-                            case 5: return new Pose2d(9.84,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(0)); // X -> 9.842 Y -> use current state
-                        }
-                        break;
+        int id = findClosestAprilTagJson(drivetrain.getState().Pose);
+            switch(getClosestGamePiece(id)){
+                case "Red Reef":
+                    switch (id) {
+                        case 6: return new Pose2d(13.581,2.788, Rotation2d.fromDegrees(300 + redInversionFactor)); // L 13.581 2.788 | R 13.887 | 2.941
+                        case 7: return new Pose2d(14.393,3.851, Rotation2d.fromDegrees(0 + redInversionFactor)); // L 14.393 3.851 | R 14.393 4.182
+                        case 8: return new Pose2d(13.882,5.097, Rotation2d.fromDegrees(60 + redInversionFactor)); // L 13.882 5.097 | R 13.595 5.259
+                        case 9: return new Pose2d(12.555,5.284 , Rotation2d.fromDegrees(120 + redInversionFactor)); // L 12.555 5.284 | R 12.250 5.113
+                        case 10: return new Pose2d(11.71,4.18, Rotation2d.fromDegrees(180 + redInversionFactor)); // L 11.71 4.18 | R 11.700 3.857
+                        case 11: return new Pose2d(12.266,2.951, Rotation2d.fromDegrees(240 + redInversionFactor)); // L 12.266 2.951 | R 12.536 2.788
+                    }
+                    break;
+                case "Red Barge":
+                    switch (id) {
+                        case 15: return new Pose2d(9.84,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(180 + redInversionFactor)); // X-> 7.711 Y -> use current state
+                        case 5: return new Pose2d(9.84,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(0 + redInversionFactor)); // X -> 9.842 Y -> use current state
+                    }
+                    break;
 
-                    case "Red Coral Station":
-                        switch (id) {
-                            case 2: return new Pose2d(16.258,7.049, Rotation2d.fromDegrees(245)); // 16.258 7.049
-                            case 1: return new Pose2d(16.305,1.017, Rotation2d.fromDegrees(125)); // 16.305 1.017
-                        }
-                        break;
-                    case "Red Processor":
-                        return new Pose2d(11.524,7.471, Rotation2d.fromDegrees(270)); // 11.524 7.471
-                    default:
+                case "Red Coral Station":
+                    switch (id) {
+                        case 2: return new Pose2d(16.258,7.049, Rotation2d.fromDegrees(245 + redInversionFactor)); // 16.258 7.049
+                        case 1: return new Pose2d(16.305,1.017, Rotation2d.fromDegrees(125 + redInversionFactor)); // 16.305 1.017
+                    }
+                    break;
+                case "Red Processor":
+                    return new Pose2d(11.524,7.471, Rotation2d.fromDegrees(270 + redInversionFactor)); // 11.524 7.471
+                default:
                         return null; 
+                }
+            
+            switch (getClosestGamePiece(id)) {      
+                case "Blue Reef":
+                    switch (id) {
+                        case 17: return new Pose2d(3.687,2.922, Rotation2d.fromDegrees(60 + blueInversionFactor)); // L 3.687 2.922 | R 3.951 2.771
+                        case 18: return new Pose2d(3.129,4.179, Rotation2d.fromDegrees(0 + blueInversionFactor)); // L 3.129 4.179 | R 3.129 3.850
+                        case 19: return new Pose2d(3.96,5.271, Rotation2d.fromDegrees(300 + blueInversionFactor)); // L 3.96 5.271 | R 3.672 5.12
+                        case 20: return new Pose2d(5.298,5.11, Rotation2d.fromDegrees(240 + blueInversionFactor)); // L 5.298 5.110 | R 5.082 5.273
+                        case 21: return new Pose2d(5.839,3.853, Rotation2d.fromDegrees(180 + blueInversionFactor)); // L 5.839 3.853 | R 5.839 4.168
+                        case 22: return new Pose2d(5.013,2.788, Rotation2d.fromDegrees(120 + blueInversionFactor)); // L 5.013 2.788 | R 5.298 2.950
                     }
-            } else {
-                switch (getClosestGamePiece(id)) {      
-                    case "Blue Reef":
-                        switch (id) {
-                            case 17: return new Pose2d(3.687,2.922, Rotation2d.fromDegrees(60)); // L 3.687 2.922 | R 3.951 2.771
-                            case 18: return new Pose2d(3.129,4.179, Rotation2d.fromDegrees(0)); // L 3.129 4.179 | R 3.129 3.850
-                            case 19: return new Pose2d(3.96,5.271, Rotation2d.fromDegrees(300)); // L 3.96 5.271 | R 3.672 5.12
-                            case 20: return new Pose2d(5.298,5.11, Rotation2d.fromDegrees(240)); // L 5.298 5.110 | R 5.082 5.273
-                            case 21: return new Pose2d(5.839,3.853, Rotation2d.fromDegrees(180)); // L 5.839 3.853 | R 5.839 4.168
-                            case 22: return new Pose2d(5.013,2.788, Rotation2d.fromDegrees(120)); // L 5.013 2.788 | R 5.298 2.950
-                        }
-                        break;
-                    case "Blue Barge":
-                        switch (id) {
-                            case 14: return new Pose2d(7.652,6.170,  Rotation2d.fromDegrees(0)); // 7.652 6.170
-                            case 4: return new Pose2d(9.865,6.170, Rotation2d.fromDegrees(180)); // 9.865 6.170
-                        }
-                        break;
-                    case "Blue Coral Station":
-                        switch (id) {
-                            case 12: return new Pose2d(1.416,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(245)); // 1.416 0.879
-                            case 13: return new Pose2d(1.586 ,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(125)); // 1.586 7.262
-                        }
-                        break;
-                    case "Blue Processor":
-                        return new Pose2d(6.371,0.645, Rotation2d.fromDegrees(270)); // 6.371 0.645
-                    default: return null;
+                    break;
+                case "Blue Barge":
+                    switch (id) {
+                        case 14: return new Pose2d(7.652,6.170,  Rotation2d.fromDegrees(0 + blueInversionFactor)); // 7.652 6.170
+                        case 4: return new Pose2d(9.865,6.170, Rotation2d.fromDegrees(180 + blueInversionFactor)); // 9.865 6.170
                     }
-            }  
-        }
+                    break;
+                case "Blue Coral Station":
+                    switch (id) {
+                        case 12: return new Pose2d(1.416,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(245 + blueInversionFactor)); // 1.416 0.879
+                        case 13: return new Pose2d(1.586 ,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(125 + blueInversionFactor)); // 1.586 7.262
+                    }
+                    break;
+                case "Blue Processor":
+                    return new Pose2d(6.371,0.645, Rotation2d.fromDegrees(270 + blueInversionFactor)); // 6.371 0.645
+                default: return null;
+            }
+            
         return null;
     }
            
