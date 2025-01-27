@@ -30,37 +30,44 @@ public class DriveToPose2 extends Command {
 
         targetPose = vision.getTargetPose2d();
 
-        PathConstraints constraints = new PathConstraints(
-            4.0, // maxVelocityMPS
-            4.0, // maxAccelerationMPSSq
-            Math.PI, // maxAngularVelocityRadPerSec
-            Math.PI // maxAngularAccelerationRadPerSecSq
-        );
+        
+        if(targetPose != null){
+            PathConstraints constraints = new PathConstraints(
+                4.0, // maxVelocityMPS
+                4.0, // maxAccelerationMPSSq
+                Math.PI, // maxAngularVelocityRadPerSec
+                Math.PI // maxAngularAccelerationRadPerSecSq
+            );
 
-        pathCommand = AutoBuilder.pathfindToPose(
-            targetPose,
-            constraints,
-            targetPose.getRotation().getRadians()
-        );
+            pathCommand = AutoBuilder.pathfindToPose(
+                targetPose,
+                constraints,
+                0
+            );
 
-        pathCommand.initialize();
+            pathCommand.initialize();
+        }
+        
     }
 
     @Override
     public void execute() {
-        if (pathCommand != null) {
+        if (targetPose != null) {
             pathCommand.execute();
         }
     }
 
     @Override
     public boolean isFinished() {
-        return pathCommand != null && pathCommand.isFinished();
+        if(targetPose!= null){
+            return pathCommand != null && pathCommand.isFinished();
+        } else return true;
+        
     }
 
     @Override
     public void end(boolean interrupted) {
-        if (pathCommand != null) {
+        if (targetPose != null) {
             pathCommand.end(interrupted);
         }
 

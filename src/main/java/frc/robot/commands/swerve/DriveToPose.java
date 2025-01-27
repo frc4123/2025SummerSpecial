@@ -12,7 +12,7 @@ public class DriveToPose extends Command {
 
     private Pose2d targetPose;
 
-    private Command pathfindingCommand;
+    public Command pathfindingCommand;
 
     public DriveToPose(Vision vision) {
         this.vision = vision;
@@ -46,7 +46,10 @@ public class DriveToPose extends Command {
 
     @Override
     public void execute() {
-        pathfindingCommand.schedule();
+        if(targetPose != null){
+            pathfindingCommand.schedule();
+        }
+        
         // The AutoBuilder handles the execution of the pathfinding and driving logic
         // No need to manually calculate speeds or apply requests
 
@@ -66,7 +69,10 @@ public class DriveToPose extends Command {
 
     @Override
     public void end(boolean interrupted) {
-        pathfindingCommand.cancel();
+        if(targetPose != null){
+            pathfindingCommand.cancel();
+        }
+        
     }
 
 }
