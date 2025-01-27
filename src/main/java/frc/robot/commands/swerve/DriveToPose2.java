@@ -28,13 +28,13 @@ public class DriveToPose2 extends Command {
     @Override
     public void initialize() {
 
-        targetPose = vision.getTargetPose2d();
+        targetPose = vision.getLastTargetPose();
 
         
         if(targetPose != null){
             PathConstraints constraints = new PathConstraints(
-                4.0, // maxVelocityMPS
-                4.0, // maxAccelerationMPSSq
+                3.0, // maxVelocityMPS
+                3.0, // maxAccelerationMPSSq
                 Math.PI, // maxAngularVelocityRadPerSec
                 Math.PI // maxAngularAccelerationRadPerSecSq
             );

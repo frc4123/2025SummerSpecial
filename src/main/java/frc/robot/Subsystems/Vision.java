@@ -50,6 +50,7 @@ public class Vision extends SubsystemBase{
     public AprilTagFieldLayout aprilTagFieldLayout = loadAprilTagFieldLayout("/fields/Reefscape2025.json");   
     public PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, robotToCam);
     private Rotation2d lastGamePieceAngle = new Rotation2d(0);
+    private Pose2d lastTargetPose = new Pose2d(0,0,new Rotation2d(0));
     
     static final Set<Integer> redTargets = new HashSet<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10,11));
     static final Set<Integer> blueTargets = new HashSet<>(Arrays.asList(12,13,14,15,16,17,18,19,20,21,22));
@@ -217,6 +218,10 @@ public class Vision extends SubsystemBase{
         return lastGamePieceAngle;
     }
 
+    public Pose2d getLastTargetPose(){
+        return lastTargetPose;
+    }
+
     public int findClosestAprilTagJson(Pose2d robotPose) {
         int closestTagId = -1;
         double closestDistance = Double.MAX_VALUE;
@@ -345,12 +350,7 @@ public class Vision extends SubsystemBase{
                     }
                     break;
                 case "Red Processor":
-                    return new Pose2d(11.524,7.471, Rotation2d.fromDegrees(270 + redInversionFactor)); // 11.524 7.471
-                default:
-                        return null; 
-                }
-            
-            switch (getClosestGamePiece(id)) {      
+                    return new Pose2d(11.524,7.471, Rotation2d.fromDegrees(270 + redInversionFactor)); // 11.524 7.471  
                 case "Blue Reef":
                     switch (id) {
                         case 17: return new Pose2d(3.687,2.922, Rotation2d.fromDegrees(60 + blueInversionFactor)); // L 3.687 2.922 | R 3.951 2.771
@@ -394,12 +394,14 @@ public class Vision extends SubsystemBase{
 
         if (hasTarget()){
             drivetrain.addVisionMeasurement(get2dPose(), getCamTimeStamp());
-            seenAprilTagFlag = true;
+            //seenAprilTagFlag = true;
         }
 
-        if(seenAprilTagFlag){
-            lastGamePieceAngle = getDegreesToGamePiece();
-        }
+        // if(seenAprilTagFlag){
+        //     lastGamePieceAngle = getDegreesToGamePiece();
+        // }
+        lastGamePieceAngle = getDegreesToGamePiece();
+        lastTargetPose = getTargetPose2d();
         
         
 

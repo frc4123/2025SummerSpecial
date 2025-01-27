@@ -92,7 +92,7 @@ public class RobotContainer {
         //         )
         //     )
         // );
-        joystick.x().whileTrue(driveToPose);
+        //joystick.x().whileTrue(driveToPose);
         joystick.y().whileTrue(driveToPose2);
         joystick.b().whileTrue(
                 drivetrain.applyRequest(() -> faceAngle
