@@ -2,27 +2,23 @@ package frc.robot.commands.swerve;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Vision;
 
-import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.path.PathConstraints;
 
 public class DriveToPose extends Command {
-    private final CommandSwerveDrivetrain drivetrain;
     private final Vision vision;
 
     private Pose2d targetPose;
 
     private Command pathfindingCommand;
 
-    public DriveToPose(CommandSwerveDrivetrain drivetrain, Vision vision) {
-        this.drivetrain = drivetrain;
+    public DriveToPose(Vision vision) {
         this.vision = vision;
 
         // Ensure the drivetrain and vision subsystems are required
-        addRequirements(drivetrain, vision);
+        addRequirements(vision);
         
     }
 
