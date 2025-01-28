@@ -78,8 +78,8 @@ public class Telemetry {
     };
 
     private final double[] m_poseArray = new double[3];
-    private final double[] m_moduleStatesArray = new double[8];
-    private final double[] m_moduleTargetsArray = new double[8];
+    // private final double[] m_moduleStatesArray = new double[8];
+    // private final double[] m_moduleTargetsArray = new double[8];
 
     /** Accept the swerve drive state and telemeterize it to SmartDashboard and SignalLogger. */
     public void telemeterize(SwerveDriveState state) {
@@ -93,20 +93,20 @@ public class Telemetry {
         driveOdometryFrequency.set(1.0 / state.OdometryPeriod);
 
         /* Also write to log file */  /*CONSIDER COMMENTING 95-109 OUT FOR IMPROVED PERFORMANCE */
-        m_poseArray[0] = state.Pose.getX();
-        m_poseArray[1] = state.Pose.getY();
-        m_poseArray[2] = state.Pose.getRotation().getDegrees();
-        for (int i = 0; i < 4; ++i) {
-            m_moduleStatesArray[i*2 + 0] = state.ModuleStates[i].angle.getRadians();
-            m_moduleStatesArray[i*2 + 1] = state.ModuleStates[i].speedMetersPerSecond;
-            m_moduleTargetsArray[i*2 + 0] = state.ModuleTargets[i].angle.getRadians();
-            m_moduleTargetsArray[i*2 + 1] = state.ModuleTargets[i].speedMetersPerSecond;
-        }
+        // m_poseArray[0] = state.Pose.getX();
+        // m_poseArray[1] = state.Pose.getY();
+        // m_poseArray[2] = state.Pose.getRotation().getDegrees();
+        // for (int i = 0; i < 4; ++i) {
+        //     m_moduleStatesArray[i*2 + 0] = state.ModuleStates[i].angle.getRadians();
+        //     m_moduleStatesArray[i*2 + 1] = state.ModuleStates[i].speedMetersPerSecond;
+        //     m_moduleTargetsArray[i*2 + 0] = state.ModuleTargets[i].angle.getRadians();
+        //     m_moduleTargetsArray[i*2 + 1] = state.ModuleTargets[i].speedMetersPerSecond;
+        // }
 
-        SignalLogger.writeDoubleArray("DriveState/Pose", m_poseArray);
-        SignalLogger.writeDoubleArray("DriveState/ModuleStates", m_moduleStatesArray);
-        SignalLogger.writeDoubleArray("DriveState/ModuleTargets", m_moduleTargetsArray);
-        SignalLogger.writeDouble("DriveState/OdometryPeriod", state.OdometryPeriod, "seconds");
+        // SignalLogger.writeDoubleArray("DriveState/Pose", m_poseArray);
+        // SignalLogger.writeDoubleArray("DriveState/ModuleStates", m_moduleStatesArray);
+        // SignalLogger.writeDoubleArray("DriveState/ModuleTargets", m_moduleTargetsArray);
+        // SignalLogger.writeDouble("DriveState/OdometryPeriod", state.OdometryPeriod, "seconds");
 
         /* Telemeterize the pose to a Field2d */
         fieldTypePub.set("Field2d");
@@ -122,33 +122,3 @@ public class Telemetry {
         }
     }
 }
-
-// package frc.robot;
-
-// import edu.wpi.first.networktables.DoubleArrayPublisher;
-// import edu.wpi.first.networktables.NetworkTable;
-// import edu.wpi.first.networktables.NetworkTableInstance;
-// import edu.wpi.first.networktables.StringPublisher;
-// import edu.wpi.first.math.geometry.Pose2d;
-// import com.ctre.phoenix6.swerve.SwerveDrivetrain.SwerveDriveState;
-
-// public class Telemetry {
-//     private final NetworkTableInstance inst = NetworkTableInstance.getDefault();
-//     private final NetworkTable table = inst.getTable("Pose");
-//     private final DoubleArrayPublisher fieldPub = table.getDoubleArrayTopic("robotPose").publish();
-//     private final StringPublisher fieldTypePub = table.getStringTopic(".type").publish();
-    
-//     private final double[] poseArray = new double[3];
-
-//     public Telemetry() {
-//         fieldTypePub.set("Field2d");
-//     }
-
-//     public void telemeterize(SwerveDriveState state) {
-//         poseArray[0] = state.Pose.getX();
-//         poseArray[1] = state.Pose.getY();
-//         poseArray[2] = state.Pose.getRotation().getDegrees();
-        
-//         fieldPub.set(poseArray);
-//     }
-// } 
