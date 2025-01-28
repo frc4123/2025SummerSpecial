@@ -155,7 +155,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         double odometryUpdateFrequency,
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
-        super(drivetrainConstants, odometryUpdateFrequency, modules);
+        super(drivetrainConstants, 250, modules);
+        // Set odometryUpdateFrequency to 250 Hz for CAN FD or 100 Hz for CAN 2.0
         if (Utils.isSimulation()) {
             startSimThread();
         }
@@ -190,7 +191,8 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
         Matrix<N3, N1> visionStandardDeviation,
         SwerveModuleConstants<?, ?, ?>... modules
     ) {
-        super(drivetrainConstants, odometryUpdateFrequency, odometryStandardDeviation, visionStandardDeviation, modules);
+        super(drivetrainConstants, 250, odometryStandardDeviation, visionStandardDeviation, modules);
+        // Set odometryUpdateFrequency to 250 Hz for CAN FD or 100 Hz for CAN 2.0
         if (Utils.isSimulation()) {
             startSimThread();
         }
