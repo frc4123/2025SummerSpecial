@@ -80,26 +80,24 @@ public class RobotContainer {
         );
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        // joystick.b().whileTrue(
-        //     new ParallelCommandGroup(
-        //         drivetrain.applyRequest(() -> faceAngle
-        //             .withTargetDirection(vision.getLastGamePieceAngle())
-        //         ),
-        //         drivetrain.applyRequest(() -> drive
-        //             .withVelocityX(-joystick.getLeftY() * MaxSpeed) 
-        //             .withVelocityY(-joystick.getLeftX() * MaxSpeed) 
-        //         )
-        //     )
-        // );
-        //joystick.x().whileTrue(driveToPose);
         joystick.y().whileTrue(driveToPose);
-        joystick.b().whileTrue(
-                drivetrain.applyRequest(() -> faceAngle
-                    .withVelocityX(-joystick.getLeftY() * MaxSpeed) 
-                    .withVelocityY(-joystick.getLeftX() * MaxSpeed) 
-                    .withTargetDirection(vision.getLastGamePieceAngle())
-                )
+        joystick.x().whileTrue(
+            drivetrain.applyRequest(() ->
+            drive.withVelocityX(-joystick.getLeftY() * MaxSpeed/10) 
+                .withVelocityY(-joystick.getLeftX() * MaxSpeed/10) 
+                .withRotationalRate(-joystick.getRightX() * MaxAngularRate/10)
+            )
         );
+        joystick.b().whileTrue(
+            drivetrain.applyRequest(() -> faceAngle
+                .withVelocityX(-joystick.getLeftY() * MaxSpeed) 
+                .withVelocityY(-joystick.getLeftX() * MaxSpeed) 
+                .withTargetDirection(vision.getLastGamePieceAngle())
+            )
+        );
+
+        joystick.rightTrigger().whileTrue(driveToPose);
+        joystick.leftTrigger().whileTrue(driveToPose);
 
         joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0.2 * MaxSpeed).withVelocityY(0))
