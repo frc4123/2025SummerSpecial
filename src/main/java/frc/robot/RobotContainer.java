@@ -23,7 +23,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import frc.robot.commands.generated.TunerConstants;
 import frc.robot.commands.swerve.DriveToPose;
-import frc.robot.commands.swerve.DriveToPose2;
+import frc.robot.commands.swerve.DriveToPose;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Vision;
 
@@ -53,8 +53,7 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
     private final Vision vision = new Vision(drivetrain);
 
-    private final DriveToPose driveToPose = new DriveToPose(vision);
-    private final DriveToPose2 driveToPose2 = new DriveToPose2(drivetrain, vision);
+    private final DriveToPose driveToPose = new DriveToPose(drivetrain, vision);
 
     public double currentAngle = drivetrain.getState().Pose.getRotation().getDegrees();
     
@@ -93,7 +92,7 @@ public class RobotContainer {
         //     )
         // );
         //joystick.x().whileTrue(driveToPose);
-        joystick.y().whileTrue(driveToPose2);
+        joystick.y().whileTrue(driveToPose);
         joystick.b().whileTrue(
                 drivetrain.applyRequest(() -> faceAngle
                     .withVelocityX(-joystick.getLeftY() * MaxSpeed) 
