@@ -345,8 +345,8 @@ public class Vision extends SubsystemBase{
 
                 case "Red Coral Station":
                     switch (id) {
-                        case 2: return new Pose2d(16.258,7.049, Rotation2d.fromDegrees(245 + redInversionFactor)); // 16.258 7.049
-                        case 1: return new Pose2d(16.305,1.017, Rotation2d.fromDegrees(125 + redInversionFactor)); // 16.305 1.017
+                        case 2: return new Pose2d(16.258,7.049, Rotation2d.fromDegrees(65 + redInversionFactor)); // 16.258 7.049
+                        case 1: return new Pose2d(16.305,1.017, Rotation2d.fromDegrees(305 + redInversionFactor)); // 16.305 1.017
                     }
                     break;
                 case "Red Processor":
@@ -369,8 +369,8 @@ public class Vision extends SubsystemBase{
                     break;
                 case "Blue Coral Station":
                     switch (id) {
-                        case 12: return new Pose2d(1.416,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(245 + blueInversionFactor)); // 1.416 0.879
-                        case 13: return new Pose2d(1.586 ,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(125 + blueInversionFactor)); // 1.586 7.262
+                        case 12: return new Pose2d(1.416,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(65 + blueInversionFactor)); // 1.416 0.879
+                        case 13: return new Pose2d(1.586 ,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(305 + blueInversionFactor)); // 1.586 7.262
                     }
                     break;
                 case "Blue Processor":
