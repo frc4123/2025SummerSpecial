@@ -22,7 +22,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 // import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.commands.generated.TunerConstants;
-import frc.robot.commands.swerve.DriveToPose;
+import frc.robot.commands.swerve.DriveToPoseLeft;
+import frc.robot.commands.swerve.DriveToPoseRight;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Vision;
 
@@ -52,7 +53,8 @@ public class RobotContainer {
     private final Telemetry logger = new Telemetry(MaxSpeed);
     private final Vision vision = new Vision(drivetrain);
 
-    private final DriveToPose driveToPose = new DriveToPose(drivetrain, vision);
+    private final DriveToPoseRight driveToPoseRight = new DriveToPoseRight(drivetrain, vision);
+    private final DriveToPoseLeft driveToPoseLeft = new DriveToPoseLeft(drivetrain, vision);
 
     public double currentAngle = drivetrain.getState().Pose.getRotation().getDegrees();
     
@@ -79,7 +81,7 @@ public class RobotContainer {
         );
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.y().whileTrue(driveToPose);
+        joystick.y().whileTrue(driveToPoseRight);
         joystick.x().whileTrue(
             drivetrain.applyRequest(() ->
             drive.withVelocityX(-joystick.getLeftY() * MaxSpeed/10) 
@@ -95,8 +97,8 @@ public class RobotContainer {
             )
         );
 
-        joystick.rightTrigger().whileTrue(driveToPose);
-        joystick.leftTrigger().whileTrue(driveToPose);
+        joystick.rightTrigger().whileTrue(driveToPoseRight);
+        joystick.leftTrigger().whileTrue(driveToPoseLeft);
 
         joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
             forwardStraight.withVelocityX(0.2 * MaxSpeed).withVelocityY(0))
