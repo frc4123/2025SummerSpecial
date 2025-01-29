@@ -215,10 +215,17 @@ public class Vision extends SubsystemBase{
     // }
 
     public Rotation2d getLastGamePieceAngle(){
+        lastGamePieceAngle = getDegreesToGamePiece();
         return lastGamePieceAngle;
     }
 
-    public Pose2d getLastTargetPose(){
+    public Pose2d getLastTargetPoseLeft(){
+        lastTargetPose = getTargetPose2dLeft();
+        return lastTargetPose;
+    }
+
+    public Pose2d getLastTargetPoseRight(){
+        lastTargetPose = getTargetPose2dLeft();
         return lastTargetPose;
     }
 
@@ -301,44 +308,80 @@ public class Vision extends SubsystemBase{
         } else return "none";
     }
 
-    public Pose2d getTargetPose2d(){
+    public Pose2d getTargetPose2dLeft(){
         // Axis are flipped due to FieldCentric M
         int id = findClosestAprilTagJson(drivetrain.getState().Pose);
-            switch(id){
-                // Red Reef
-                case 6: return new Pose2d(13.581,2.788, Rotation2d.fromDegrees(300 + redInversionFactor)); // L 13.581 2.788 | R 13.887 | 2.941
-                case 7: return new Pose2d(14.393,3.851, Rotation2d.fromDegrees(0 + redInversionFactor)); // L 14.393 3.851 | R 14.393 4.182
-                case 8: return new Pose2d(13.882,5.097, Rotation2d.fromDegrees(60 + redInversionFactor)); // L 13.882 5.097 | R 13.595 5.259
-                case 9: return new Pose2d(12.555,5.284 , Rotation2d.fromDegrees(120 + redInversionFactor)); // L 12.555 5.284 | R 12.250 5.113
-                case 10: return new Pose2d(11.71,4.18, Rotation2d.fromDegrees(180 + redInversionFactor)); // L 11.71 4.18 | R 11.700 3.857
-                case 11: return new Pose2d(12.266,2.951, Rotation2d.fromDegrees(240 + redInversionFactor)); // L 12.266 2.951 | R 12.536 2.788
-                // Red Barge
-                case 15: return new Pose2d(9.84,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(180 + redInversionFactor)); // X-> 7.711 Y -> use current state
-                case 5: return new Pose2d(9.84,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(0 + redInversionFactor)); // X -> 9.842 Y -> use current state
-                // Red Coral Station
-                case 2: return new Pose2d(16.258,7.049, Rotation2d.fromDegrees(65 + redInversionFactor)); // 16.258 7.049
-                case 1: return new Pose2d(16.305,1.017, Rotation2d.fromDegrees(305 + redInversionFactor)); // 16.305 1.017
-                // Red Processor
-                case 3: return new Pose2d(11.524,7.471, Rotation2d.fromDegrees(270 + redInversionFactor)); // 11.524 7.471  
-                // Blue Reef
-                case 17: return new Pose2d(3.687,2.922, Rotation2d.fromDegrees(60 + blueInversionFactor)); // L 3.687 2.922 | R 3.951 2.771
-                case 18: return new Pose2d(3.129,4.179, Rotation2d.fromDegrees(0 + blueInversionFactor)); // L 3.129 4.179 | R 3.129 3.850
-                case 19: return new Pose2d(3.96,5.271, Rotation2d.fromDegrees(300 + blueInversionFactor)); // L 3.96 5.271 | R 3.672 5.12
-                case 20: return new Pose2d(5.298,5.11, Rotation2d.fromDegrees(240 + blueInversionFactor)); // L 5.298 5.110 | R 5.082 5.273
-                case 21: return new Pose2d(5.839,3.853, Rotation2d.fromDegrees(180 + blueInversionFactor)); // L 5.839 3.853 | R 5.839 4.168
-                case 22: return new Pose2d(5.013,2.788, Rotation2d.fromDegrees(120 + blueInversionFactor)); // L 5.013 2.788 | R 5.298 2.950
-                // Blue Barge
-                case 14: return new Pose2d(7.652,6.170,  Rotation2d.fromDegrees(0 + blueInversionFactor)); // 7.652 6.170
-                case 4: return new Pose2d(9.865,6.170, Rotation2d.fromDegrees(180 + blueInversionFactor)); // 9.865 6.170
-                // Blue Coral Station
-                case 12: return new Pose2d(1.416,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(65 + blueInversionFactor)); // 1.416 0.879
-                case 13: return new Pose2d(1.586 ,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(305 + blueInversionFactor)); // 1.586 7.262
-                // Blue Processor
-                case 16: return new Pose2d(6.371,0.645, Rotation2d.fromDegrees(270 + blueInversionFactor)); // 6.371 0.645
-                default: return null;
-            }
-            
+        switch(id){
+            // Red Reef
+            case 6: return new Pose2d(13.581,2.788, Rotation2d.fromDegrees(300 + redInversionFactor)); // L 13.581 2.788 | R 13.887 | 2.941
+            case 7: return new Pose2d(14.393,3.851, Rotation2d.fromDegrees(0 + redInversionFactor)); // L 14.393 3.851 | R 14.393 4.182
+            case 8: return new Pose2d(13.882,5.097, Rotation2d.fromDegrees(60 + redInversionFactor)); // L 13.882 5.097 | R 13.595 5.259
+            case 9: return new Pose2d(12.555,5.284 , Rotation2d.fromDegrees(120 + redInversionFactor)); // L 12.555 5.284 | R 12.250 5.113
+            case 10: return new Pose2d(11.71,4.18, Rotation2d.fromDegrees(180 + redInversionFactor)); // L 11.71 4.18 | R 11.700 3.857
+            case 11: return new Pose2d(12.266,2.951, Rotation2d.fromDegrees(240 + redInversionFactor)); // L 12.266 2.951 | R 12.536 2.788
+            // Red Barge
+            case 15: return new Pose2d(9.84,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(180 + redInversionFactor)); // X-> 7.711 Y -> use current state
+            case 5: return new Pose2d(9.84,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(0 + redInversionFactor)); // X -> 9.842 Y -> use current state
+            // Red Coral Station
+            case 2: return new Pose2d(16.258,7.049, Rotation2d.fromDegrees(65 + redInversionFactor)); // 16.258 7.049
+            case 1: return new Pose2d(16.305,1.017, Rotation2d.fromDegrees(305 + redInversionFactor)); // 16.305 1.017
+            // Red Processor
+            case 3: return new Pose2d(11.524,7.471, Rotation2d.fromDegrees(270 + redInversionFactor)); // 11.524 7.471  
+            // Blue Reef
+            case 17: return new Pose2d(3.687,2.922, Rotation2d.fromDegrees(60 + blueInversionFactor)); // L 3.687 2.922 | R 3.951 2.771
+            case 18: return new Pose2d(3.129,4.179, Rotation2d.fromDegrees(0 + blueInversionFactor)); // L 3.129 4.179 | R 3.129 3.850
+            case 19: return new Pose2d(3.96,5.271, Rotation2d.fromDegrees(300 + blueInversionFactor)); // L 3.96 5.271 | R 3.672 5.12
+            case 20: return new Pose2d(5.298,5.11, Rotation2d.fromDegrees(240 + blueInversionFactor)); // L 5.298 5.110 | R 5.082 5.273
+            case 21: return new Pose2d(5.839,3.853, Rotation2d.fromDegrees(180 + blueInversionFactor)); // L 5.839 3.853 | R 5.839 4.168
+            case 22: return new Pose2d(5.013,2.788, Rotation2d.fromDegrees(120 + blueInversionFactor)); // L 5.013 2.788 | R 5.298 2.950
+            // Blue Barge
+            case 14: return new Pose2d(7.652,6.170,  Rotation2d.fromDegrees(0 + blueInversionFactor)); // 7.652 6.170
+            case 4: return new Pose2d(9.865,6.170, Rotation2d.fromDegrees(180 + blueInversionFactor)); // 9.865 6.170
+            // Blue Coral Station
+            case 12: return new Pose2d(1.416,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(65 + blueInversionFactor)); // 1.416 0.879
+            case 13: return new Pose2d(1.586 ,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(305 + blueInversionFactor)); // 1.586 7.262
+            // Blue Processor
+            case 16: return new Pose2d(6.371,0.645, Rotation2d.fromDegrees(270 + blueInversionFactor)); // 6.371 0.645
+            default: return null;
+        }
+    }
 
+    public Pose2d getTargetPose2dRight(){
+        // Axis are flipped due to FieldCentric M
+        int id = findClosestAprilTagJson(drivetrain.getState().Pose);
+        switch(id){
+            // Red Reef
+            case 6: return new Pose2d(13.887,2.941, Rotation2d.fromDegrees(300 + redInversionFactor)); // L 13.581 2.788 | R 13.887 | 2.941
+            case 7: return new Pose2d(14.393,4.182, Rotation2d.fromDegrees(0 + redInversionFactor)); // L 14.393 3.851 | R 14.393 4.182
+            case 8: return new Pose2d(13.595,5.259, Rotation2d.fromDegrees(60 + redInversionFactor)); // L 13.882 5.097 | R 13.595 5.259
+            case 9: return new Pose2d(12.250,5.113, Rotation2d.fromDegrees(120 + redInversionFactor)); // L 12.555 5.284 | R 12.250 5.113
+            case 10: return new Pose2d(11.700,3.857, Rotation2d.fromDegrees(180 + redInversionFactor)); // L 11.71 4.18 | R 11.700 3.857
+            case 11: return new Pose2d(12.536,2.788, Rotation2d.fromDegrees(240 + redInversionFactor)); // L 12.266 2.951 | R 12.536 2.788
+            // Red Barge
+            case 15: return new Pose2d(9.84,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(180 + redInversionFactor)); // X-> 7.711 Y -> use current state
+            case 5: return new Pose2d(9.84,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(0 + redInversionFactor)); // X -> 9.842 Y -> use current state
+            // Red Coral Station
+            case 2: return new Pose2d(16.258,7.049, Rotation2d.fromDegrees(65 + redInversionFactor)); // 16.258 7.049
+            case 1: return new Pose2d(16.305,1.017, Rotation2d.fromDegrees(305 + redInversionFactor)); // 16.305 1.017
+            // Red Processor
+            case 3: return new Pose2d(11.524,7.471, Rotation2d.fromDegrees(270 + redInversionFactor)); // 11.524 7.471  
+            // Blue Reef
+            case 17: return new Pose2d(3.951,2.771, Rotation2d.fromDegrees(60 + blueInversionFactor)); // L 3.687 2.922 | R 3.951 2.771
+            case 18: return new Pose2d(3.129,3.850, Rotation2d.fromDegrees(0 + blueInversionFactor)); // L 3.129 4.179 | R 3.129 3.850
+            case 19: return new Pose2d(3.672,5.12, Rotation2d.fromDegrees(300 + blueInversionFactor)); // L 3.96 5.271 | R 3.672 5.12
+            case 20: return new Pose2d(5.082,5.273, Rotation2d.fromDegrees(240 + blueInversionFactor)); // L 5.298 5.110 | R 5.082 5.273
+            case 21: return new Pose2d(5.839,4.168, Rotation2d.fromDegrees(180 + blueInversionFactor)); // L 5.839 3.853 | R 5.839 4.168
+            case 22: return new Pose2d(5.298,2.950, Rotation2d.fromDegrees(120 + blueInversionFactor)); // L 5.013 2.788 | R 5.298 2.950
+            // Blue Barge
+            case 14: return new Pose2d(7.652,6.170,  Rotation2d.fromDegrees(0 + blueInversionFactor)); // 7.652 6.170
+            case 4: return new Pose2d(9.865,6.170, Rotation2d.fromDegrees(180 + blueInversionFactor)); // 9.865 6.170
+            // Blue Coral Station
+            case 12: return new Pose2d(1.416,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(65 + blueInversionFactor)); // 1.416 0.879
+            case 13: return new Pose2d(1.586 ,drivetrain.getState().Pose.getY(), Rotation2d.fromDegrees(305 + blueInversionFactor)); // 1.586 7.262
+            // Blue Processor
+            case 16: return new Pose2d(6.371,0.645, Rotation2d.fromDegrees(270 + blueInversionFactor)); // 6.371 0.645
+            default: return null;
+        }
     }
            
     @Override
@@ -372,8 +415,8 @@ public class Vision extends SubsystemBase{
         // if(seenAprilTagFlag){
         //     lastGamePieceAngle = getDegreesToGamePiece();
         // }
-        lastGamePieceAngle = getDegreesToGamePiece();
-        lastTargetPose = getTargetPose2d();
+        
+        
         
         
 

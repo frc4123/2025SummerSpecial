@@ -10,7 +10,7 @@ import com.pathplanner.lib.path.PathConstraints;
 
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-public class DriveToPose extends Command {
+public class DriveToPoseLeft extends Command {
     private final CommandSwerveDrivetrain drivetrain;
     private final Vision vision;
     private Pose2d targetPose;
@@ -19,7 +19,7 @@ public class DriveToPose extends Command {
     // Create an instance of SwerveRequest.Idle to stop the drivetrain
     private final SwerveRequest.Idle stopRequest = new SwerveRequest.Idle();
 
-    public DriveToPose(CommandSwerveDrivetrain drivetrain, Vision vision) {
+    public DriveToPoseLeft(CommandSwerveDrivetrain drivetrain, Vision vision) {
         this.drivetrain = drivetrain;
         this.vision = vision;
         addRequirements(drivetrain);
@@ -28,7 +28,7 @@ public class DriveToPose extends Command {
     @Override
     public void initialize() {
 
-        targetPose = vision.getLastTargetPose();
+        targetPose = vision.getLastTargetPoseLeft();
 
         
         if(targetPose != null){
