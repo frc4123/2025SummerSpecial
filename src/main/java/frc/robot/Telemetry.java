@@ -14,14 +14,14 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.networktables.StructPublisher;
-import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
-import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
+// import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
+// import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 //import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.util.Color8Bit;
+// import edu.wpi.first.wpilibj.util.Color;
+// import edu.wpi.first.wpilibj.util.Color8Bit;
 
 public class Telemetry {
-    private final double MaxSpeed;
+    //private final double MaxSpeed;
 
     /**
      * Construct a telemetry object, with the specified max speed of the robot
@@ -29,7 +29,7 @@ public class Telemetry {
      * @param maxSpeed Maximum speed in meters per second
      */
     public Telemetry(double maxSpeed) {
-        MaxSpeed = maxSpeed;
+        // MaxSpeed = maxSpeed;
         SignalLogger.start();
     }
 
