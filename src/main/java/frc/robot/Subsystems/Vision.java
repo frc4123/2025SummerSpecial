@@ -77,7 +77,7 @@ public class Vision extends SubsystemBase{
     private int blueInversionFactor = 0;
     private int redInversionFactor = 0;
 
-    private boolean seenAprilTagFlag = false;
+    //private boolean seenAprilTagFlag = false;
 
     private final CommandSwerveDrivetrain drivetrain; 
 

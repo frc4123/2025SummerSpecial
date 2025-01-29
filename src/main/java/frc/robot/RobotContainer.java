@@ -23,7 +23,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import frc.robot.commands.generated.TunerConstants;
 import frc.robot.commands.swerve.DriveToPose;
-import frc.robot.commands.swerve.DriveToPose;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.Vision;
 
@@ -129,6 +128,8 @@ public class RobotContainer {
 
         // Run SysId routines when holding back/start and X/Y.
         // Note that each routine should be run exactly once in a single log.
+        // SIGNAL LOGGER START AND STOP SHOULD BE BINDED AS WELL
+        //  Commands.runOnce(SigalLogger::start)); and start should be stop for stop
         //joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
         //joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
         //joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
