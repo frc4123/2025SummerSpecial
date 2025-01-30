@@ -44,13 +44,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Vision extends SubsystemBase{
 
-    PhotonCamera camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
+    public AprilTagFieldLayout aprilTagFieldLayout = loadAprilTagFieldLayout("/fields/Reefscape2025.json");  
 
-    public Transform3d robotToCam = new Transform3d(new Translation3d(-0.3556, 0.0, 0.13335), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
-    public AprilTagFieldLayout aprilTagFieldLayout = loadAprilTagFieldLayout("/fields/Reefscape2025.json");   
-    public PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.CLOSEST_TO_REFERENCE_POSE, robotToCam);
+    private final PhotonCamera camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
+    private final PhotonCamera cameraHigh = new PhotonCamera("Arducam_OV9281_USB_Camera High");
+
+    public final Transform3d robotToCam = new Transform3d(new Translation3d(-0.3556, 0.0, 0.13335), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
+    public final Transform3d robotToCamHigh = new Transform3d(new Translation3d(-0.3556, 0.0, 0.13335), new Rotation3d(0,0, 3.1415926535));  
+
+    public final PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCam);
+    public final PhotonPoseEstimator photonPoseEstimatorHigh = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCamHigh);
+
     private Rotation2d lastGamePieceAngle = new Rotation2d(0);
-    private Pose2d lastTargetPose = new Pose2d(0,0,new Rotation2d(0));
+
+    private Pose2d lastTargetPoseRight = new Pose2d(0,0,new Rotation2d(0));
+    private Pose2d lastTargetPoseLeft = new Pose2d(0,0,new Rotation2d(0));
     
     static final Set<Integer> redTargets = new HashSet<>(Arrays.asList(1,2,3,4,5,6,7,8,9,10,11));
     static final Set<Integer> blueTargets = new HashSet<>(Arrays.asList(12,13,14,15,16,17,18,19,20,21,22));
@@ -67,12 +75,16 @@ public class Vision extends SubsystemBase{
     static final Set<Integer> blueProcessor = new HashSet<>(Arrays.asList(16));
     static final Set<Integer> redProcessor = new HashSet<>(Arrays.asList(3));
 
-    Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(3, 3, 3); 
+    Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(3, 3, 3);
+    Matrix<N3, N1> visionMeasurementStdDevsHigh = VecBuilder.fill(3, 3, 3);  
 
     public enum DetectedAlliance {RED, BLUE, NONE};
 
     private List<PhotonPipelineResult> currentResultList;
     private PhotonPipelineResult currentResult;
+
+    private List<PhotonPipelineResult> currentResultListHigh;
+    private PhotonPipelineResult currentResultHigh;
 
     private int blueInversionFactor = 0;
     private int redInversionFactor = 0;
@@ -99,29 +111,8 @@ public class Vision extends SubsystemBase{
             throw new UncheckedIOException(e); 
         } 
     }
-    
 
-    public DetectedAlliance getAllianceStatus() { 
-        var result = currentResult;
-        List<PhotonTrackedTarget> targets = result.getTargets();
-        var redTargetCount = 0;
-        var blueTargetCount = 0;
-
-        for (PhotonTrackedTarget target : targets) {
-            if (redTargets.contains(target.getFiducialId())) {
-                redTargetCount += 1;
-            }
-            if (blueTargets.contains(target.getFiducialId())) {
-                blueTargetCount += 1;
-            }
-        }
-
-        if (redTargetCount > blueTargetCount && redTargetCount >= 1) {
-            return DetectedAlliance.RED;
-        } else if (blueTargetCount > redTargetCount && blueTargetCount >= 1) {
-            return DetectedAlliance.BLUE;
-        } else return DetectedAlliance.NONE;
-    }
+    // Camera 1
 
     public Pose3d get3dPose() {
         var result = currentResult; 
@@ -150,6 +141,38 @@ public class Vision extends SubsystemBase{
 
     public double getCamTimeStamp() {
         double imageCaptureTime = currentResult.getTimestampSeconds(); 
+        return Utils.fpgaToCurrentTime(imageCaptureTime); 
+    }
+
+    // Camera 2
+
+    public Pose3d get3dPoseHigh() {
+        var resultHigh = currentResultHigh; 
+        if (resultHigh != null) { 
+            PhotonTrackedTarget targetHigh = resultHigh.getBestTarget(); 
+            Optional<Pose3d> optionalPoseHigh = aprilTagFieldLayout.getTagPose(targetHigh.getFiducialId()); 
+
+            Pose3d cameraRobotPoseHigh = PhotonUtils.estimateFieldToRobotAprilTag(targetHigh.getBestCameraToTarget(), optionalPoseHigh.get(), robotToCamHigh);
+            return cameraRobotPoseHigh; 
+        } else return null; 
+    }
+    
+    public Pose2d get2dPoseHigh() {
+        if (get3dPoseHigh() != null) {
+            Pose2d convertedPose2dHigh = get3dPoseHigh().toPose2d();
+            return convertedPose2dHigh;
+        } else return null;
+    }
+
+    public boolean hasTargetHigh() {
+        if(currentResultHigh != null){
+            var resultHigh = currentResultHigh.hasTargets();
+            return resultHigh;
+        } else return false;
+    }
+
+    public double getCamTimeStampHigh() {
+        double imageCaptureTime = currentResultHigh.getTimestampSeconds(); 
         return Utils.fpgaToCurrentTime(imageCaptureTime); 
     }
 
@@ -189,17 +212,7 @@ public class Vision extends SubsystemBase{
         
     // }
 
-    public Rotation2d getAngleToAprilTag() {
-        if (hasTarget() && currentResult != null){
-            double yaw = currentResult.getBestTarget().getYaw(); 
-            Rotation2d cameraYaw = Rotation2d.fromDegrees(yaw);
-            Rotation2d robotToCamera = new Rotation2d(0); // Replace with your camera's mounting ang
-            return cameraYaw.plus(robotToCamera);
-        } else {
-            return null;
-        }
-        
-    }
+   
 
     // public Command driveToPose(){
     //     var targetPose2d = getTargetPose2d();
@@ -215,18 +228,15 @@ public class Vision extends SubsystemBase{
     // }
 
     public Rotation2d getLastGamePieceAngle(){
-        lastGamePieceAngle = getDegreesToGamePiece();
         return lastGamePieceAngle;
     }
 
     public Pose2d getLastTargetPoseLeft(){
-        lastTargetPose = getTargetPose2dLeft();
-        return lastTargetPose;
+        return lastTargetPoseLeft;
     }
 
     public Pose2d getLastTargetPoseRight(){
-        lastTargetPose = getTargetPose2dLeft();
-        return lastTargetPose;
+        return lastTargetPoseRight;
     }
 
     public int findClosestAprilTagJson(Pose2d robotPose) {
@@ -395,6 +405,15 @@ public class Vision extends SubsystemBase{
             } else currentResult = null;
         }
 
+        currentResultListHigh = cameraHigh.getAllUnreadResults();
+        for (int i = currentResultListHigh.size() - 1; i >= 0; i--) {
+            PhotonPipelineResult resultHigh = currentResultListHigh.get(i);
+            if (resultHigh.hasTargets()) {
+                currentResultHigh = resultHigh;
+                break;
+            } else currentResultHigh = null;
+        }
+
         //TRY THIS TO LOWER LATENCY
         // currentResultList = camera.getAllUnreadResults();
         // int i = currentResultList.size() - 1;
@@ -402,19 +421,23 @@ public class Vision extends SubsystemBase{
         //     if (result.hasTargets()) {
         //         currentResult = result;
         //     } else currentResult = null;
-        
-
-        
-
 
         if (hasTarget()){
             drivetrain.addVisionMeasurement(get2dPose(), getCamTimeStamp());
             //seenAprilTagFlag = true;
         }
 
+        if (hasTargetHigh()){
+            drivetrain.addVisionMeasurement(get2dPoseHigh(), getCamTimeStampHigh());
+        }
+
         // if(seenAprilTagFlag){
         //     lastGamePieceAngle = getDegreesToGamePiece();
         // }
+
+        lastGamePieceAngle = getDegreesToGamePiece();
+        lastTargetPoseLeft = getTargetPose2dLeft();
+        lastTargetPoseRight = getTargetPose2dLeft();
         
         
         
