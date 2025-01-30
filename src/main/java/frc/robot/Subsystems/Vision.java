@@ -232,10 +232,12 @@ public class Vision extends SubsystemBase{
     }
 
     public Pose2d getLastTargetPoseLeft(){
+        lastTargetPoseRight = getTargetPose2dLeft();
         return lastTargetPoseLeft;
     }
 
     public Pose2d getLastTargetPoseRight(){
+        lastTargetPoseLeft = getTargetPose2dRight();
         return lastTargetPoseRight;
     }
 
@@ -436,12 +438,6 @@ public class Vision extends SubsystemBase{
         // }
 
         lastGamePieceAngle = getDegreesToGamePiece();
-        lastTargetPoseLeft = getTargetPose2dLeft();
-        lastTargetPoseRight = getTargetPose2dLeft();
-        
-        
-        
-        
 
         // SmartDashboard.putNumber("Pose X", drivetrain.getState().Pose.getX());
         // SmartDashboard.putNumber("Pose Y", drivetrain.getState().Pose.getY());
