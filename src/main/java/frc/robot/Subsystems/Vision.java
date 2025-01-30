@@ -97,9 +97,12 @@ public class Vision extends SubsystemBase{
         this.drivetrain = drivetrain;
         drivetrain.setVisionMeasurementStdDevs(visionMeasurementStdDevs);
 
-        if(DriverStation.getAlliance().get() == Alliance.Blue){
-            redInversionFactor = 180;
-        } else blueInversionFactor = 180;
+        if(DriverStation.isDSAttached()){
+            if(DriverStation.getAlliance().get() == Alliance.Blue){
+                redInversionFactor = 180;
+            } else blueInversionFactor = 180;
+        }
+        
     }
 
     public static AprilTagFieldLayout loadAprilTagFieldLayout(String resourceFile) { 
