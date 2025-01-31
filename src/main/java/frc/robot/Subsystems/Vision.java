@@ -47,7 +47,7 @@ public class Vision extends SubsystemBase{
     public AprilTagFieldLayout aprilTagFieldLayout = loadAprilTagFieldLayout("/fields/Reefscape2025.json");  
 
     private final PhotonCamera camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
-    private final PhotonCamera cameraHigh = new PhotonCamera("Arducam_OV9281_USB_Camera High");
+    //private final PhotonCamera cameraHigh = new PhotonCamera("Arducam_OV9281_USB_Camera High");
 
     public final Transform3d robotToCam = new Transform3d(new Translation3d(-0.3556, 0.0, 0.13335), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
     public final Transform3d robotToCamHigh = new Transform3d(new Translation3d(-0.3556, 0.0, 0.13335), new Rotation3d(0,0, 3.1415926535));  
@@ -83,8 +83,8 @@ public class Vision extends SubsystemBase{
     private List<PhotonPipelineResult> currentResultList;
     private PhotonPipelineResult currentResult;
 
-    private List<PhotonPipelineResult> currentResultListHigh;
-    private PhotonPipelineResult currentResultHigh;
+    //private List<PhotonPipelineResult> currentResultListHigh;
+    //private PhotonPipelineResult currentResultHigh;
 
     private int blueInversionFactor = 0;
     private int redInversionFactor = 0;
