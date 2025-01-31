@@ -236,12 +236,12 @@ public class Vision extends SubsystemBase{
     }
 
     public Pose2d getLastTargetPoseLeft(){
-        lastTargetPoseRight = getTargetPose2dLeft();
+        lastTargetPoseLeft = getTargetPose2dLeft();
         return lastTargetPoseLeft;
     }
 
     public Pose2d getLastTargetPoseRight(){
-        lastTargetPoseLeft = getTargetPose2dRight();
+        lastTargetPoseRight = getTargetPose2dRight();
         return lastTargetPoseRight;
     }
 
