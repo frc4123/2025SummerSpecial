@@ -47,7 +47,7 @@ public class Vision extends SubsystemBase{
     public AprilTagFieldLayout aprilTagFieldLayout = loadAprilTagFieldLayout("/fields/Reefscape2025.json");  
 
     private final PhotonCamera camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
-    //private final PhotonCamera cameraHigh = new PhotonCamera("Arducam_OV9281_USB_Camera High");
+    private final PhotonCamera cameraHigh = new PhotonCamera("Arducam_OV9281_USB_Camera High");
 
     public final Transform3d robotToCam = new Transform3d(new Translation3d(-0.3556, 0.0, 0.13335), new Rotation3d(0,0,0)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
     public final Transform3d robotToCamHigh = new Transform3d(new Translation3d(-0.3556, 0.0, 0.13335), new Rotation3d(0,0, 3.1415926535));  
@@ -83,8 +83,8 @@ public class Vision extends SubsystemBase{
     private List<PhotonPipelineResult> currentResultList;
     private PhotonPipelineResult currentResult;
 
-    //private List<PhotonPipelineResult> currentResultListHigh;
-    //private PhotonPipelineResult currentResultHigh;
+    private List<PhotonPipelineResult> currentResultListHigh;
+    private PhotonPipelineResult currentResultHigh;
 
     private int blueInversionFactor = 0;
     private int redInversionFactor = 0;
@@ -149,35 +149,35 @@ public class Vision extends SubsystemBase{
 
     // Camera 2
 
-    // public Pose3d get3dPoseHigh() {
-    //     var resultHigh = currentResultHigh; 
-    //     if (resultHigh != null) { 
-    //         PhotonTrackedTarget targetHigh = resultHigh.getBestTarget(); 
-    //         Optional<Pose3d> optionalPoseHigh = aprilTagFieldLayout.getTagPose(targetHigh.getFiducialId()); 
+    public Pose3d get3dPoseHigh() {
+        var resultHigh = currentResultHigh; 
+        if (resultHigh != null) { 
+            PhotonTrackedTarget targetHigh = resultHigh.getBestTarget(); 
+            Optional<Pose3d> optionalPoseHigh = aprilTagFieldLayout.getTagPose(targetHigh.getFiducialId()); 
 
-    //         Pose3d cameraRobotPoseHigh = PhotonUtils.estimateFieldToRobotAprilTag(targetHigh.getBestCameraToTarget(), optionalPoseHigh.get(), robotToCamHigh);
-    //         return cameraRobotPoseHigh; 
-    //     } else return null; 
-    // }
+            Pose3d cameraRobotPoseHigh = PhotonUtils.estimateFieldToRobotAprilTag(targetHigh.getBestCameraToTarget(), optionalPoseHigh.get(), robotToCamHigh);
+            return cameraRobotPoseHigh; 
+        } else return null; 
+    }
     
-    // public Pose2d get2dPoseHigh() {
-    //     if (get3dPoseHigh() != null) {
-    //         Pose2d convertedPose2dHigh = get3dPoseHigh().toPose2d();
-    //         return convertedPose2dHigh;
-    //     } else return null;
-    // }
+    public Pose2d get2dPoseHigh() {
+        if (get3dPoseHigh() != null) {
+            Pose2d convertedPose2dHigh = get3dPoseHigh().toPose2d();
+            return convertedPose2dHigh;
+        } else return null;
+    }
 
-    // public boolean hasTargetHigh() {
-    //     if(currentResultHigh != null){
-    //         var resultHigh = currentResultHigh.hasTargets();
-    //         return resultHigh;
-    //     } else return false;
-    // }
+    public boolean hasTargetHigh() {
+        if(currentResultHigh != null){
+            var resultHigh = currentResultHigh.hasTargets();
+            return resultHigh;
+        } else return false;
+    }
 
-    // public double getCamTimeStampHigh() {
-    //     double imageCaptureTime = currentResultHigh.getTimestampSeconds(); 
-    //     return Utils.fpgaToCurrentTime(imageCaptureTime); 
-    // }
+    public double getCamTimeStampHigh() {
+        double imageCaptureTime = currentResultHigh.getTimestampSeconds(); 
+        return Utils.fpgaToCurrentTime(imageCaptureTime); 
+    }
 
     // public PhotonTrackedTarget getBestTarget() {
     //     if (hasTarget()){
@@ -411,14 +411,14 @@ public class Vision extends SubsystemBase{
             } else currentResult = null;
         }
 
-        // currentResultListHigh = cameraHigh.getAllUnreadResults();
-        // for (int i = currentResultListHigh.size() - 1; i >= 0; i--) {
-        //     PhotonPipelineResult resultHigh = currentResultListHigh.get(i);
-        //     if (resultHigh.hasTargets()) {
-        //         currentResultHigh = resultHigh;
-        //         break;
-        //     } else currentResultHigh = null;
-        // }
+        currentResultListHigh = cameraHigh.getAllUnreadResults();
+        for (int i = currentResultListHigh.size() - 1; i >= 0; i--) {
+            PhotonPipelineResult resultHigh = currentResultListHigh.get(i);
+            if (resultHigh.hasTargets()) {
+                currentResultHigh = resultHigh;
+                break;
+            } else currentResultHigh = null;
+        }
 
         //TRY THIS TO LOWER LATENCY
         // currentResultList = camera.getAllUnreadResults();
@@ -433,9 +433,9 @@ public class Vision extends SubsystemBase{
             //seenAprilTagFlag = true;
         }
 
-        // if (hasTargetHigh()){
-        //     drivetrain.addVisionMeasurement(get2dPoseHigh(), getCamTimeStampHigh());
-        // }
+        if (hasTargetHigh()){
+            drivetrain.addVisionMeasurement(get2dPoseHigh(), getCamTimeStampHigh());
+        }
 
         // if(seenAprilTagFlag){
         //     lastGamePieceAngle = getDegreesToGamePiece();
