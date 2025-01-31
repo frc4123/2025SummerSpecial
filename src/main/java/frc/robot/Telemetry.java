@@ -112,7 +112,7 @@ public class Telemetry {
         fieldTypePub.set("Field2d");
         fieldPub.set(m_poseArray);
 
-        /* Telemeterize the module states to a Mechanism2d */
+        // /* Telemeterize the module states to a Mechanism2d */
         // for (int i = 0; i < 4; ++i) {
         //     m_moduleSpeeds[i].setAngle(state.ModuleStates[i].angle);
         //     m_moduleDirections[i].setAngle(state.ModuleStates[i].angle);

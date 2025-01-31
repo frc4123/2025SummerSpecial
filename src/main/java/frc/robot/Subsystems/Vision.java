@@ -149,35 +149,35 @@ public class Vision extends SubsystemBase{
 
     // Camera 2
 
-    public Pose3d get3dPoseHigh() {
-        var resultHigh = currentResultHigh; 
-        if (resultHigh != null) { 
-            PhotonTrackedTarget targetHigh = resultHigh.getBestTarget(); 
-            Optional<Pose3d> optionalPoseHigh = aprilTagFieldLayout.getTagPose(targetHigh.getFiducialId()); 
+    // public Pose3d get3dPoseHigh() {
+    //     var resultHigh = currentResultHigh; 
+    //     if (resultHigh != null) { 
+    //         PhotonTrackedTarget targetHigh = resultHigh.getBestTarget(); 
+    //         Optional<Pose3d> optionalPoseHigh = aprilTagFieldLayout.getTagPose(targetHigh.getFiducialId()); 
 
-            Pose3d cameraRobotPoseHigh = PhotonUtils.estimateFieldToRobotAprilTag(targetHigh.getBestCameraToTarget(), optionalPoseHigh.get(), robotToCamHigh);
-            return cameraRobotPoseHigh; 
-        } else return null; 
-    }
+    //         Pose3d cameraRobotPoseHigh = PhotonUtils.estimateFieldToRobotAprilTag(targetHigh.getBestCameraToTarget(), optionalPoseHigh.get(), robotToCamHigh);
+    //         return cameraRobotPoseHigh; 
+    //     } else return null; 
+    // }
     
-    public Pose2d get2dPoseHigh() {
-        if (get3dPoseHigh() != null) {
-            Pose2d convertedPose2dHigh = get3dPoseHigh().toPose2d();
-            return convertedPose2dHigh;
-        } else return null;
-    }
+    // public Pose2d get2dPoseHigh() {
+    //     if (get3dPoseHigh() != null) {
+    //         Pose2d convertedPose2dHigh = get3dPoseHigh().toPose2d();
+    //         return convertedPose2dHigh;
+    //     } else return null;
+    // }
 
-    public boolean hasTargetHigh() {
-        if(currentResultHigh != null){
-            var resultHigh = currentResultHigh.hasTargets();
-            return resultHigh;
-        } else return false;
-    }
+    // public boolean hasTargetHigh() {
+    //     if(currentResultHigh != null){
+    //         var resultHigh = currentResultHigh.hasTargets();
+    //         return resultHigh;
+    //     } else return false;
+    // }
 
-    public double getCamTimeStampHigh() {
-        double imageCaptureTime = currentResultHigh.getTimestampSeconds(); 
-        return Utils.fpgaToCurrentTime(imageCaptureTime); 
-    }
+    // public double getCamTimeStampHigh() {
+    //     double imageCaptureTime = currentResultHigh.getTimestampSeconds(); 
+    //     return Utils.fpgaToCurrentTime(imageCaptureTime); 
+    // }
 
     // public PhotonTrackedTarget getBestTarget() {
     //     if (hasTarget()){
@@ -411,14 +411,14 @@ public class Vision extends SubsystemBase{
             } else currentResult = null;
         }
 
-        currentResultListHigh = cameraHigh.getAllUnreadResults();
-        for (int i = currentResultListHigh.size() - 1; i >= 0; i--) {
-            PhotonPipelineResult resultHigh = currentResultListHigh.get(i);
-            if (resultHigh.hasTargets()) {
-                currentResultHigh = resultHigh;
-                break;
-            } else currentResultHigh = null;
-        }
+        // currentResultListHigh = cameraHigh.getAllUnreadResults();
+        // for (int i = currentResultListHigh.size() - 1; i >= 0; i--) {
+        //     PhotonPipelineResult resultHigh = currentResultListHigh.get(i);
+        //     if (resultHigh.hasTargets()) {
+        //         currentResultHigh = resultHigh;
+        //         break;
+        //     } else currentResultHigh = null;
+        // }
 
         //TRY THIS TO LOWER LATENCY
         // currentResultList = camera.getAllUnreadResults();
@@ -433,9 +433,9 @@ public class Vision extends SubsystemBase{
             //seenAprilTagFlag = true;
         }
 
-        if (hasTargetHigh()){
-            drivetrain.addVisionMeasurement(get2dPoseHigh(), getCamTimeStampHigh());
-        }
+        // if (hasTargetHigh()){
+        //     drivetrain.addVisionMeasurement(get2dPoseHigh(), getCamTimeStampHigh());
+        // }
 
         // if(seenAprilTagFlag){
         //     lastGamePieceAngle = getDegreesToGamePiece();
