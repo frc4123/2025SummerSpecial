@@ -231,6 +231,7 @@ public class Vision extends SubsystemBase{
     // }
 
     public Rotation2d getLastGamePieceAngle(){
+        lastGamePieceAngle = getDegreesToGamePiece();
         return lastGamePieceAngle;
     }
 
@@ -440,7 +441,7 @@ public class Vision extends SubsystemBase{
         //     lastGamePieceAngle = getDegreesToGamePiece();
         // }
 
-        lastGamePieceAngle = getDegreesToGamePiece();
+        //lastGamePieceAngle = getDegreesToGamePiece();
 
         // SmartDashboard.putNumber("Pose X", drivetrain.getState().Pose.getX());
         // SmartDashboard.putNumber("Pose Y", drivetrain.getState().Pose.getY());
