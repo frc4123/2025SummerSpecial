@@ -66,6 +66,9 @@ public class Constants {
         public static final double velocity = 0;
         public static final double acceleration = 0;
         public static final double jerk = 0;
+
+        public static final double startingPosition = 3.3685;
+        public static final double outPosition = 10.9;
     }
 
     public static final class SwerveConstants {
