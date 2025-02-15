@@ -125,22 +125,22 @@ public class TunerConstants {
 
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> FrontLeft =
         ConstantCreator.createModuleConstants(
-            Constants.CanId.Front_Left_Turn, Constants.CanId.Front_Left_Drive, Constants.CanId.Front_Left_CANcoder, Constants.SwerveConstants.kFrontLeftEncoderOffset,
+            Constants.CanIdCanivore.Front_Left_Turn, Constants.CanIdCanivore.Front_Left_Drive, Constants.CanIdCanivore.Front_Left_CANcoder, Constants.SwerveConstants.kFrontLeftEncoderOffset,
             Constants.SwerveConstants.kFrontLeftXPos, Constants.SwerveConstants.kFrontLeftYPos, Constants.SwerveConstants.kInvertLeftSide, Constants.SwerveConstants.kFrontLeftSteerMotorInverted, Constants.SwerveConstants.kFrontLeftEncoderInverted
         );
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> FrontRight =
         ConstantCreator.createModuleConstants(
-            Constants.CanId.Front_Right_Turn, Constants.CanId.Front_Right_Drive, Constants.CanId.Front_Right_CANcoder, Constants.SwerveConstants.kFrontRightEncoderOffset,
+            Constants.CanIdCanivore.Front_Right_Turn, Constants.CanIdCanivore.Front_Right_Drive, Constants.CanIdCanivore.Front_Right_CANcoder, Constants.SwerveConstants.kFrontRightEncoderOffset,
             Constants.SwerveConstants.kFrontRightXPos, Constants.SwerveConstants.kFrontRightYPos, Constants.SwerveConstants.kInvertRightSide, Constants.SwerveConstants.kFrontRightSteerMotorInverted, Constants.SwerveConstants.kFrontRightEncoderInverted
         );
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> BackLeft =
         ConstantCreator.createModuleConstants(
-            Constants.CanId.Back_Left_Turn, Constants.CanId.Back_Left_Drive, Constants.CanId.Back_Left_CANcoder, Constants.SwerveConstants.kBackLeftEncoderOffset,
+            Constants.CanIdCanivore.Back_Left_Turn, Constants.CanIdCanivore.Back_Left_Drive, Constants.CanIdCanivore.Back_Left_CANcoder, Constants.SwerveConstants.kBackLeftEncoderOffset,
             Constants.SwerveConstants.kBackLeftXPos, Constants.SwerveConstants.kBackLeftYPos, Constants.SwerveConstants.kInvertLeftSide, Constants.SwerveConstants.kBackLeftSteerMotorInverted, Constants.SwerveConstants.kBackLeftEncoderInverted
         );
     public static final SwerveModuleConstants<TalonFXConfiguration, TalonFXConfiguration, CANcoderConfiguration> BackRight =
         ConstantCreator.createModuleConstants(
-            Constants.CanId.Back_Right_Turn, Constants.CanId.Back_Right_Drive, Constants.CanId.Back_Right_CANcoder, Constants.SwerveConstants.kBackRightEncoderOffset,
+            Constants.CanIdCanivore.Back_Right_Turn, Constants.CanIdCanivore.Back_Right_Drive, Constants.CanIdCanivore.Back_Right_CANcoder, Constants.SwerveConstants.kBackRightEncoderOffset,
             Constants.SwerveConstants.kBackRightXPos, Constants.SwerveConstants.kBackRightYPos, Constants.SwerveConstants.kInvertRightSide, Constants.SwerveConstants.kBackRightSteerMotorInverted, Constants.SwerveConstants.kBackRightEncoderInverted
         );
 
