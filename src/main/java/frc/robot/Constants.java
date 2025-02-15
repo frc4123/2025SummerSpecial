@@ -10,7 +10,7 @@ import edu.wpi.first.units.measure.Distance;
 
 public class Constants {
     
-    public static final class CanId { 
+    public static final class CanIdCanivore { 
 
         public static final int Front_Left_Drive = 2;
         public static final int Front_Right_Drive = 3;
@@ -30,6 +30,21 @@ public class Constants {
         public static final int Front_Right_CANcoder = 12;
         public static final int Back_Left_CANcoder = 13;
         public static final int Back_Right_CANcoder = 14;
+
+        public static final int Elevator = 15;
+
+        public static final int Algae_Arm = 17;
+    }
+
+    public static final class CanIdRio{
+        public static final int Elevator_CANDi = 16; 
+
+        public static final int Algae_Intake = 18;
+        public static final int Algae_CANDi = 19;
+        public static final int Algae_CANRange = 20;
+
+        public static final int Coral_Intake = 21;
+        public static final int Coral_CANRange = 22;
     }
 
     public static final class InputConstants {
@@ -38,6 +53,19 @@ public class Constants {
         public static final int kDriverControllerPort2 = 2;
         public static final boolean fieldOrientation = true;
         public static final double kDeadband = 0.028;
+    }
+
+    public static final class Arm {
+        public static final double kP = 0;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kS = 0;
+        public static final double kV = 0;
+        public static final double kA = 0;
+
+        public static final double velocity = 0;
+        public static final double acceleration = 0;
+        public static final double jerk = 0;
     }
 
     public static final class SwerveConstants {
@@ -85,8 +113,5 @@ public class Constants {
         new Translation2d(kWheelBase / 2, -kTrackWidth / 2), // front right
         new Translation2d(-kWheelBase / 2, kTrackWidth / 2), // back left
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)); // back right
-    }
-
-    public static final class VisionConstants{
     }
 }
