@@ -6,10 +6,15 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+//import frc.robot.Constants.InputConstants;
+import frc.robot.commands.algae_manipulator.AlgaeIntake;
+import frc.robot.commands.algae_manipulator.AlgaeOutake;
 import frc.robot.commands.autos.BlueLeftCoral;
 import frc.robot.commands.autos.BlueRightCoral;
 import frc.robot.commands.autos.MiddleCoral;
 import frc.robot.commands.autos.Test;
+import frc.robot.commands.coral_manipulator.CoralIntake;
+import frc.robot.commands.coral_manipulator.CoralReverse;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
@@ -18,13 +23,16 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 // import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.commands.generated.TunerConstants;
 import frc.robot.commands.swerve.DriveToPoseLeft;
 import frc.robot.commands.swerve.DriveToPoseRight;
+import frc.robot.subsystems.AlgaeManipulator;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
+import frc.robot.subsystems.CoralManipulator;
 import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
@@ -46,15 +54,23 @@ public class RobotContainer {
     //         .withSteerRequestType(SteerRequestType.Position);
         
 
-    private final CommandXboxController joystick = new CommandXboxController(0);
+    private final CommandXboxController joystick = new CommandXboxController(Constants.InputConstants.kDriverControllerPort0);
+    private final CommandGenericHID m_buttonBoard = new CommandGenericHID(Constants.InputConstants.kDriverControllerPort1);
+
     private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
     private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();  
     private final Telemetry logger = new Telemetry(MaxSpeed);
     private final Vision vision = new Vision(drivetrain);
+    private final AlgaeManipulator algaeManipulator = new AlgaeManipulator();
+    private final CoralManipulator coralManipulator = new CoralManipulator();
 
     private final DriveToPoseRight driveToPoseRight = new DriveToPoseRight(drivetrain, vision);
     private final DriveToPoseLeft driveToPoseLeft = new DriveToPoseLeft(drivetrain, vision);
+    private final AlgaeIntake algaeIntake = new AlgaeIntake(algaeManipulator);
+    private final AlgaeOutake algaeOutake = new AlgaeOutake(algaeManipulator);
+    private final CoralIntake coralIntake = new CoralIntake(coralManipulator);
+    private final CoralReverse coralReverse = new CoralReverse(coralManipulator);
 
     public double currentAngle = drivetrain.getState().Pose.getRotation().getDegrees();
     
@@ -81,7 +97,6 @@ public class RobotContainer {
         );
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
-        joystick.y().whileTrue(driveToPoseRight);
         joystick.x().whileTrue(
             drivetrain.applyRequest(() ->
             drive.withVelocityX(-joystick.getLeftY() * MaxSpeed/10) 
@@ -134,12 +149,17 @@ public class RobotContainer {
         // SIGNAL LOGGER START AND STOP SHOULD BE BINDED AS WELL
         //  Commands.runOnce(SigalLogger::start)); and start should be stop for stop
         //joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        //joystick.back().and(joystick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        //joystick.back().and(joystsick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
         //joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
         //joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         // reset the field-centric heading on left bumper press
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+
+        m_buttonBoard.button(1).whileTrue(coralIntake);
+        m_buttonBoard.button(2).whileTrue(coralReverse);
+        m_buttonBoard.button(3).whileTrue(algaeIntake);
+        m_buttonBoard.button(4).whileTrue(algaeOutake);
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
