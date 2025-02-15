@@ -31,6 +31,7 @@ import frc.robot.commands.generated.TunerConstants;
 import frc.robot.commands.swerve.DriveToPoseLeft;
 import frc.robot.commands.swerve.DriveToPoseRight;
 import frc.robot.subsystems.AlgaeManipulator;
+import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.CoralManipulator;
 import frc.robot.subsystems.Vision;
@@ -64,6 +65,7 @@ public class RobotContainer {
     private final Vision vision = new Vision(drivetrain);
     private final AlgaeManipulator algaeManipulator = new AlgaeManipulator();
     private final CoralManipulator coralManipulator = new CoralManipulator();
+    private final Arm arm = new Arm();
 
     private final DriveToPoseRight driveToPoseRight = new DriveToPoseRight(drivetrain, vision);
     private final DriveToPoseLeft driveToPoseLeft = new DriveToPoseLeft(drivetrain, vision);
