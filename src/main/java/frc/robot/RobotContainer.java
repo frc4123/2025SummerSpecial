@@ -17,9 +17,11 @@ import frc.robot.commands.autos.MiddleCoral;
 import frc.robot.commands.autos.Test;
 import frc.robot.commands.coral_manipulator.CoralIntake;
 import frc.robot.commands.coral_manipulator.CoralReverse;
-import frc.robot.commands.elevator.ElevatorBarge;
+import frc.robot.commands.elevator.ElevatorL2;
 import frc.robot.commands.elevator.ElevatorDown;
-import frc.robot.commands.elevator.ElevatorMiddle;
+import frc.robot.commands.elevator.ElevatorL1;
+import frc.robot.commands.elevator.ElevatorL3;
+import frc.robot.commands.elevator.ElevatorL4;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
@@ -28,6 +30,7 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 // import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -83,8 +86,10 @@ public class RobotContainer {
     private final ArmStow armStow = new ArmStow(arm);
     private final ArmOut armOut = new ArmOut(arm);
     private final ElevatorDown elevatorDown = new ElevatorDown(elevator);
-    private final ElevatorMiddle elevatorMiddle = new ElevatorMiddle(elevator);
-    private final ElevatorBarge elevatorBarge = new ElevatorBarge(elevator);
+    private final ElevatorL1 elevatorl1 = new ElevatorL1(elevator);
+    private final ElevatorL2 elevatorL2 = new ElevatorL2(elevator);
+    private final ElevatorL3 elevatorL3 = new ElevatorL3(elevator);
+    private final ElevatorL4 elevatorL4 = new ElevatorL4(elevator);
 
     public double currentAngle = drivetrain.getState().Pose.getRotation().getDegrees();
     
@@ -170,14 +175,17 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
+
+        
+        // m_buttonBoard.button(3).whileTrue(algaeIntake);
+        // m_buttonBoard.button(4).whileTrue(algaeOutake);
         m_buttonBoard.button(1).whileTrue(coralIntake);
         m_buttonBoard.button(2).whileTrue(coralReverse);
-        m_buttonBoard.button(3).whileTrue(algaeIntake);
-        m_buttonBoard.button(4).whileTrue(algaeOutake);
-        m_buttonBoard.button(5).whileTrue(elevatorDown);
-        m_buttonBoard.button(6).whileTrue(elevatorMiddle);
-        m_buttonBoard.button(7).whileTrue(elevatorBarge);
-
+        m_buttonBoard.button(3).whileTrue(elevatorDown);
+        m_buttonBoard.button(4).whileTrue(elevatorl1);
+        m_buttonBoard.button(5).whileTrue(elevatorL2);
+        m_buttonBoard.button(6).whileTrue(elevatorL3);
+        m_buttonBoard.button(7).whileTrue(elevatorL4);
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
