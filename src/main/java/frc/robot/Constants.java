@@ -67,8 +67,35 @@ public class Constants {
         public static final double acceleration = 0;
         public static final double jerk = 0;
 
-        public static final double startingPosition = 3.3685;
-        public static final double outPosition = 10.9;
+        public static final double gearRatio = 96.66;
+
+        public static final double stowPosition = 0;
+        public static final double upPosition = -0.12;
+        public static final double outPosition = -0.35;
+
+
+        // public static final double stowPosition = 3.3685;
+        // public static final double outPosition = 10.9;
+    }
+
+    public static final class Elevator {
+        public static final double kP = 80;
+        public static final double kI = 0;
+        public static final double kD = 0;
+        public static final double kS = 0;
+        public static final double kV = 0;
+        public static final double kA = 0;
+        public static final double kG = 16;
+
+        public static final double velocity = 120; // max is 290 (don't go 290)
+        public static final double acceleration = 100;
+        public static final double jerk = 80; 
+
+        public static final double gearRatio = -1;
+
+        public static final double down = 0;
+        public static final double upalittle = 35;
+        public static final double up = 88.4;
     }
 
     public static final class SwerveConstants {
