@@ -9,12 +9,17 @@ import static edu.wpi.first.units.Units.*;
 //import frc.robot.Constants.InputConstants;
 import frc.robot.commands.algae_manipulator.AlgaeIntake;
 import frc.robot.commands.algae_manipulator.AlgaeOutake;
+import frc.robot.commands.arm.ArmOut;
+import frc.robot.commands.arm.ArmStow;
 import frc.robot.commands.autos.BlueLeftCoral;
 import frc.robot.commands.autos.BlueRightCoral;
 import frc.robot.commands.autos.MiddleCoral;
 import frc.robot.commands.autos.Test;
 import frc.robot.commands.coral_manipulator.CoralIntake;
 import frc.robot.commands.coral_manipulator.CoralReverse;
+import frc.robot.commands.elevator.ElevatorBarge;
+import frc.robot.commands.elevator.ElevatorDown;
+import frc.robot.commands.elevator.ElevatorMiddle;
 
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
@@ -34,6 +39,7 @@ import frc.robot.subsystems.AlgaeManipulator;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.CoralManipulator;
+import frc.robot.subsystems.Elevator;
 import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
@@ -66,6 +72,7 @@ public class RobotContainer {
     private final AlgaeManipulator algaeManipulator = new AlgaeManipulator();
     private final CoralManipulator coralManipulator = new CoralManipulator();
     private final Arm arm = new Arm();
+    private final Elevator elevator = new Elevator();
 
     private final DriveToPoseRight driveToPoseRight = new DriveToPoseRight(drivetrain, vision);
     private final DriveToPoseLeft driveToPoseLeft = new DriveToPoseLeft(drivetrain, vision);
@@ -73,6 +80,11 @@ public class RobotContainer {
     private final AlgaeOutake algaeOutake = new AlgaeOutake(algaeManipulator);
     private final CoralIntake coralIntake = new CoralIntake(coralManipulator);
     private final CoralReverse coralReverse = new CoralReverse(coralManipulator);
+    private final ArmStow armStow = new ArmStow(arm);
+    private final ArmOut armOut = new ArmOut(arm);
+    private final ElevatorDown elevatorDown = new ElevatorDown(elevator);
+    private final ElevatorMiddle elevatorMiddle = new ElevatorMiddle(elevator);
+    private final ElevatorBarge elevatorBarge = new ElevatorBarge(elevator);
 
     public double currentAngle = drivetrain.getState().Pose.getRotation().getDegrees();
     
@@ -92,8 +104,8 @@ public class RobotContainer {
         drivetrain.setDefaultCommand(
             // Drivetrain will execute this command periodically
             drivetrain.applyRequest(() ->
-                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed) 
-                    .withVelocityY(-joystick.getLeftX() * MaxSpeed) 
+                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed * elevator.getElevatorSwerveReduction()) 
+                    .withVelocityY(-joystick.getLeftX() * MaxSpeed * elevator.getElevatorSwerveReduction()) 
                     .withRotationalRate(-joystick.getRightX() * MaxAngularRate)
             )
         );
@@ -162,6 +174,10 @@ public class RobotContainer {
         m_buttonBoard.button(2).whileTrue(coralReverse);
         m_buttonBoard.button(3).whileTrue(algaeIntake);
         m_buttonBoard.button(4).whileTrue(algaeOutake);
+        m_buttonBoard.button(5).whileTrue(elevatorDown);
+        m_buttonBoard.button(6).whileTrue(elevatorMiddle);
+        m_buttonBoard.button(7).whileTrue(elevatorBarge);
+
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
