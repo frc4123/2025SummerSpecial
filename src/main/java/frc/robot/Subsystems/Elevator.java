@@ -19,8 +19,6 @@ public class Elevator extends SubsystemBase {
     private final NetworkTable armStateTable = NetworkTableInstance.getDefault().getTable("Elevator State");
     private final DoublePublisher relativePublisher = armStateTable.getDoubleTopic("Elevator Relative Position: ").publish();
 
-    private final double elevatorReduction = 1;
-
     public Elevator() {
         configureMotor();
     }
