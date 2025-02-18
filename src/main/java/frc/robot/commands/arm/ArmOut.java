@@ -15,7 +15,7 @@ public class ArmOut extends Command{
 
     @Override
     public void execute(){
-        arm.setPosition(Constants.Arm.stowPosition);
+        arm.setPosition(Constants.Arm.outPosition);
     }
     
 }
