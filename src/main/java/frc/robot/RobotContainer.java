@@ -11,6 +11,7 @@ import frc.robot.commands.algae_manipulator.AlgaeIntake;
 import frc.robot.commands.algae_manipulator.AlgaeOutake;
 import frc.robot.commands.arm.ArmOut;
 import frc.robot.commands.arm.ArmStow;
+import frc.robot.commands.arm.ArmReef;
 import frc.robot.commands.autos.BlueLeftCoral;
 import frc.robot.commands.autos.BlueRightCoral;
 import frc.robot.commands.autos.MiddleCoral;
@@ -27,6 +28,7 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -81,10 +83,11 @@ public class RobotContainer {
     private final DriveToPoseLeft driveToPoseLeft = new DriveToPoseLeft(drivetrain, vision);
     private final AlgaeIntake algaeIntake = new AlgaeIntake(algaeManipulator);
     private final AlgaeOutake algaeOutake = new AlgaeOutake(algaeManipulator);
-    private final CoralIntake coralIntake = new CoralIntake(coralManipulator);
+    private final CoralIntake coralIntake = new CoralIntake(coralManipulator, elevator);
     private final CoralReverse coralReverse = new CoralReverse(coralManipulator);
     private final ArmStow armStow = new ArmStow(arm);
     private final ArmOut armOut = new ArmOut(arm);
+    private final ArmReef armReef = new ArmReef(arm);
     private final ElevatorDown elevatorDown = new ElevatorDown(elevator);
     private final ElevatorL1 elevatorl1 = new ElevatorL1(elevator);
     private final ElevatorL2 elevatorL2 = new ElevatorL2(elevator);
@@ -175,17 +178,18 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
-
-        
-        // m_buttonBoard.button(3).whileTrue(algaeIntake);
-        // m_buttonBoard.button(4).whileTrue(algaeOutake);
         m_buttonBoard.button(1).whileTrue(coralIntake);
         m_buttonBoard.button(2).whileTrue(coralReverse);
         m_buttonBoard.button(3).whileTrue(elevatorDown);
         m_buttonBoard.button(4).whileTrue(elevatorl1);
         m_buttonBoard.button(5).whileTrue(elevatorL2);
         m_buttonBoard.button(6).whileTrue(elevatorL3);
+        m_buttonBoard.button(6).whileTrue(armReef);
         m_buttonBoard.button(7).whileTrue(elevatorL4);
+        m_buttonBoard.button(7).whileTrue(armReef);
+        m_buttonBoard.button(4).whileTrue(new WaitCommand(0.4).andThen(coralIntake));
+        m_buttonBoard.povUp().whileTrue(algaeIntake);
+        m_buttonBoard.povDown().whileTrue(algaeOutake);
 
         drivetrain.registerTelemetry(logger::telemeterize);
     }
