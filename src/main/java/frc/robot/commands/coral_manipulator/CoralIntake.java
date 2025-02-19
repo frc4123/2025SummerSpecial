@@ -3,12 +3,15 @@ package frc.robot.commands.coral_manipulator;
 import edu.wpi.first.wpilibj2.command.Command;
 
 import frc.robot.subsystems.CoralManipulator;
+import frc.robot.subsystems.Elevator;
 
 public class CoralIntake extends Command{
     CoralManipulator intake;
+    Elevator elevator;
 
-    public CoralIntake(CoralManipulator intake) {
+    public CoralIntake(CoralManipulator intake, Elevator elevator) {
         this.intake = intake;
+        this.elevator = elevator;
         addRequirements(intake);
     }
 
@@ -20,7 +23,11 @@ public class CoralIntake extends Command{
     @Override
     public void execute() {
         if(!intake.isLocked()){
-            intake.setCoralVelo(-0.8); 
+            double elevatorPose = elevator.getRelativePosition();
+            if(elevatorPose >= 25 || elevatorPose <= 10){
+                intake.setCoralVelo(-0.8);
+            } else intake.setCoralVelo(-0.2); 
+
         } else intake.setCoralVelo(0); 
     }
 
