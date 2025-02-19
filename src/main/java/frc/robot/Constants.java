@@ -56,22 +56,23 @@ public class Constants {
     }
 
     public static final class Arm {
-        public static final double kP = 0;
+        public static final double kP = 180;
         public static final double kI = 0;
-        public static final double kD = 0;
+        public static final double kD = 9.5;
         public static final double kS = 0;
         public static final double kV = 0;
         public static final double kA = 0;
+        public static final double kG = 4;
 
-        public static final double velocity = 0;
-        public static final double acceleration = 0;
-        public static final double jerk = 0;
+        public static final double velocity = 0.3;
+        public static final double acceleration = 0.3;
+        public static final double jerk = 0.2;
 
         public static final double gearRatio = 96.66;
 
-        public static final double stowPosition = 0;
-        public static final double upPosition = -0.12;
-        public static final double outPosition = -0.35;
+        public static final double stowPosition = 0.34;
+        public static final double reefPosition = 0.15;
+        public static final double outPosition = 0;
 
 
         // public static final double stowPosition = 3.3685;
