@@ -9,6 +9,7 @@ import static edu.wpi.first.units.Units.*;
 //import frc.robot.Constants.InputConstants;
 import frc.robot.commands.algae_manipulator.AlgaeIntake;
 import frc.robot.commands.algae_manipulator.AlgaeOutake;
+import frc.robot.commands.arm.ArmBarge;
 import frc.robot.commands.arm.ArmOut;
 import frc.robot.commands.arm.ArmStow;
 import frc.robot.commands.arm.ArmReef;
@@ -19,6 +20,8 @@ import frc.robot.commands.autos.Test;
 import frc.robot.commands.coral_manipulator.CoralIntake;
 import frc.robot.commands.coral_manipulator.CoralReverse;
 import frc.robot.commands.elevator.ElevatorL2;
+import frc.robot.commands.elevator.ElevatorAlgaeGround;
+import frc.robot.commands.elevator.ElevatorBarge;
 import frc.robot.commands.elevator.ElevatorDown;
 import frc.robot.commands.elevator.ElevatorL1;
 import frc.robot.commands.elevator.ElevatorL3;
@@ -28,7 +31,6 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 
-import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -88,11 +90,14 @@ public class RobotContainer {
     private final ArmStow armStow = new ArmStow(arm);
     private final ArmOut armOut = new ArmOut(arm);
     private final ArmReef armReef = new ArmReef(arm);
+    private final ArmBarge armBarge = new ArmBarge(arm);
     private final ElevatorDown elevatorDown = new ElevatorDown(elevator);
+    private final ElevatorAlgaeGround elevatorAlgaeGround = new ElevatorAlgaeGround(elevator);
+    private final ElevatorBarge elevatorBarge = new ElevatorBarge(elevator, arm);
     private final ElevatorL1 elevatorl1 = new ElevatorL1(elevator);
     private final ElevatorL2 elevatorL2 = new ElevatorL2(elevator);
     private final ElevatorL3 elevatorL3 = new ElevatorL3(elevator);
-    private final ElevatorL4 elevatorL4 = new ElevatorL4(elevator);
+    private final ElevatorL4 elevatorL4 = new ElevatorL4(elevator, arm);
 
     public double currentAngle = drivetrain.getState().Pose.getRotation().getDegrees();
     
@@ -184,13 +189,56 @@ public class RobotContainer {
         m_buttonBoard.button(4).whileTrue(elevatorl1);
         m_buttonBoard.button(5).whileTrue(elevatorL2);
         m_buttonBoard.button(6).whileTrue(elevatorL3);
-        m_buttonBoard.button(6).whileTrue(armReef);
         m_buttonBoard.button(7).whileTrue(elevatorL4);
-        m_buttonBoard.button(7).whileTrue(armReef);
-        m_buttonBoard.button(4).whileTrue(new WaitCommand(0.4).andThen(coralIntake));
         m_buttonBoard.povUp().whileTrue(algaeIntake);
         m_buttonBoard.povDown().whileTrue(algaeOutake);
 
+        // Final Button Mappings below
+
+        m_buttonBoard.button(1).onTrue(coralReverse);
+        m_buttonBoard.button(2).onTrue(coralReverse);
+
+        m_buttonBoard.button(3).onTrue(algaeIntake);
+        m_buttonBoard.button(3).onTrue(elevatorAlgaeGround);
+        m_buttonBoard.button(3).onTrue(armOut);
+        m_buttonBoard.button(3).onFalse(elevatorDown);
+        m_buttonBoard.button(3).onFalse(armStow);
+        
+        m_buttonBoard.button(4).onTrue(new WaitCommand(0.4).andThen(algaeOutake));
+        m_buttonBoard.button(4).onTrue(elevatorAlgaeGround);
+        m_buttonBoard.button(4).onTrue(armOut);
+        m_buttonBoard.button(4).onFalse(elevatorDown);
+        m_buttonBoard.button(4).onFalse(armStow);
+
+        m_buttonBoard.button(5).onTrue(algaeIntake);
+        m_buttonBoard.button(5).onTrue(elevatorL2);
+        m_buttonBoard.button(5).onTrue(armReef);
+        m_buttonBoard.button(5).onFalse(elevatorDown);
+        m_buttonBoard.button(5).onFalse(armStow);
+
+        m_buttonBoard.button(6).onTrue(algaeIntake);
+        m_buttonBoard.button(6).onTrue(elevatorL3);
+        m_buttonBoard.button(6).onTrue(armReef);
+        m_buttonBoard.button(6).onFalse(elevatorDown);
+        m_buttonBoard.button(6).onFalse(armStow);
+
+        m_buttonBoard.button(7).onTrue(algaeOutake);
+        m_buttonBoard.button(7).onTrue(elevatorBarge);
+        m_buttonBoard.button(7).onTrue(armBarge);
+        m_buttonBoard.button(7).onFalse(elevatorDown);
+        m_buttonBoard.button(7).onFalse(armStow);
+
+        m_buttonBoard.button(8).onTrue(coralIntake);
+
+        m_buttonBoard.povLeft().onTrue(elevatorl1);
+        m_buttonBoard.povDown().onTrue(elevatorL2); // find these and order them with L1 being bottom button
+        m_buttonBoard.povUp().onTrue(elevatorL3);
+        m_buttonBoard.povRight().onTrue(elevatorL4);
+
+        m_buttonBoard.povCenter().onTrue(elevatorDown);
+
+        // end of finalized commands
+        
         drivetrain.registerTelemetry(logger::telemeterize);
     }
 
