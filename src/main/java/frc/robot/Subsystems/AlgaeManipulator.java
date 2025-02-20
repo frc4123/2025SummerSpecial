@@ -36,10 +36,14 @@ public class AlgaeManipulator extends SubsystemBase{
         return canrange.getDistance().getValueAsDouble();
     }
 
+    // public boolean isAlgaeDetected(){
+    //     if(getCurrentDistance() <= 0.11){
+    //         return true;
+    //     } else return false;
+    // }
+
     public boolean isAlgaeDetected(){
-        if(getCurrentDistance() <= 0.11){
-            return true;
-        } else return false;
+        return canrange.getIsDetected().getValue();
     }
 
     public void resetLockout() {
