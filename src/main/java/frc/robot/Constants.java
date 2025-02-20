@@ -56,27 +56,25 @@ public class Constants {
     }
 
     public static final class Arm {
-        public static final double kP = 180;
+        public static final double kP = 210;
         public static final double kI = 0;
-        public static final double kD = 9.5;
+        public static final double kD = 15;
         public static final double kS = 0;
         public static final double kV = 0;
         public static final double kA = 0;
         public static final double kG = 4;
 
-        public static final double velocity = 0.3;
-        public static final double acceleration = 0.3;
-        public static final double jerk = 0.2;
+        public static final double velocity = 0.6;
+        public static final double acceleration = 0.45;
+        public static final double jerk = 0.5;
 
         public static final double gearRatio = 96.66;
 
         public static final double stowPosition = 0.34;
+        public static final double upPosition = 0.30; // tune
+        public static final double bargePosition = 0.22; //tune
         public static final double reefPosition = 0.15;
         public static final double outPosition = 0;
-
-
-        // public static final double stowPosition = 3.3685;
-        // public static final double outPosition = 10.9;
     }
 
     public static final class Elevator {
@@ -88,18 +86,19 @@ public class Constants {
         public static final double kA = 0;
         public static final double kG = 16;
 
-        public static final double velocity = 15; //120; // max is 290 (don't go 290)
-        public static final double acceleration = 15; //100;
-        public static final double jerk = 15; //80; 
+        public static final double velocity = 60; //120; // max is 290 (don't go 290)
+        public static final double acceleration = 160; //100;
+        public static final double jerk = 250; //80; 
 
         public static final double gearRatio = -1;
 
         public static final double down = 0;
+        public static final double algaeGround = 10; // tune
         public static final double l1 = 18;
         public static final double l2 = 30;
         public static final double l3 = 50;
-        public static final double l4 = 70;
-        public static final double up = 88.4;
+        public static final double l4 = 80; // tune
+        public static final double up = 88; //technically its 88.4
     }
 
     public static final class SwerveConstants {
