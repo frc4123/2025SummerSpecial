@@ -64,17 +64,18 @@ public class Constants {
         public static final double kA = 0;
         public static final double kG = 4;
 
-        public static final double velocity = 0.6;
-        public static final double acceleration = 0.45;
-        public static final double jerk = 0.5;
+        public static final double velocity = 1; // 0.75
+        public static final double acceleration = 0.8; //0.55
+        public static final double jerk = 1.4; // was 0.8
 
         public static final double gearRatio = 96.66;
 
         public static final double stowPosition = 0.34;
         public static final double upPosition = 0.30; // tune
         public static final double bargePosition = 0.22; //tune
-        public static final double reefPosition = 0.15;
-        public static final double outPosition = 0;
+        public static final double reefPosition = 0.125; // was 0.15
+        public static final double processorPosition = 0; 
+        public static final double outPosition = -0.07;
     }
 
     public static final class Elevator {
@@ -93,8 +94,9 @@ public class Constants {
         public static final double gearRatio = -1;
 
         public static final double down = 0;
-        public static final double algaeGround = 10; // tune
+        public static final double algaeGround = 20; // tune
         public static final double l1 = 18;
+        public static final double l2Algae = 27;
         public static final double l2 = 30;
         public static final double l3 = 50;
         public static final double l4 = 80; // tune
