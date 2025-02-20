@@ -36,7 +36,6 @@ import com.ctre.phoenix6.swerve.SwerveRequest;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 // import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
@@ -187,15 +186,15 @@ public class RobotContainer {
         // reset the field-centric heading on left bumper press
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
-        m_buttonBoard.button(1).whileTrue(coralIntake);
-        m_buttonBoard.button(2).whileTrue(coralReverse);
-        m_buttonBoard.button(3).whileTrue(elevatorDown);
-        m_buttonBoard.button(4).whileTrue(elevatorL1);
-        m_buttonBoard.button(5).whileTrue(elevatorL2);
-        m_buttonBoard.button(6).whileTrue(elevatorL3);
-        m_buttonBoard.button(7).whileTrue(elevatorL4);
-        m_buttonBoard.povUp().whileTrue(algaeIntake);
-        m_buttonBoard.povDown().whileTrue(algaeOutake);
+        // m_buttonBoard.button(1).whileTrue(coralIntake);
+        // m_buttonBoard.button(2).whileTrue(coralReverse);
+        // m_buttonBoard.button(3).whileTrue(elevatorDown);
+        // m_buttonBoard.button(4).whileTrue(elevatorL1);
+        // m_buttonBoard.button(5).whileTrue(elevatorL2);
+        // m_buttonBoard.button(6).whileTrue(elevatorL3);
+        // m_buttonBoard.button(7).whileTrue(elevatorL4);
+        // m_buttonBoard.povUp().whileTrue(algaeIntake);
+        // m_buttonBoard.povDown().whileTrue(algaeOutake);
 
         // Final Button Mappings below
 
