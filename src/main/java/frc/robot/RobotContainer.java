@@ -12,6 +12,7 @@ import frc.robot.commands.algae_manipulator.AlgaeIntakeStop;
 import frc.robot.commands.algae_manipulator.AlgaeOutake;
 import frc.robot.commands.arm.ArmBarge;
 import frc.robot.commands.arm.ArmOut;
+import frc.robot.commands.arm.ArmProcessor;
 import frc.robot.commands.arm.ArmStow;
 import frc.robot.commands.arm.ArmReef;
 import frc.robot.commands.autos.BlueLeftCoral;
@@ -22,6 +23,7 @@ import frc.robot.commands.coral_manipulator.CoralIntake;
 import frc.robot.commands.coral_manipulator.CoralIntakeStop;
 import frc.robot.commands.coral_manipulator.CoralReverse;
 import frc.robot.commands.elevator.ElevatorL2;
+import frc.robot.commands.elevator.ElevatorL2Algae;
 import frc.robot.commands.elevator.ElevatorAlgaeGround;
 import frc.robot.commands.elevator.ElevatorBarge;
 import frc.robot.commands.elevator.ElevatorDown;
@@ -94,10 +96,12 @@ public class RobotContainer {
     private final ArmOut armOut = new ArmOut(arm);
     private final ArmReef armReef = new ArmReef(arm);
     private final ArmBarge armBarge = new ArmBarge(arm);
+    private final ArmProcessor armProcessor = new ArmProcessor(arm);
     private final ElevatorDown elevatorDown = new ElevatorDown(elevator);
     private final ElevatorAlgaeGround elevatorAlgaeGround = new ElevatorAlgaeGround(elevator);
     private final ElevatorBarge elevatorBarge = new ElevatorBarge(elevator, arm);
     private final ElevatorL1 elevatorL1 = new ElevatorL1(elevator);
+    private final ElevatorL2Algae elevatorL2Algae = new ElevatorL2Algae(elevator);
     private final ElevatorL2 elevatorL2 = new ElevatorL2(elevator);
     private final ElevatorL3 elevatorL3 = new ElevatorL3(elevator);
     private final ElevatorL4 elevatorL4 = new ElevatorL4(elevator, arm);
@@ -212,13 +216,13 @@ public class RobotContainer {
         m_buttonBoard.button(3).onFalse(algaeIntakeStop);
         
         m_buttonBoard.button(4).onTrue(elevatorAlgaeGround);
-        m_buttonBoard.button(4).onTrue(armOut);
+        m_buttonBoard.button(4).onTrue(armProcessor);
         m_buttonBoard.button(4).onFalse(elevatorDown);
         m_buttonBoard.button(4).onFalse(armStow);
         m_buttonBoard.button(4).onFalse(algaeIntakeStop);
 
         m_buttonBoard.button(5).onTrue(algaeIntake);
-        m_buttonBoard.button(5).onTrue(elevatorL2);
+        m_buttonBoard.button(5).onTrue(elevatorL2Algae);
         m_buttonBoard.button(5).onTrue(armReef);
         m_buttonBoard.button(5).onFalse(elevatorDown);
         m_buttonBoard.button(5).onFalse(armStow);
