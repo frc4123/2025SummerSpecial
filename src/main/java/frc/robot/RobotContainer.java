@@ -8,6 +8,7 @@ import static edu.wpi.first.units.Units.*;
 
 //import frc.robot.Constants.InputConstants;
 import frc.robot.commands.algae_manipulator.AlgaeIntake;
+import frc.robot.commands.algae_manipulator.AlgaeIntakeStop;
 import frc.robot.commands.algae_manipulator.AlgaeOutake;
 import frc.robot.commands.arm.ArmBarge;
 import frc.robot.commands.arm.ArmOut;
@@ -18,6 +19,7 @@ import frc.robot.commands.autos.BlueRightCoral;
 import frc.robot.commands.autos.MiddleCoral;
 import frc.robot.commands.autos.Test;
 import frc.robot.commands.coral_manipulator.CoralIntake;
+import frc.robot.commands.coral_manipulator.CoralIntakeStop;
 import frc.robot.commands.coral_manipulator.CoralReverse;
 import frc.robot.commands.elevator.ElevatorL2;
 import frc.robot.commands.elevator.ElevatorAlgaeGround;
@@ -85,8 +87,10 @@ public class RobotContainer {
     private final DriveToPoseLeft driveToPoseLeft = new DriveToPoseLeft(drivetrain, vision);
     private final AlgaeIntake algaeIntake = new AlgaeIntake(algaeManipulator);
     private final AlgaeOutake algaeOutake = new AlgaeOutake(algaeManipulator);
+    private final AlgaeIntakeStop algaeIntakeStop = new AlgaeIntakeStop(algaeManipulator);
     private final CoralIntake coralIntake = new CoralIntake(coralManipulator, elevator);
     private final CoralReverse coralReverse = new CoralReverse(coralManipulator);
+    private final CoralIntakeStop coralIntakeStop = new CoralIntakeStop(coralManipulator);
     private final ArmStow armStow = new ArmStow(arm);
     private final ArmOut armOut = new ArmOut(arm);
     private final ArmReef armReef = new ArmReef(arm);
@@ -94,7 +98,7 @@ public class RobotContainer {
     private final ElevatorDown elevatorDown = new ElevatorDown(elevator);
     private final ElevatorAlgaeGround elevatorAlgaeGround = new ElevatorAlgaeGround(elevator);
     private final ElevatorBarge elevatorBarge = new ElevatorBarge(elevator, arm);
-    private final ElevatorL1 elevatorl1 = new ElevatorL1(elevator);
+    private final ElevatorL1 elevatorL1 = new ElevatorL1(elevator);
     private final ElevatorL2 elevatorL2 = new ElevatorL2(elevator);
     private final ElevatorL3 elevatorL3 = new ElevatorL3(elevator);
     private final ElevatorL4 elevatorL4 = new ElevatorL4(elevator, arm);
@@ -186,7 +190,7 @@ public class RobotContainer {
         m_buttonBoard.button(1).whileTrue(coralIntake);
         m_buttonBoard.button(2).whileTrue(coralReverse);
         m_buttonBoard.button(3).whileTrue(elevatorDown);
-        m_buttonBoard.button(4).whileTrue(elevatorl1);
+        m_buttonBoard.button(4).whileTrue(elevatorL1);
         m_buttonBoard.button(5).whileTrue(elevatorL2);
         m_buttonBoard.button(6).whileTrue(elevatorL3);
         m_buttonBoard.button(7).whileTrue(elevatorL4);
@@ -196,44 +200,51 @@ public class RobotContainer {
         // Final Button Mappings below
 
         m_buttonBoard.button(1).onTrue(coralReverse);
-        m_buttonBoard.button(2).onTrue(coralReverse);
+        m_buttonBoard.button(1).onFalse(coralIntakeStop);
+
+        m_buttonBoard.button(2).onTrue(algaeOutake);
+        m_buttonBoard.button(2).onFalse(algaeIntakeStop);
 
         m_buttonBoard.button(3).onTrue(algaeIntake);
         m_buttonBoard.button(3).onTrue(elevatorAlgaeGround);
         m_buttonBoard.button(3).onTrue(armOut);
         m_buttonBoard.button(3).onFalse(elevatorDown);
         m_buttonBoard.button(3).onFalse(armStow);
+        m_buttonBoard.button(3).onFalse(algaeIntakeStop);
         
-        m_buttonBoard.button(4).onTrue(new WaitCommand(0.4).andThen(algaeOutake));
         m_buttonBoard.button(4).onTrue(elevatorAlgaeGround);
         m_buttonBoard.button(4).onTrue(armOut);
         m_buttonBoard.button(4).onFalse(elevatorDown);
         m_buttonBoard.button(4).onFalse(armStow);
+        m_buttonBoard.button(4).onFalse(algaeIntakeStop);
 
         m_buttonBoard.button(5).onTrue(algaeIntake);
         m_buttonBoard.button(5).onTrue(elevatorL2);
         m_buttonBoard.button(5).onTrue(armReef);
         m_buttonBoard.button(5).onFalse(elevatorDown);
         m_buttonBoard.button(5).onFalse(armStow);
+        m_buttonBoard.button(5).onFalse(algaeIntakeStop);
 
         m_buttonBoard.button(6).onTrue(algaeIntake);
         m_buttonBoard.button(6).onTrue(elevatorL3);
         m_buttonBoard.button(6).onTrue(armReef);
         m_buttonBoard.button(6).onFalse(elevatorDown);
         m_buttonBoard.button(6).onFalse(armStow);
+        m_buttonBoard.button(6).onFalse(algaeIntakeStop);
 
-        m_buttonBoard.button(7).onTrue(algaeOutake);
         m_buttonBoard.button(7).onTrue(elevatorBarge);
         m_buttonBoard.button(7).onTrue(armBarge);
         m_buttonBoard.button(7).onFalse(elevatorDown);
         m_buttonBoard.button(7).onFalse(armStow);
+        m_buttonBoard.button(7).onFalse(algaeIntakeStop);
 
         m_buttonBoard.button(8).onTrue(coralIntake);
+        m_buttonBoard.button(8).onFalse(coralIntakeStop);
 
-        m_buttonBoard.povLeft().onTrue(elevatorl1);
-        m_buttonBoard.povDown().onTrue(elevatorL2); // find these and order them with L1 being bottom button
-        m_buttonBoard.povUp().onTrue(elevatorL3);
-        m_buttonBoard.povRight().onTrue(elevatorL4);
+        m_buttonBoard.povLeft().onTrue(elevatorL4); // green (4)
+        m_buttonBoard.povDown().onTrue(elevatorL2); // blue (2) // find these and order them with L1 being bottom button
+        m_buttonBoard.povUp().onTrue(elevatorL1); // red (1)
+        m_buttonBoard.povRight().onTrue(elevatorL3); // yellow (3)
 
         m_buttonBoard.povCenter().onTrue(elevatorDown);
 
