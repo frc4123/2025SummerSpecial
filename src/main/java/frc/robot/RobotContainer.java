@@ -14,6 +14,7 @@ import frc.robot.commands.arm.ArmBarge;
 import frc.robot.commands.arm.ArmOut;
 import frc.robot.commands.arm.ArmProcessor;
 import frc.robot.commands.arm.ArmStow;
+import frc.robot.commands.arm.ArmUp;
 import frc.robot.commands.arm.ArmReef;
 import frc.robot.commands.autos.BlueLeftCoral;
 import frc.robot.commands.autos.BlueRightCoral;
@@ -97,9 +98,10 @@ public class RobotContainer {
     private final ArmReef armReef = new ArmReef(arm);
     private final ArmBarge armBarge = new ArmBarge(arm);
     private final ArmProcessor armProcessor = new ArmProcessor(arm);
+    private final ArmUp armUp = new ArmUp(arm);
     private final ElevatorDown elevatorDown = new ElevatorDown(elevator);
     private final ElevatorAlgaeGround elevatorAlgaeGround = new ElevatorAlgaeGround(elevator);
-    private final ElevatorBarge elevatorBarge = new ElevatorBarge(elevator, arm);
+    private final ElevatorBarge elevatorBarge = new ElevatorBarge(elevator);
     private final ElevatorL1 elevatorL1 = new ElevatorL1(elevator);
     private final ElevatorL2Algae elevatorL2Algae = new ElevatorL2Algae(elevator);
     private final ElevatorL2 elevatorL2 = new ElevatorL2(elevator);
@@ -236,6 +238,7 @@ public class RobotContainer {
         m_buttonBoard.button(6).onFalse(algaeIntakeStop);
 
         m_buttonBoard.button(7).onTrue(elevatorBarge);
+        m_buttonBoard.button(7).onTrue(armUp);
         m_buttonBoard.button(7).onTrue(armBarge);
         m_buttonBoard.button(7).onFalse(elevatorDown);
         m_buttonBoard.button(7).onFalse(armStow);

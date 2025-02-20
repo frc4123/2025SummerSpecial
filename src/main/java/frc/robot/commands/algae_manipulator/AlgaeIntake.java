@@ -27,6 +27,6 @@ public class AlgaeIntake extends Command{
 
     @Override
     public void end(boolean interrupted) {
-        intake.setAlgaeVelo(-0.05);
+        intake.setAlgaeVelo(0);
     }
 }
