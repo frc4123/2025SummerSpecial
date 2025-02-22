@@ -58,15 +58,15 @@ public class Constants {
     public static final class Arm {
         public static final double kP = 210;
         public static final double kI = 0;
-        public static final double kD = 15;
+        public static final double kD = 17;
         public static final double kS = 0;
         public static final double kV = 0;
         public static final double kA = 0;
         public static final double kG = 4;
 
-        public static final double velocity = 1; // 0.75
-        public static final double acceleration = 0.8; //0.55
-        public static final double jerk = 1.4; // was 0.8
+        public static final double velocity = 1.8; // 0.75
+        public static final double acceleration = 1.7; //0.55
+        public static final double jerk = 3; // was 0.8
 
         public static final double gearRatio = 96.66;
 
@@ -74,8 +74,8 @@ public class Constants {
         public static final double upPosition = 0.30; // tune
         public static final double bargePosition = 0.22; //tune
         public static final double reefPosition = 0.125; // was 0.15
-        public static final double processorPosition = 0; 
-        public static final double outPosition = -0.07;
+        public static final double processorPosition = 0.10; 
+        public static final double outPosition = -0.035;
     }
 
     public static final class Elevator {
@@ -94,7 +94,7 @@ public class Constants {
         public static final double gearRatio = -1;
 
         public static final double down = 0;
-        public static final double algaeGround = 20; // tune
+        public static final double algaeGround = 15; // tune
         public static final double l1 = 18;
         public static final double l2Algae = 27;
         public static final double l2 = 30;
@@ -148,5 +148,26 @@ public class Constants {
         new Translation2d(kWheelBase / 2, -kTrackWidth / 2), // front right
         new Translation2d(-kWheelBase / 2, kTrackWidth / 2), // back left
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)); // back right
+    }
+    public static final class VisionConstants{
+        //Front Camera Translation and Angle
+        public static final double frontX = Units.inchesToMeters(-5.498);
+        public static final double frontY = Units.inchesToMeters(-12.00);
+        public static final double frontZ = Units.inchesToMeters(6.88);
+
+        public static final double frontRoll = Units.degreesToRadians(0);
+        public static final double frontPitch = Units.degreesToRadians(0);
+        public static final double frontYaw = Units.degreesToRadians(0);
+
+        //Back Camera Translation and Angle
+        public static final double backX = Units.inchesToMeters(3.2375);
+        public static final double backY = Units.inchesToMeters(16.2271);
+        public static final double backZ = Units.inchesToMeters(24.4741);
+
+        public static final double backRoll = Units.degreesToRadians(0);
+        public static final double backPitch = Units.degreesToRadians(-45);
+        public static final double backYaw = Units.degreesToRadians(180);
+
+
     }
 }
