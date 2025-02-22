@@ -35,15 +35,20 @@ import frc.robot.commands.elevator.ElevatorL4;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
+import com.pathplanner.lib.auto.NamedCommands;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 // import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.commands.generated.TunerConstants;
+import frc.robot.commands.swerve.AutoLineUpReef;
 import frc.robot.commands.swerve.DriveToPoseLeft;
 import frc.robot.commands.swerve.DriveToPoseRight;
 import frc.robot.subsystems.AlgaeManipulator;
@@ -58,15 +63,15 @@ public class RobotContainer {
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
-            .withDeadband(MaxSpeed * 0.1).withRotationalDeadband(MaxAngularRate * 0.1)
+            .withDeadband(MaxSpeed * 0.02).withRotationalDeadband(MaxAngularRate * 0.02)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); 
     private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     //private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
-    private final SwerveRequest.FieldCentric forwardStraight = new SwerveRequest.FieldCentric()
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
     private final SwerveRequest.FieldCentricFacingAngle faceAngle = new SwerveRequest.FieldCentricFacingAngle()
             .withDriveRequestType(DriveRequestType.Velocity)
             .withSteerRequestType(SteerRequestType.Position);
+    private final SwerveRequest.RobotCentric robotStrafe = new SwerveRequest.RobotCentric()
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
     // private final SwerveRequest.FieldCentricFacingAngle driveToPoseRequest = new SwerveRequest.FieldCentricFacingAngle()
     //         .withDriveRequestType(DriveRequestType.Velocity)
     //         .withSteerRequestType(SteerRequestType.Position);
@@ -85,8 +90,8 @@ public class RobotContainer {
     private final Arm arm = new Arm();
     private final Elevator elevator = new Elevator();
 
-    private final DriveToPoseRight driveToPoseRight = new DriveToPoseRight(drivetrain, vision);
-    private final DriveToPoseLeft driveToPoseLeft = new DriveToPoseLeft(drivetrain, vision);
+    // private final DriveToPoseRight driveToPoseRight = new DriveToPoseRight(drivetrain, vision);
+    // private final DriveToPoseLeft driveToPoseLeft = new DriveToPoseLeft(drivetrain, vision);
     private final AlgaeIntake algaeIntake = new AlgaeIntake(algaeManipulator);
     private final AlgaeOutake algaeOutake = new AlgaeOutake(algaeManipulator);
     private final AlgaeIntakeStop algaeIntakeStop = new AlgaeIntakeStop(algaeManipulator);
@@ -108,6 +113,9 @@ public class RobotContainer {
     private final ElevatorL3 elevatorL3 = new ElevatorL3(elevator);
     private final ElevatorL4 elevatorL4 = new ElevatorL4(elevator, arm);
 
+    private final Command leftCoralAutoDrive = new AutoLineUpReef(drivetrain, 0);
+    private final Command rightCoralAutoDrive = new AutoLineUpReef(drivetrain, 1);
+
     public double currentAngle = drivetrain.getState().Pose.getRotation().getDegrees();
     
     public RobotContainer() {
@@ -118,6 +126,10 @@ public class RobotContainer {
         faceAngle.HeadingController.setI(0.0);
         faceAngle.HeadingController.setD(0.4123); 
         faceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
+
+        NamedCommands.registerCommand("ElevatorL4", elevatorL4);
+        NamedCommands.registerCommand("CoralIntake", coralIntake);
+        NamedCommands.registerCommand("ElevatorDown", elevatorDown);
     }
 
     private void configureBindings() {
@@ -148,36 +160,28 @@ public class RobotContainer {
             )
         );
 
-        joystick.rightTrigger().whileTrue(driveToPoseRight);
-        joystick.leftTrigger().whileTrue(driveToPoseLeft);
+        joystick.rightTrigger().whileTrue(rightCoralAutoDrive);
+        joystick.leftTrigger().whileTrue(leftCoralAutoDrive);
+
+        // joystick.rightTrigger().whileTrue(driveToPoseRight);
+        // joystick.leftTrigger().whileTrue(driveToPoseLeft);
         //joystick.
 
-        joystick.pov(0).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0.2 * MaxSpeed).withVelocityY(0))
-        );
-        joystick.pov(45).whileTrue(drivetrain.applyRequest(() -> 
-            forwardStraight.withVelocityX(0.3464 * MaxSpeed).withVelocityY(-0.2 * MaxSpeed))
-        );
-        joystick.pov(90).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0).withVelocityY(-0.2 * MaxSpeed))
-        );
-        joystick.pov(135).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(-0.3464 * MaxSpeed).withVelocityY(-0.2 * MaxSpeed))
-        );
-        joystick.pov(180).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(-0.2 * MaxSpeed).withVelocityY(0))
-        );
-        joystick.pov(225).whileTrue(drivetrain.applyRequest(() -> 
-            forwardStraight.withVelocityX(-0.3464 * MaxSpeed).withVelocityY(0.2 * MaxSpeed))
-        );
-        joystick.pov(270).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0).withVelocityY(0.2 * MaxSpeed))
-        );
-        joystick.pov(315).whileTrue(drivetrain.applyRequest(() ->
-            forwardStraight.withVelocityX(0.3464 * MaxSpeed).withVelocityY(0.2 * MaxSpeed))
-        );
-        // 0.2, 0.3464, 60 at bottom
-        // this will result in diagonal controller inputs driving the robot 60 degrees to allign with the hexagonal reef shape
+        joystick.povLeft().whileTrue(drivetrain.applyRequest(() -> robotStrafe
+            .withVelocityY(0.1 * MaxSpeed)
+            .withVelocityX(0)));
+
+        joystick.povRight().whileTrue(drivetrain.applyRequest(() -> robotStrafe
+            .withVelocityY(-0.1 * MaxSpeed)
+            .withVelocityX(0)));
+        
+        joystick.povUp().whileTrue(drivetrain.applyRequest(() -> robotStrafe
+            .withVelocityX(0.1 * MaxSpeed)
+            .withVelocityY(0)));
+
+        joystick.povDown().whileTrue(drivetrain.applyRequest(() -> robotStrafe
+            .withVelocityX(-0.1 * MaxSpeed)
+            .withVelocityY(0)));
         
 
         // Run SysId routines when holding back/start and X/Y.
@@ -191,16 +195,6 @@ public class RobotContainer {
 
         // reset the field-centric heading on left bumper press
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
-
-        // m_buttonBoard.button(1).whileTrue(coralIntake);
-        // m_buttonBoard.button(2).whileTrue(coralReverse);
-        // m_buttonBoard.button(3).whileTrue(elevatorDown);
-        // m_buttonBoard.button(4).whileTrue(elevatorL1);
-        // m_buttonBoard.button(5).whileTrue(elevatorL2);
-        // m_buttonBoard.button(6).whileTrue(elevatorL3);
-        // m_buttonBoard.button(7).whileTrue(elevatorL4);
-        // m_buttonBoard.povUp().whileTrue(algaeIntake);
-        // m_buttonBoard.povDown().whileTrue(algaeOutake);
 
         // Final Button Mappings below
 
@@ -263,7 +257,18 @@ public class RobotContainer {
         autoChooser.setDefaultOption("1 Middle Coral",new MiddleCoral().middleCoral());
         autoChooser.addOption("Test", new Test().test());
         autoChooser.addOption("Blue Coral Left 3", new BlueLeftCoral().blueLeftCoral());
-        autoChooser.addOption("Blue Coral Right 3", new BlueRightCoral().blueRightCoral());
+
+        // autoChooser.addOption("Blue Coral Right 3", new ParallelCommandGroup(
+        // new WaitCommand(0.01),
+        // //shoot first note
+        //   new SequentialCommandGroup(new BlueRightCoral().blueRightCoral()),
+        //   new SequentialCommandGroup(
+        //         new AutoShooter(m_closedShooter).withTimeout(0.2)
+        //   .andThen(new ArmShoot(m_arm).withTimeout(2.70))
+        //   .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2.70))
+        // )));
+           
+
         SmartDashboard.putData("Auto Selector", autoChooser);
     }
 

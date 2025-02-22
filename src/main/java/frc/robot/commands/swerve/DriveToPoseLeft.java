@@ -36,7 +36,7 @@ public class DriveToPoseLeft extends Command {
                 3.0, // maxVelocityMPS
                 3.0, // maxAccelerationMPSSq
                 Math.PI, // maxAngularVelocityRadPerSec
-                Math.PI // maxAngularAccelerationRadPerSecSq
+                Math.PI
             );
 
             pathCommand = AutoBuilder.pathfindToPose(

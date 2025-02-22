@@ -29,14 +29,13 @@ public class DriveToPoseRight extends Command {
     public void initialize() {
 
         targetPose = vision.getLastTargetPoseRight();
-
         
         if(targetPose != null){
             PathConstraints constraints = new PathConstraints(
                 3.0, // maxVelocityMPS
                 3.0, // maxAccelerationMPSSq
                 Math.PI, // maxAngularVelocityRadPerSec
-                Math.PI // maxAngularAccelerationRadPerSecSq
+                Math.PI
             );
 
             pathCommand = AutoBuilder.pathfindToPose(

@@ -201,6 +201,13 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
 
     private void configureAutoBuilder() {
         try {
+            PPHolonomicDriveController holonomicController = new PPHolonomicDriveController(
+                // PID constants for translation
+                new PIDConstants(10, 0, 0.0224123), // 8 0.02
+                // PID constants for rotation
+                new PIDConstants(10, 0, 0.4123) //0.01
+            );
+
             var config = RobotConfig.fromGUISettings();
             AutoBuilder.configure(
                 () -> getState().Pose,   // Supplier of current robot pose
@@ -212,12 +219,7 @@ public class CommandSwerveDrivetrain extends TunerSwerveDrivetrain implements Su
                         .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
                         .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())
                 ),
-                new PPHolonomicDriveController(
-                    // PID constants for translation
-                    new PIDConstants(10, 0, 0.0224123), // 8 0.02
-                    // PID constants for rotation
-                    new PIDConstants(10, 0, 0.4123) //0.01
-                ),
+                holonomicController,
                 config,
                 // Assume the path needs to be flipped for Red vs Blue, this is normally the case
                 () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,

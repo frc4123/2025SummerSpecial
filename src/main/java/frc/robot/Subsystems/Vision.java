@@ -48,13 +48,13 @@ public class Vision extends SubsystemBase{
     public AprilTagFieldLayout aprilTagFieldLayout = loadAprilTagFieldLayout("/fields/Reefscape2025.json");  
 
     private final PhotonCamera camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
-    private final PhotonCamera cameraHigh = new PhotonCamera("Arducam_OV9281_USB_Camera High");
+    private final PhotonCamera cameraHigh = new PhotonCamera("Arducam_OV9281_USB_Camera_High");
 
     public final Transform3d robotToCam = new Transform3d(new Translation3d(Constants.VisionConstants.frontX, Constants.VisionConstants.frontY, Constants.VisionConstants.frontZ),
                                           new Rotation3d(Constants.VisionConstants.frontRoll,Constants.VisionConstants.frontPitch,Constants.VisionConstants.frontYaw)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
     public final Transform3d robotToCamHigh = new Transform3d(new Translation3d(Constants.VisionConstants.backX, Constants.VisionConstants.backY, Constants.VisionConstants.backZ),
                                               new Rotation3d(Constants.VisionConstants.backRoll,Constants.VisionConstants.backPitch,Constants.VisionConstants.backYaw));
-                                              
+
     public final PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCam);
     public final PhotonPoseEstimator photonPoseEstimatorHigh = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCamHigh);
 
