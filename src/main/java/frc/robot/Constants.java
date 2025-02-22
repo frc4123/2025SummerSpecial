@@ -2,6 +2,8 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
@@ -74,7 +76,7 @@ public class Constants {
         public static final double upPosition = 0.30; // tune
         public static final double bargePosition = 0.22; //tune
         public static final double reefPosition = 0.125; // was 0.15
-        public static final double processorPosition = 0.10; 
+        public static final double processorPosition = 0; 
         public static final double outPosition = -0.035;
     }
 
@@ -94,7 +96,7 @@ public class Constants {
         public static final double gearRatio = -1;
 
         public static final double down = 0;
-        public static final double algaeGround = 15; // tune
+        public static final double algaeGround = 16; // tune
         public static final double l1 = 18;
         public static final double l2Algae = 27;
         public static final double l2 = 30;
@@ -148,11 +150,84 @@ public class Constants {
         new Translation2d(kWheelBase / 2, -kTrackWidth / 2), // front right
         new Translation2d(-kWheelBase / 2, kTrackWidth / 2), // back left
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)); // back right
+
+        public static final double CLOSE_TRANSLATION_PP_KP = 3.2;
+        public static final double CLOSE_TRANSLATION_PP_KI = 0.0;
+        public static final double CLOSE_TRANSLATION_PP_KD = 0.0;
+
+        public static final double CLOSE_ROTATION_PP_KP = 2.0;
+        public static final double CLOSE_ROTATION_PP_KI = 0.0;
+        public static final double CLOSE_ROTATION_PP_KD = 0.0;
     }
+
+    public static class AutoDriveConstants {
+
+        public static final Pose2d[] BLUE_REEF_POSES = {
+            new Pose2d(2.823, 4.000, new Rotation2d(0 * Math.PI / 180.0)),
+            new Pose2d(3.719, 2.614, new Rotation2d(60 * Math.PI / 180.0)), //new Pose2d(3.719, 2.614, new Rotation2d(60 * Math.PI / 180.0)),
+            new Pose2d(5.430, 2.640, new Rotation2d(120 * Math.PI / 180.0)),
+            new Pose2d(6.131, 4.000, new Rotation2d(180 * Math.PI / 180.0)),
+            new Pose2d(5.384, 5.406, new Rotation2d(-120 * Math.PI / 180.0)),
+            new Pose2d(3.689, 5.515, new Rotation2d(-60 * Math.PI / 180.0))
+        };
+
+        public static final Pose2d[] RED_REEF_POSES = {
+            new Pose2d(2.823 + 8.553921, 4.000, new Rotation2d(0 * Math.PI / 180.0)),
+            new Pose2d(3.719 + 8.553921, 2.614, new Rotation2d(60 * Math.PI / 180.0)),
+            new Pose2d(5.430 + 8.553921, 2.640, new Rotation2d(120 * Math.PI / 180.0)),
+            new Pose2d(6.000 + 8.553921, 4.000, new Rotation2d(180 * Math.PI / 180.0)),
+            new Pose2d(5.384 + 8.553921, 5.406, new Rotation2d(-120 * Math.PI / 180.0)),
+            new Pose2d(3.689 + 8.553921, 5.515, new Rotation2d(-60 * Math.PI / 180.0))
+        };
+
+        public static final double[][] ADDITIONS = {
+            {0.44, -0.15}, // LEFT ADDITION // {0.342, 0} //0.385
+            {0.44, -0.57}  // RIGHT ADDITION // {0.342, 0.348} //0.385 was correct in odometry w advantagescope
+            // {+forward/back-, +left/right-}
+        };
+
+    }
+
+
+public class MathUtils {
+
+    public static boolean withinTolerance(Rotation2d value, Rotation2d tolerance) {
+        return withinTolerance(value.getDegrees(), tolerance.getDegrees());
+    }
+
+    public static boolean withinTolerance(double value, double tolerance) {
+        return Math.abs(value) <= Math.abs(tolerance);
+    }
+
+    public static Pose2d findClosestTarget(Pose2d current, Pose2d[] targets) {
+        if (current == null) {
+            return null;
+        }
+        if (targets == null) {
+            throw new IllegalArgumentException("Target list cannot be null or empty.");
+        }
+
+        Pose2d closest = null;
+        double minDistance = Double.MAX_VALUE;
+
+        for (Pose2d target : targets) {
+            double distance = current.getTranslation().getDistance(target.getTranslation());
+            if (distance <= minDistance) {
+                minDistance = distance;
+                closest = target;
+            }
+        }
+
+        return closest;
+    }
+
+    
+}
+
     public static final class VisionConstants{
         //Front Camera Translation and Angle
-        public static final double frontX = Units.inchesToMeters(-5.498);
-        public static final double frontY = Units.inchesToMeters(-12.00);
+        public static final double frontX = Units.inchesToMeters(-12.00);
+        public static final double frontY = Units.inchesToMeters(-5.498);
         public static final double frontZ = Units.inchesToMeters(6.88);
 
         public static final double frontRoll = Units.degreesToRadians(0);
@@ -160,14 +235,12 @@ public class Constants {
         public static final double frontYaw = Units.degreesToRadians(0);
 
         //Back Camera Translation and Angle
-        public static final double backX = Units.inchesToMeters(3.2375);
-        public static final double backY = Units.inchesToMeters(16.2271);
-        public static final double backZ = Units.inchesToMeters(24.4741);
+        public static final double backX = Units.inchesToMeters(3.375);
+        public static final double backY = Units.inchesToMeters(13.721);
+        public static final double backZ = Units.inchesToMeters(20.3);
 
         public static final double backRoll = Units.degreesToRadians(0);
-        public static final double backPitch = Units.degreesToRadians(-45);
+        public static final double backPitch = Units.degreesToRadians(-60);
         public static final double backYaw = Units.degreesToRadians(180);
-
-
     }
 }
