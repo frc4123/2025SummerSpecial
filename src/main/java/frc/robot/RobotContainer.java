@@ -48,6 +48,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 // import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.commands.generated.TunerConstants;
+import frc.robot.commands.swerve.AutoLineUpProcessor;
 import frc.robot.commands.swerve.AutoLineUpReef;
 import frc.robot.subsystems.AlgaeManipulator;
 import frc.robot.subsystems.Arm;
@@ -113,6 +114,7 @@ public class RobotContainer {
 
     private final Command leftCoralAutoDrive = new AutoLineUpReef(drivetrain, 0);
     private final Command rightCoralAutoDrive = new AutoLineUpReef(drivetrain, 1);
+    private final Command processorAutoDrive = new AutoLineUpProcessor(drivetrain);
 
     public double currentAngle = drivetrain.getState().Pose.getRotation().getDegrees();
     
@@ -145,6 +147,7 @@ public class RobotContainer {
         );
 
         joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+
         joystick.x().whileTrue(
             drivetrain.applyRequest(() ->
             drive.withVelocityX(-joystick.getLeftY() * MaxSpeed/10) 
@@ -162,6 +165,7 @@ public class RobotContainer {
 
         joystick.rightTrigger().whileTrue(rightCoralAutoDrive);
         joystick.leftTrigger().whileTrue(leftCoralAutoDrive);
+        joystick.rightBumper().whileTrue(processorAutoDrive);
 
         joystick.povLeft().whileTrue(drivetrain.applyRequest(() -> robotStrafe
             .withVelocityY(0.1 * MaxSpeed)
@@ -178,18 +182,7 @@ public class RobotContainer {
         joystick.povDown().whileTrue(drivetrain.applyRequest(() -> robotStrafe
             .withVelocityX(-0.1 * MaxSpeed)
             .withVelocityY(0)));
-        
-
-        // Run SysId routines when holding back/start and X/Y.
-        // Note that each routine should be run exactly once in a single log.
-        // SIGNAL LOGGER START AND STOP SHOULD BE BINDED AS WELL
-        //  Commands.runOnce(SigalLogger::start)); and start should be stop for stop
-        //joystick.back().and(joystick.y()).whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
-        //joystick.back().and(joystsick.x()).whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
-        //joystick.start().and(joystick.y()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
-        //joystick.start().and(joystick.x()).whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
-
-        // reset the field-centric heading on left bumper press
+    
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
         // Final Button Mappings below
