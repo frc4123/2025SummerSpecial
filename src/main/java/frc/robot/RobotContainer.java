@@ -49,8 +49,6 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 
 import frc.robot.commands.generated.TunerConstants;
 import frc.robot.commands.swerve.AutoLineUpReef;
-import frc.robot.commands.swerve.DriveToPoseLeft;
-import frc.robot.commands.swerve.DriveToPoseRight;
 import frc.robot.subsystems.AlgaeManipulator;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
@@ -129,7 +127,9 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("ElevatorL4", elevatorL4);
         NamedCommands.registerCommand("CoralIntake", coralIntake);
+        NamedCommands.registerCommand("CoralIntakeStop", coralIntakeStop);
         NamedCommands.registerCommand("ElevatorDown", elevatorDown);
+
     }
 
     private void configureBindings() {
@@ -162,10 +162,6 @@ public class RobotContainer {
 
         joystick.rightTrigger().whileTrue(rightCoralAutoDrive);
         joystick.leftTrigger().whileTrue(leftCoralAutoDrive);
-
-        // joystick.rightTrigger().whileTrue(driveToPoseRight);
-        // joystick.leftTrigger().whileTrue(driveToPoseLeft);
-        //joystick.
 
         joystick.povLeft().whileTrue(drivetrain.applyRequest(() -> robotStrafe
             .withVelocityY(0.1 * MaxSpeed)
