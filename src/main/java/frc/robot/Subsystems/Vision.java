@@ -78,8 +78,8 @@ public class Vision extends SubsystemBase{
     static final Set<Integer> blueProcessor = new HashSet<>(Arrays.asList(16));
     static final Set<Integer> redProcessor = new HashSet<>(Arrays.asList(3));
 
-    Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(3, 3, 3);
-    Matrix<N3, N1> visionMeasurementStdDevsHigh = VecBuilder.fill(3, 3, 3);  
+    // Matrix<N3, N1> visionMeasurementStdDevs = VecBuilder.fill(3, 3, 3);
+    // Matrix<N3, N1> visionMeasurementStdDevsHigh = VecBuilder.fill(3, 3, 3);  
 
     public enum DetectedAlliance {RED, BLUE, NONE};
 
@@ -98,7 +98,7 @@ public class Vision extends SubsystemBase{
 
     public Vision(CommandSwerveDrivetrain drivetrain){
         this.drivetrain = drivetrain;
-        drivetrain.setVisionMeasurementStdDevs(visionMeasurementStdDevs);
+        // drivetrain.setVisionMeasurementStdDevs(visionMeasurementStdDevs);
 
         if(DriverStation.isDSAttached()){
             if(DriverStation.getAlliance().get() == Alliance.Blue){
@@ -423,33 +423,58 @@ public class Vision extends SubsystemBase{
             } else currentResultHigh = null;
         }
 
-        //TRY THIS TO LOWER LATENCY
-        // currentResultList = camera.getAllUnreadResults();
-        // int i = currentResultList.size() - 1;
-        //     PhotonPipelineResult result = currentResultList.get(i);
-        //     if (result.hasTargets()) {
-        //         currentResult = result;
-        //     } else currentResult = null;
-
-        if (hasTarget()){
-            drivetrain.addVisionMeasurement(get2dPose(), getCamTimeStamp());
-            //seenAprilTagFlag = true;
+        // Process regular camera
+        if (hasTarget()) {
+            processCameraResult(currentResult, robotToCam);
         }
 
-        if (hasTargetHigh()){
-            drivetrain.addVisionMeasurement(get2dPoseHigh(), getCamTimeStampHigh());
+        // Process high camera
+        if (hasTargetHigh()) {
+            processCameraResult(currentResultHigh, robotToCamHigh);
         }
+    }
 
-        // if(seenAprilTagFlag){
-        //     lastGamePieceAngle = getDegreesToGamePiece();
-        // }
+    private void processCameraResult(PhotonPipelineResult result, Transform3d cameraTransform) {
+        if (result == null || !result.hasTargets()) return;
 
-        //lastGamePieceAngle = getDegreesToGamePiece();
+        PhotonTrackedTarget target = result.getBestTarget();
+        Optional<Pose3d> tagPose = aprilTagFieldLayout.getTagPose(target.getFiducialId());
+        
+        if (tagPose.isPresent()) {
+            // Get correct timestamps
+            double captureTime = Utils.fpgaToCurrentTime(result.getTimestampSeconds());
+            
+            // Calculate actual distance to tag
+            Pose2d robotPose = drivetrain.getState().Pose;
+            double distance = tagPose.get().toPose2d()
+                            .getTranslation()
+                            .getDistance(robotPose.getTranslation());
 
-        // SmartDashboard.putNumber("Pose X", drivetrain.getState().Pose.getX());
-        // SmartDashboard.putNumber("Pose Y", drivetrain.getState().Pose.getY());
-        // SmartDashboard.putNumber("Pose Rotation` (Degrees)", drivetrain.getState().Pose.getRotation().getDegrees());
-        // SmartDashboard.putNumber("Focused April Tag: ", getClosestAprilTag(currentResult));
-        // SmartDashboard.putString("Game Piece in Focus: ", getClosestGamePiece(getClosestAprilTag(currentResult)));
+            // Calculate dynamic standard deviations
+            Matrix<N3, N1> stdDevs = calculateStdDevs(distance);
+            
+            // Update estimator with proper values
+            drivetrain.setVisionMeasurementStdDevs(stdDevs);
+            
+            // Get and add vision pose
+            Pose3d cameraPose = PhotonUtils.estimateFieldToRobotAprilTag(
+                target.getBestCameraToTarget(),
+                tagPose.get(),
+                cameraTransform
+            );
+            drivetrain.addVisionMeasurement(cameraPose.toPose2d(), captureTime);
+        }
+    }
+
+    private Matrix<N3, N1> calculateStdDevs(double distance) {
+        // Tuning parameters (adjust based on testing)
+        final double XY_SCALE_FACTOR = 2;  // Meters per meter of distance
+        final double THETA_STD_DEV = 10.0;   // Radians (keep large)
+        
+        return VecBuilder.fill(
+            XY_SCALE_FACTOR * distance,
+            XY_SCALE_FACTOR * distance,
+            THETA_STD_DEV
+        );
     }
 }
