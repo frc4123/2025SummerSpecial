@@ -89,15 +89,15 @@ public class Constants {
         public static final double kA = 0;
         public static final double kG = 16;
 
-        public static final double velocity = 60; //120; // max is 290 (don't go 290)
-        public static final double acceleration = 160; //100;
-        public static final double jerk = 250; //80; 
+        public static final double velocity = 70; //120; // max is 290 (don't go 290)
+        public static final double acceleration = 200; //100;
+        public static final double jerk = 350; //80; 
 
         public static final double gearRatio = -1;
 
         public static final double down = 0;
         public static final double algaeGround = 16; // tune
-        public static final double l1 = 18;
+        public static final double l1 = 24;
         public static final double l2Algae = 27;
         public static final double l2 = 30;
         public static final double l3 = 50;
@@ -164,8 +164,8 @@ public class Constants {
 
         public static final Pose2d[] BLUE_REEF_POSES = {
             new Pose2d(2.823, 4.000, new Rotation2d(0 * Math.PI / 180.0)),
-            new Pose2d(3.719, 2.614, new Rotation2d(60 * Math.PI / 180.0)), //new Pose2d(3.719, 2.614, new Rotation2d(60 * Math.PI / 180.0)),
-            new Pose2d(5.430, 2.640, new Rotation2d(120 * Math.PI / 180.0)),
+            new Pose2d(3.719, 2.614, new Rotation2d(60 * Math.PI / 180.0)), // back right //new Pose2d(3.719, 2.614, new Rotation2d(60 * Math.PI / 180.0)),
+            new Pose2d(5.37, 2.669, new Rotation2d(120 * Math.PI / 180.0)), 
             new Pose2d(6.131, 4.000, new Rotation2d(180 * Math.PI / 180.0)),
             new Pose2d(5.384, 5.406, new Rotation2d(-120 * Math.PI / 180.0)),
             new Pose2d(3.689, 5.515, new Rotation2d(-60 * Math.PI / 180.0))
@@ -181,8 +181,8 @@ public class Constants {
         };
 
         public static final double[][] ADDITIONS = {
-            {0.34, -0.04}, // LEFT ADDITION // {0.435, -0.12} //0.385
-            {0.34, -0.417}  // RIGHT ADDITION // {0.435, -0.487} //0.385 was correct in odometry w advantagescope
+            {0.34, -0.04}, // LEFT ADDITION // {0.342, 0} //0.385
+            {0.34, -0.55}  // RIGHT ADDITION // {0.342, 0.348} //0.385 was correct in odometry w advantagescope
             // {+forward/back-, +left/right-}
         };
 
@@ -225,22 +225,22 @@ public class MathUtils {
 }
 
     public static final class VisionConstants{
-        //Front Camera Translation and Angle
-        public static final double frontX = Units.inchesToMeters(-12.00);
-        public static final double frontY = Units.inchesToMeters(-5.498);
-        public static final double frontZ = Units.inchesToMeters(6.88);
+        //Front Forward Camera Translation and Angle
+        public static final double frontX = Units.inchesToMeters(-6.203);
+        public static final double frontY = Units.inchesToMeters(-7.5);
+        public static final double frontZ = Units.inchesToMeters(6.375);
 
         public static final double frontRoll = Units.degreesToRadians(0);
-        public static final double frontPitch = Units.degreesToRadians(0);
-        public static final double frontYaw = Units.degreesToRadians(0);
+        public static final double frontPitch = Units.degreesToRadians(25);
+        public static final double frontYaw = Units.degreesToRadians(-1.5);
 
-        //Back Camera Translation and Angle
-        public static final double backX = Units.inchesToMeters(3.375);
-        public static final double backY = Units.inchesToMeters(13.721);
-        public static final double backZ = Units.inchesToMeters(20.3);
+        //Front Angled Camera Translation and Angle
+        public static final double angledX = Units.inchesToMeters(-11.75); //12.75
+        public static final double angledY = Units.inchesToMeters(1.900142); //3
+        public static final double angledZ = Units.inchesToMeters(9.240711);
 
-        public static final double backRoll = Units.degreesToRadians(0);
-        public static final double backPitch = Units.degreesToRadians(-60);
-        public static final double backYaw = Units.degreesToRadians(180);
+        public static final double angledRoll = Units.degreesToRadians(180);
+        public static final double angledPitch = Units.degreesToRadians(10);
+        public static final double angledYaw = Units.degreesToRadians(-55);
     }
 }
