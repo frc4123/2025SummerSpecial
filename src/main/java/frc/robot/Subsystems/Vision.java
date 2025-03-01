@@ -11,6 +11,8 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -45,15 +47,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Vision extends SubsystemBase{
 
+    // private NetworkTableEntry cameraPoseEntry;
+
     public AprilTagFieldLayout aprilTagFieldLayout = loadAprilTagFieldLayout("/fields/Reefscape2025.json");  
 
     private final PhotonCamera camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
     private final PhotonCamera cameraHigh = new PhotonCamera("Arducam_OV9281_USB_Camera_High");
 
     public final Transform3d robotToCam = new Transform3d(new Translation3d(Constants.VisionConstants.frontX, Constants.VisionConstants.frontY, Constants.VisionConstants.frontZ),
-                                          new Rotation3d(Constants.VisionConstants.frontRoll,Constants.VisionConstants.frontPitch,Constants.VisionConstants.frontYaw)); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
+                                          new Rotation3d(Constants.VisionConstants.frontRoll,0,0).rotateBy(new Rotation3d(0, Constants.VisionConstants.frontPitch, 0)).rotateBy(new Rotation3d(0,0, Constants.VisionConstants.angledYaw))); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
+
     public final Transform3d robotToCamHigh = new Transform3d(new Translation3d(Constants.VisionConstants.angledX, Constants.VisionConstants.angledY, Constants.VisionConstants.angledZ),
-                                              new Rotation3d(Constants.VisionConstants.angledRoll,Constants.VisionConstants.angledPitch,Constants.VisionConstants.angledYaw));
+                                            new Rotation3d(Constants.VisionConstants.angledRoll,0,0).rotateBy(new Rotation3d(0, Constants.VisionConstants.angledPitch, 0)).rotateBy(new Rotation3d(0,0, Constants.VisionConstants.angledYaw))); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
                                               
     public final PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCam);
     public final PhotonPoseEstimator photonPoseEstimatorHigh = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCamHigh);
@@ -105,7 +110,10 @@ public class Vision extends SubsystemBase{
                 redInversionFactor = 180;
             } else blueInversionFactor = 180;
         }
-        
+
+        // cameraPoseEntry = NetworkTableInstance.getDefault()
+        //     .get("")
+        //     .getEntry("/CameraToRobot");
     }
 
     public static AprilTagFieldLayout loadAprilTagFieldLayout(String resourceFile) { 
@@ -439,6 +447,8 @@ public class Vision extends SubsystemBase{
         if (hasTargetHigh()){
             drivetrain.addVisionMeasurement(get2dPoseHigh(), getCamTimeStampHigh());
         }
+
+            // cameraPoseEntry.setValue(robotToCamHigh);
 
         // if(seenAprilTagFlag){
         //     lastGamePieceAngle = getDegreesToGamePiece();

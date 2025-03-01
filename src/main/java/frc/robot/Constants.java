@@ -163,26 +163,26 @@ public class Constants {
     public static class AutoDriveConstants {
 
         public static final Pose2d[] BLUE_REEF_POSES = {
-            new Pose2d(2.823, 4.000, new Rotation2d(0 * Math.PI / 180.0)),
-            new Pose2d(3.719, 2.614, new Rotation2d(60 * Math.PI / 180.0)), // back right //new Pose2d(3.719, 2.614, new Rotation2d(60 * Math.PI / 180.0)),
-            new Pose2d(5.37, 2.669, new Rotation2d(120 * Math.PI / 180.0)), 
-            new Pose2d(6.131, 4.000, new Rotation2d(180 * Math.PI / 180.0)),
-            new Pose2d(5.384, 5.406, new Rotation2d(-120 * Math.PI / 180.0)),
-            new Pose2d(3.689, 5.515, new Rotation2d(-60 * Math.PI / 180.0))
+            new Pose2d(3.6576, 4.0259, new Rotation2d(0 * Math.PI / 180.0)), // starts facing forward and goes counter clockwise around the reef
+            new Pose2d(4.073906, 3.306318, new Rotation2d(60 * Math.PI / 180.0)), // back right //new Pose2d(3.719, 2.614, new Rotation2d(60 * Math.PI / 180.0)),
+            new Pose2d(4.90474, 3.306318, new Rotation2d(120 * Math.PI / 180.0)), 
+            new Pose2d(5.321046, 4.0259, new Rotation2d(180 * Math.PI / 180.0)),
+            new Pose2d(4.904739999999999, 4.745482, new Rotation2d(-120 * Math.PI / 180.0)),
+            new Pose2d(4.073906, 4.745482, new Rotation2d(-60 * Math.PI / 180.0))
         };
 
         public static final Pose2d[] RED_REEF_POSES = {
-            new Pose2d(2.823 + 8.553921, 4.000, new Rotation2d(0 * Math.PI / 180.0)),
-            new Pose2d(3.719 + 8.553921, 2.614, new Rotation2d(60 * Math.PI / 180.0)),
-            new Pose2d(5.430 + 8.553921, 2.640, new Rotation2d(120 * Math.PI / 180.0)),
-            new Pose2d(6.000 + 8.553921, 4.000, new Rotation2d(180 * Math.PI / 180.0)),
-            new Pose2d(5.384 + 8.553921, 5.406, new Rotation2d(-120 * Math.PI / 180.0)),
-            new Pose2d(3.689 + 8.553921, 5.515, new Rotation2d(-60 * Math.PI / 180.0))
+            new Pose2d(13.890498, 4.0259, new Rotation2d(0 * Math.PI / 180.0)), // starts facing forward and goes counter clockwise around the reef
+            new Pose2d(13.474446, 4.745482, new Rotation2d(60 * Math.PI / 180.0)),
+            new Pose2d(12.643358, 4.745482, new Rotation2d(120 * Math.PI / 180.0)),
+            new Pose2d(12.227305999999999 , 4.0259, new Rotation2d(180 * Math.PI / 180.0)),
+            new Pose2d(12.643358, 3.3063179999999996, new Rotation2d(-120 * Math.PI / 180.0)),
+            new Pose2d(13.474446, 3.3063179999999996, new Rotation2d(-60 * Math.PI / 180.0))
         };
 
         public static final double[][] ADDITIONS = {
-            {0.34, -0.04}, // LEFT ADDITION // {0.342, 0} //0.385
-            {0.34, -0.55}  // RIGHT ADDITION // {0.342, 0.348} //0.385 was correct in odometry w advantagescope
+            {-0.4762, -0.04}, // LEFT ADDITION // {0.342, 0} //0.385
+            {-0.4762, -0.55}  // RIGHT ADDITION // {0.342, 0.348} //0.385 was correct in odometry w advantagescope
             // {+forward/back-, +left/right-}
         };
 
@@ -226,20 +226,20 @@ public class MathUtils {
 
     public static final class VisionConstants{
         //Front Forward Camera Translation and Angle
-        public static final double frontX = Units.inchesToMeters(-6.203);
-        public static final double frontY = Units.inchesToMeters(-7.5);
-        public static final double frontZ = Units.inchesToMeters(6.375);
+        public static final double frontX = Units.inchesToMeters(-7.495000); //7.176364 -7.176364
+        public static final double frontY = Units.inchesToMeters(-7.176364); //7.495000 -7.495000
+        public static final double frontZ = Units.inchesToMeters(7.02);
 
         public static final double frontRoll = Units.degreesToRadians(0);
         public static final double frontPitch = Units.degreesToRadians(25);
-        public static final double frontYaw = Units.degreesToRadians(-1.5);
+        public static final double frontYaw = Units.degreesToRadians(0);
 
         //Front Angled Camera Translation and Angle
-        public static final double angledX = Units.inchesToMeters(-11.75); //12.75
+        public static final double angledX = Units.inchesToMeters(-11.7); //12.75
         public static final double angledY = Units.inchesToMeters(1.900142); //3
         public static final double angledZ = Units.inchesToMeters(9.240711);
 
-        public static final double angledRoll = Units.degreesToRadians(180);
+        public static final double angledRoll = Units.degreesToRadians(0);
         public static final double angledPitch = Units.degreesToRadians(10);
         public static final double angledYaw = Units.degreesToRadians(-55);
     }
