@@ -12,14 +12,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 
-public class CoralManipulator extends SubsystemBase{
-
+public class CoralManipulator extends SubsystemBase {
     private SparkMax intake = new SparkMax(Constants.CanIdRio.Coral_Intake, MotorType.kBrushless);
     public static final SparkMaxConfig intakeConfig = new SparkMaxConfig();
 
     private CANrange canrange = new CANrange(Constants.CanIdRio.Coral_CANRange); 
     private boolean m_previousDetection; 
     private boolean m_lockedOut; 
+    private boolean m_slowIntakeMode; // New state variable
 
     public CoralManipulator(){
         intakeConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
@@ -34,6 +34,7 @@ public class CoralManipulator extends SubsystemBase{
 
     public void resetLockout() {
         m_lockedOut = false;
+        m_slowIntakeMode = false; // Reset slow intake mode
         m_previousDetection = isCoralDetected();  // Sync with current state
     }
     
@@ -51,9 +52,15 @@ public class CoralManipulator extends SubsystemBase{
     }
 
     public boolean isCoralDetected(){
-        if(canrange.getIsDetected().getValue()){
-            return true;
-        } else return false;
+        return canrange.getIsDetected().getValue();
+    }
+
+    public void setSlowIntakeMode(boolean enable) {
+        m_slowIntakeMode = enable;
+    }
+
+    public boolean isSlowIntakeMode() {
+        return m_slowIntakeMode;
     }
 
     @Override
