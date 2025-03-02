@@ -60,7 +60,7 @@ public class Vision extends SubsystemBase{
     private final StructPublisher<Transform3d> cameraPose = driveStateTable.getStructTopic("Camera Position ", Transform3d.struct).publish();
     private final NetworkTable poseTable = inst.getTable("Pose");
     private final DoubleArrayPublisher fieldPub = poseTable.getDoubleArrayTopic("Camera Pose").publish();
-    private final double[] poseArray = new double[3];
+    private final double[] poseArray = new double[6];
 
     private final PhotonCamera camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
     private final PhotonCamera cameraHigh = new PhotonCamera("Arducam_OV9281_USB_Camera_High");
