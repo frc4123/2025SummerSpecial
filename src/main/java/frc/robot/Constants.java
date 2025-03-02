@@ -226,21 +226,21 @@ public class MathUtils {
 
     public static final class VisionConstants{
         //Front Forward Camera Translation and Angle
-        public static final double frontX = Units.inchesToMeters(-7.495000); //7.176364 -7.176364
-        public static final double frontY = Units.inchesToMeters(-7.176364); //7.495000 -7.495000
-        public static final double frontZ = Units.inchesToMeters(7.02);
+        public static final double frontX = Units.inchesToMeters(6.769596); // 7.495 7.176364 -7.176364
+        public static final double frontY = Units.inchesToMeters(7.495000); // -7.176364 7.495000 -7.495000
+        public static final double frontZ = Units.inchesToMeters(6.857670); // 7.02
 
         public static final double frontRoll = Units.degreesToRadians(0);
-        public static final double frontPitch = Units.degreesToRadians(25);
+        public static final double frontPitch = Units.degreesToRadians(-25); // 25
         public static final double frontYaw = Units.degreesToRadians(0);
 
         //Front Angled Camera Translation and Angle
-        public static final double angledX = Units.inchesToMeters(-11.7); //12.75
-        public static final double angledY = Units.inchesToMeters(1.900142); //3
+        public static final double angledX = Units.inchesToMeters(13.098); // -11.7 12.75
+        public static final double angledY = Units.inchesToMeters(2.404); // 1.900142 3
         public static final double angledZ = Units.inchesToMeters(9.240711);
 
         public static final double angledRoll = Units.degreesToRadians(0);
-        public static final double angledPitch = Units.degreesToRadians(10);
-        public static final double angledYaw = Units.degreesToRadians(-55);
+        public static final double angledPitch = Units.degreesToRadians(-10); // 10
+        public static final double angledYaw = Units.degreesToRadians(55); // -55
     }
 }

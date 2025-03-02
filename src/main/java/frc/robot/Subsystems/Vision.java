@@ -71,8 +71,12 @@ public class Vision extends SubsystemBase{
     public final Transform3d robotToCamHigh = new Transform3d(new Translation3d(Constants.VisionConstants.angledX, Constants.VisionConstants.angledY, Constants.VisionConstants.angledZ),
                                             new Rotation3d(Constants.VisionConstants.angledRoll,0,0).rotateBy(new Rotation3d(0, Constants.VisionConstants.angledPitch, 0)).rotateBy(new Rotation3d(0,0, Constants.VisionConstants.angledYaw))); //Cam mounted facing forward, half a meter forward of center, half a meter up from center.
                                               
-    public final PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCam);
-    public final PhotonPoseEstimator photonPoseEstimatorHigh = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR, robotToCamHigh);
+    public final PhotonPoseEstimator photonPoseEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, robotToCam);
+    public final PhotonPoseEstimator photonPoseEstimatorHigh = new PhotonPoseEstimator(aprilTagFieldLayout, PoseStrategy.LOWEST_AMBIGUITY, robotToCamHigh);
+
+    // Add new publishers for camera poses
+    private final StructPublisher<Pose3d> frontCamPosePublisher;
+    private final StructPublisher<Pose3d> highCamPosePublisher;
 
     private Rotation2d lastGamePieceAngle = new Rotation2d(0);
 
@@ -122,6 +126,10 @@ public class Vision extends SubsystemBase{
             } else blueInversionFactor = 180;
         }
 
+        // Initialize camera pose publishers
+        frontCamPosePublisher = inst.getStructTopic("/FrontCamPose", Pose3d.struct).publish();
+        highCamPosePublisher = inst.getStructTopic("/HighCamPose", Pose3d.struct).publish();
+
         cameraPose.set(robotToCam);
 
         poseArray[0] = robotToCam.getX();
@@ -132,9 +140,6 @@ public class Vision extends SubsystemBase{
         poseArray[5] = robotToCam.getRotation().getZ();
         fieldPub.set(poseArray);
 
-        // cameraPoseEntry = NetworkTableInstance.getDefault()
-        //     .get("")
-        //     .getEntry("/CameraToRobot");
     }
 
     public static AprilTagFieldLayout loadAprilTagFieldLayout(String resourceFile) { 
@@ -451,6 +456,18 @@ public class Vision extends SubsystemBase{
                 break;
             } else currentResultHigh = null;
         }
+
+        // Publish camera poses relative to the field
+        Pose2d currentRobotPose2d = drivetrain.getState().Pose;
+        Pose3d currentRobotPose3d = new Pose3d(currentRobotPose2d);
+
+        // Compute and publish front camera's field-relative pose
+        Pose3d frontCamPose = currentRobotPose3d.plus(robotToCam);
+        frontCamPosePublisher.set(frontCamPose);
+
+        // Compute and publish high camera's field-relative pose
+        Pose3d highCamPose = currentRobotPose3d.plus(robotToCamHigh);
+        highCamPosePublisher.set(highCamPose);
 
         //TRY THIS TO LOWER LATENCY
         // currentResultList = camera.getAllUnreadResults();
