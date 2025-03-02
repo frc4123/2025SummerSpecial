@@ -11,8 +11,12 @@ import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
+import edu.wpi.first.networktables.DoubleArrayPublisher;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StringPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 // import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -50,6 +54,13 @@ public class Vision extends SubsystemBase{
     // private NetworkTableEntry cameraPoseEntry;
 
     public AprilTagFieldLayout aprilTagFieldLayout = loadAprilTagFieldLayout("/fields/Reefscape2025.json");  
+
+    private final NetworkTableInstance inst = NetworkTableInstance.getDefault();
+    private final NetworkTable driveStateTable = inst.getTable("CameraStates");
+    private final StructPublisher<Transform3d> cameraPose = driveStateTable.getStructTopic("Camera Position ", Transform3d.struct).publish();
+    private final NetworkTable poseTable = inst.getTable("Pose");
+    private final DoubleArrayPublisher fieldPub = poseTable.getDoubleArrayTopic("Camera Pose").publish();
+    private final double[] poseArray = new double[3];
 
     private final PhotonCamera camera = new PhotonCamera("Arducam_OV9281_USB_Camera");
     private final PhotonCamera cameraHigh = new PhotonCamera("Arducam_OV9281_USB_Camera_High");
@@ -110,6 +121,16 @@ public class Vision extends SubsystemBase{
                 redInversionFactor = 180;
             } else blueInversionFactor = 180;
         }
+
+        cameraPose.set(robotToCam);
+
+        poseArray[0] = robotToCam.getX();
+        poseArray[1] = robotToCam.getY();
+        poseArray[2] = robotToCam.getZ();
+        poseArray[3] = robotToCam.getRotation().getX();
+        poseArray[4] = robotToCam.getRotation().getY();
+        poseArray[5] = robotToCam.getRotation().getZ();
+        fieldPub.set(poseArray);
 
         // cameraPoseEntry = NetworkTableInstance.getDefault()
         //     .get("")
