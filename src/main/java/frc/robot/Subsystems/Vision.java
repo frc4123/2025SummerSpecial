@@ -36,20 +36,16 @@ public class Vision extends SubsystemBase {
     private final Transform3d robotToFrontCam;
     private final Transform3d robotToHighCam;
     
-    // Standard deviations (tune these based on camera characteristics)
     private final Matrix<N3, N1> singleTagStdDevs = VecBuilder.fill(3, 3, 3);
     private final Matrix<N3, N1> multiTagStdDevs = VecBuilder.fill(0.5, 0.5, 1);
     
-    // Alliance awareness
     private int blueInversionFactor = 0;
     private int redInversionFactor = 0;
     
-    // Game piece tracking
     private Rotation2d lastGamePieceAngle = new Rotation2d();
     private Pose2d lastTargetPoseRight = new Pose2d();
     private Pose2d lastTargetPoseLeft = new Pose2d();
     
-    // NetworkTables publishers
     private final StructPublisher<Pose3d> frontCamPosePublisher;
     private final StructPublisher<Pose3d> highCamPosePublisher;
     private final StructPublisher<Transform3d> frontCamTargetTransformPublisher;
@@ -61,7 +57,6 @@ public class Vision extends SubsystemBase {
         this.drivetrain = drivetrain;
         this.aprilTagFieldLayout = loadAprilTagFieldLayout("/fields/Reefscape2025.json");
 
-        // Camera configuration
         frontCamera = new PhotonCamera("Arducam_OV9281_USB_Camera");
         highCamera = new PhotonCamera("Arducam_OV9281_USB_Camera_High");
         
@@ -116,18 +111,10 @@ public class Vision extends SubsystemBase {
         highCamTargetTransformPublisher = inst.getStructTopic("/Vision/HighCamTargetTransform", Transform3d.struct).publish();
     }
 
-    @Override
-    public void periodic() {
-        // Process both cameras
-        processCamera(frontCamera, frontEstimator);
-        processCamera(highCamera, highEstimator);
-        
-        // Update game piece tracking
-        updateGamePieceTracking();
-        
-        // Publish camera poses
-        publishCameraPoses();
-    }
+    // Getters
+    public Rotation2d getLastGamePieceAngle() { return lastGamePieceAngle; }
+    public Pose2d getLastTargetPoseLeft() { return lastTargetPoseLeft; }
+    public Pose2d getLastTargetPoseRight() { return lastTargetPoseRight; }
 
     private void processCamera(PhotonCamera camera, PhotonPoseEstimator estimator) {
         var result = camera.getLatestResult();
@@ -212,11 +199,11 @@ public class Vision extends SubsystemBase {
     private Rotation2d calculateGamePieceAngle(int tagId) {
         // Red targets
         if (Set.of(6,7,8,9,10,11).contains(tagId)) {
-            return Rotation2d.fromDegrees((tagId - 6) * 60 + redInversionFactor);
+            return Rotation2d.fromDegrees((tagId - 7) * 60 + redInversionFactor);
         }
         // Blue targets
         if (Set.of(17,18,19,20,21,22).contains(tagId)) {
-            return Rotation2d.fromDegrees((tagId - 17) * 60 + blueInversionFactor);
+            return Rotation2d.fromDegrees((tagId - 18) * -60 + blueInversionFactor);
         }
         // Special cases
         switch(tagId) {
@@ -256,8 +243,16 @@ public class Vision extends SubsystemBase {
         }
     }
 
-    // Getters
-    public Rotation2d getLastGamePieceAngle() { return lastGamePieceAngle; }
-    public Pose2d getLastTargetPoseLeft() { return lastTargetPoseLeft; }
-    public Pose2d getLastTargetPoseRight() { return lastTargetPoseRight; }
+    @Override
+    public void periodic() {
+        // Process both cameras
+        processCamera(frontCamera, frontEstimator);
+        processCamera(highCamera, highEstimator);
+        
+        // Update game piece tracking
+        updateGamePieceTracking();
+        
+        // Publish camera poses
+        publishCameraPoses();
+    }
 }
