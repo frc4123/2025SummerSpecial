@@ -151,11 +151,11 @@ public class Constants {
         new Translation2d(-kWheelBase / 2, kTrackWidth / 2), // back left
         new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)); // back right
 
-        public static final double CLOSE_TRANSLATION_PP_KP = 3.2;
+        public static final double CLOSE_TRANSLATION_PP_KP = 3.2; // 8
         public static final double CLOSE_TRANSLATION_PP_KI = 0.0;
         public static final double CLOSE_TRANSLATION_PP_KD = 0.0;
 
-        public static final double CLOSE_ROTATION_PP_KP = 2.0;
+        public static final double CLOSE_ROTATION_PP_KP = 3; // 8
         public static final double CLOSE_ROTATION_PP_KI = 0.0;
         public static final double CLOSE_ROTATION_PP_KD = 0.0;
     }
@@ -181,8 +181,8 @@ public class Constants {
         };
 
         public static final double[][] ADDITIONS = {
-            {-0.4762, -0.04}, // LEFT ADDITION // {0.342, 0} //0.385
-            {-0.4762, -0.55}  // RIGHT ADDITION // {0.342, 0.348} //0.385 was correct in odometry w advantagescope
+            {-0.4762, -0.06}, // LEFT ADDITION // {0.342, 0} //0.385
+            {-0.4762, -0.4}  // RIGHT ADDITION // {0.342, 0.348} //0.385 was correct in odometry w advantagescope
             // {+forward/back-, +left/right-}
         };
 
@@ -226,21 +226,21 @@ public class MathUtils {
 
     public static final class VisionConstants{
         //Front Forward Camera Translation and Angle
-        public static final double frontX = Units.inchesToMeters(-7.495000); //7.176364 -7.176364
-        public static final double frontY = Units.inchesToMeters(-7.176364); //7.495000 -7.495000
-        public static final double frontZ = Units.inchesToMeters(7.02);
+        public static final double frontX = Units.inchesToMeters(7.176364); // 7.495 7.176364 -7.176364
+        public static final double frontY = Units.inchesToMeters(7.495000); // -7.176364 7.495000 -7.495000
+        public static final double frontZ = Units.inchesToMeters(6.857670); // 7.02
 
-        public static final double frontRoll = Units.degreesToRadians(0);
-        public static final double frontPitch = Units.degreesToRadians(25);
-        public static final double frontYaw = Units.degreesToRadians(0);
+        public static final double frontRoll = Math.toRadians(0);
+        public static final double frontPitch = Math.toRadians(-25); // 25
+        public static final double frontYaw = Math.toRadians(0);
 
         //Front Angled Camera Translation and Angle
-        public static final double angledX = Units.inchesToMeters(-11.7); //12.75
-        public static final double angledY = Units.inchesToMeters(1.900142); //3
+        public static final double angledX = Units.inchesToMeters(13.351494); // -11.7 12.75
+        public static final double angledY = Units.inchesToMeters(2.766400); // 1.900142 3
         public static final double angledZ = Units.inchesToMeters(9.240711);
 
-        public static final double angledRoll = Units.degreesToRadians(0);
-        public static final double angledPitch = Units.degreesToRadians(10);
-        public static final double angledYaw = Units.degreesToRadians(-55);
+        public static final double angledRoll = Math.toRadians(0);
+        public static final double angledPitch = Math.toRadians(-10); // 10
+        public static final double angledYaw = Math.toRadians(55); // -55
     }
 }
