@@ -89,9 +89,9 @@ public class Constants {
         public static final double kA = 0;
         public static final double kG = 16;
 
-        public static final double velocity = 70; //120; // max is 290 (don't go 290)
-        public static final double acceleration = 200; //100;
-        public static final double jerk = 350; //80; 
+        public static final double velocity = 72; //120; // max is 290 (don't go 290)
+        public static final double acceleration = 225; //100;
+        public static final double jerk = 380; //80; 
 
         public static final double gearRatio = -1;
 
@@ -101,7 +101,7 @@ public class Constants {
         public static final double l2Algae = 27;
         public static final double l2 = 30;
         public static final double l3 = 50;
-        public static final double l4 = 80; // tune
+        public static final double l4 = 78.5; // tune
         public static final double up = 88; //technically its 88.4
     }
 

@@ -16,8 +16,8 @@ import frc.robot.commands.arm.ArmProcessor;
 import frc.robot.commands.arm.ArmStow;
 import frc.robot.commands.arm.ArmUp;
 import frc.robot.commands.arm.ArmReef;
-import frc.robot.commands.autos.BlueLeftCoral;
-import frc.robot.commands.autos.BlueRightCoral;
+import frc.robot.commands.autos.BlueLeftCoral2;
+import frc.robot.commands.autos.BlueRightCoral2;
 import frc.robot.commands.autos.MiddleCoral;
 import frc.robot.commands.autos.Test;
 import frc.robot.commands.coral_manipulator.CoralIntake;
@@ -122,9 +122,9 @@ public class RobotContainer {
         configureBindings();
         initializeAutoChooser();
 
-        faceAngle.HeadingController.setP(10); 
+        faceAngle.HeadingController.setP(7);  // 10
         faceAngle.HeadingController.setI(0.0);
-        faceAngle.HeadingController.setD(0.4123); 
+        faceAngle.HeadingController.setD(0);  // 0.4123
         faceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
 
         NamedCommands.registerCommand("ElevatorL4", elevatorL4);
@@ -243,20 +243,66 @@ public class RobotContainer {
     }
 
     public void initializeAutoChooser(){
-        autoChooser.setDefaultOption("1 Middle Coral",new MiddleCoral().middleCoral());
-        autoChooser.addOption("Test", new Test().test());
-        autoChooser.addOption("Blue Coral Left 3", new BlueLeftCoral().blueLeftCoral());
 
-        // autoChooser.addOption("Blue Coral Right 3", new ParallelCommandGroup(
+        autoChooser.setDefaultOption("1 Middle Coral" , new ParallelCommandGroup(
+        new WaitCommand(0.01),
+          new SequentialCommandGroup(new MiddleCoral().middleCoral()),
+          new SequentialCommandGroup(
+                new CoralIntake(coralManipulator, elevator).withTimeout(5)
+                .andThen(new ElevatorL4(elevator, arm).withTimeout(2))
+                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.5))
+                .andThen(new ElevatorDown(elevator).withTimeout(2))
+        )));
+
+        // autoChooser.addOption("Right 2 Coral", new ParallelCommandGroup(
         // new WaitCommand(0.01),
-        // //shoot first note
-        //   new SequentialCommandGroup(new BlueRightCoral().blueRightCoral()),
+        //   new SequentialCommandGroup(new BlueRightCoral2().blueRightCoral()),
         //   new SequentialCommandGroup(
-        //         new AutoShooter(m_closedShooter).withTimeout(0.2)
-        //   .andThen(new ArmShoot(m_arm).withTimeout(2.70))
-        //   .alongWith(new AutoSkipShooter(m_skipper).withTimeout(2.70))
+        //         new CoralIntake(coralManipulator, elevator).withTimeout(2.54)
+        //         .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6))
+        //         .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
+        //         .andThen(new ElevatorDown(elevator).withTimeout(1.6))
+        //         // intake and score first coral
+        //         .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(4.13 + 0.1))
+        //         .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6))
+        //         .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
+        //         .andThen(new ElevatorDown(elevator).withTimeout(1.6))
+        //         //intake and score second coral
         // )));
+
+        autoChooser.addOption("Right 2 Coral", new ParallelCommandGroup(
+        new WaitCommand(0.01),
+          new SequentialCommandGroup(new BlueRightCoral2().blueRightCoral()),
+          new SequentialCommandGroup(
+                new CoralIntake(coralManipulator, elevator).withTimeout(2.12) // 2.54 -
+                .andThen(new ElevatorL4(elevator, arm).withTimeout(1.7))
+                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
+                .andThen(new ElevatorDown(elevator).withTimeout(1.7))
+                // intake and score first coral
+                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(4.13 + 0.1))
+                .andThen(new ElevatorL4(elevator, arm).withTimeout(1.7))
+                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
+                .andThen(new ElevatorDown(elevator).withTimeout(1.7))
+                //intake and score second coral
+        )));
+
+        autoChooser.addOption("Left 2 Coral", new ParallelCommandGroup(
+        new WaitCommand(0.01),
+          new SequentialCommandGroup(new BlueLeftCoral2().blueLeftCoral()),
+          new SequentialCommandGroup(
+                new CoralIntake(coralManipulator, elevator).withTimeout(2.38)
+                .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6))
+                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
+                .andThen(new ElevatorDown(elevator).withTimeout(1.6))
+                // intake and score first coral
+                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(4.13 + 0.1))
+                .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6))
+                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
+                .andThen(new ElevatorDown(elevator).withTimeout(1.6))
+                //intake and score second coral
+        )));
            
+        //i really hope this works ^
 
         SmartDashboard.putData("Auto Selector", autoChooser);
     }
