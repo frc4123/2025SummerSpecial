@@ -9,18 +9,6 @@
           "data": {
             "pathName": "Middle Coral"
           }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "ElevatorL4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "CoralIntake"
-          }
         }
       ]
     }
