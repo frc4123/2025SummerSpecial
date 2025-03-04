@@ -229,13 +229,7 @@ public class MathUtils {
         public static final double frontX = Units.inchesToMeters(7.176364); // 7.495 7.176364 -7.176364
         public static final double frontY = Units.inchesToMeters(7.495000); // -7.176364 7.495000 -7.495000
         public static final double frontZ = Units.inchesToMeters(6.857670); // 7.02
-        public static final double frontX = Units.inchesToMeters(7.176364); // 7.495 7.176364 -7.176364
-        public static final double frontY = Units.inchesToMeters(7.495000); // -7.176364 7.495000 -7.495000
-        public static final double frontZ = Units.inchesToMeters(6.857670); // 7.02
 
-        public static final double frontRoll = Math.toRadians(0);
-        public static final double frontPitch = Math.toRadians(-25); // 25
-        public static final double frontYaw = Math.toRadians(0);
         public static final double frontRoll = Math.toRadians(0);
         public static final double frontPitch = Math.toRadians(-25); // 25
         public static final double frontYaw = Math.toRadians(0);
@@ -243,13 +237,8 @@ public class MathUtils {
         //Front Angled Camera Translation and Angle
         public static final double angledX = Units.inchesToMeters(13.351494); // -11.7 12.75
         public static final double angledY = Units.inchesToMeters(2.766400); // 1.900142 3
-        public static final double angledX = Units.inchesToMeters(13.351494); // -11.7 12.75
-        public static final double angledY = Units.inchesToMeters(2.766400); // 1.900142 3
         public static final double angledZ = Units.inchesToMeters(9.240711);
 
-        public static final double angledRoll = Math.toRadians(0);
-        public static final double angledPitch = Math.toRadians(-10); // 10
-        public static final double angledYaw = Math.toRadians(55); // -55
         public static final double angledRoll = Math.toRadians(0);
         public static final double angledPitch = Math.toRadians(-10); // 10
         public static final double angledYaw = Math.toRadians(55); // -55

@@ -62,7 +62,6 @@ public class Vision extends SubsystemBase {
     private final CommandSwerveDrivetrain drivetrain;
 
     public Vision(CommandSwerveDrivetrain drivetrain) {
-    public Vision(CommandSwerveDrivetrain drivetrain) {
         this.drivetrain = drivetrain;
         this.aprilTagFieldLayout = loadAprilTagFieldLayout("/fields/Reefscape2025.json");
 
