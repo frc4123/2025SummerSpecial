@@ -96,6 +96,7 @@ public class Constants {
         public static final double gearRatio = -1;
 
         public static final double down = 0;
+        public static final double auto = 8;
         public static final double algaeGround = 16; // tune
         public static final double l1 = 24;
         public static final double l2Algae = 27;
