@@ -311,13 +311,13 @@ public class RobotContainer {
                 new CoralIntake(coralManipulator, elevator).withTimeout(2.38)
                 .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6))
                 .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
-                .andThen(new ElevatorDown(elevator).withTimeout(1.6))
-                // intake and score first coral
-                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(3.23+0.3))
-                .andThen(new ElevatorAutoVision(elevator).withTimeout(1+0.3)) // 4.23
-                .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6+0.3))
-                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3+0.3))
                 .andThen(new ElevatorDown(elevator).withTimeout(1.6+0.3))
+                // intake and score first coral
+                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(3.23))
+                .andThen(new ElevatorAutoVision(elevator).withTimeout(1)) // 4.23
+                .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6))
+                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
+                .andThen(new ElevatorDown(elevator).withTimeout(1.6))
                 //intake and score second coral
         )));
 
