@@ -189,7 +189,7 @@ public class Vision extends SubsystemBase {
         
         double avgDistance = totalDistance / numTags;
         Matrix<N3, N1> baseDevs = numTags >= 2 ? multiTagStdDevs : singleTagStdDevs;
-        return baseDevs.times(0.25 + (avgDistance * avgDistance / 40));
+        return baseDevs.times(0.2 + (avgDistance * avgDistance / 30));
     }
 
     private void publishTargetTransform(PhotonTrackedTarget target, boolean isFrontCamera) {

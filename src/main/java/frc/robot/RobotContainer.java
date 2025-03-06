@@ -17,6 +17,7 @@ import frc.robot.commands.arm.ArmStow;
 import frc.robot.commands.arm.ArmUp;
 import frc.robot.commands.arm.ArmReef;
 import frc.robot.commands.autos.BlueLeftCoral2;
+import frc.robot.commands.autos.BlueRight2Coralv2;
 import frc.robot.commands.autos.BlueRightCoral2;
 import frc.robot.commands.autos.MiddleCoral;
 import frc.robot.commands.autos.Test;
@@ -122,7 +123,7 @@ public class RobotContainer {
         configureBindings();
         initializeAutoChooser();
 
-        faceAngle.HeadingController.setP(7);  // 10
+        faceAngle.HeadingController.setP(5);  // 10
         faceAngle.HeadingController.setI(0.0);
         faceAngle.HeadingController.setD(0);  // 0.4123
         faceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
@@ -272,7 +273,8 @@ public class RobotContainer {
 
         autoChooser.addOption("Right 2 Coral", new ParallelCommandGroup(
         new WaitCommand(0.01),
-          new SequentialCommandGroup(new BlueRightCoral2().blueRightCoral()),
+          new SequentialCommandGroup(new BlueRightCoral2().blueRightCoral()
+          .andThen(new WaitCommand(9.822).andThen(new AutoLineUpReef(drivetrain,1)).withTimeout(0.5))),
           new SequentialCommandGroup(
                 new CoralIntake(coralManipulator, elevator).withTimeout(2.12) // 2.54 -
                 .andThen(new ElevatorL4(elevator, arm).withTimeout(1.7))
@@ -285,6 +287,7 @@ public class RobotContainer {
                 .andThen(new ElevatorDown(elevator).withTimeout(1.7))
                 //intake and score second coral
         )));
+        
 
         autoChooser.addOption("Left 2 Coral", new ParallelCommandGroup(
         new WaitCommand(0.01),
@@ -302,6 +305,22 @@ public class RobotContainer {
                 //intake and score second coral
         )));
            
+        autoChooser.addOption("(work in progress) Right 2 Coral v2", new ParallelCommandGroup(
+        new WaitCommand(0.01),
+          new SequentialCommandGroup(new BlueRight2Coralv2().blueRightCoral()),
+          new SequentialCommandGroup(
+                new CoralIntake(coralManipulator, elevator).withTimeout(2.38)
+                .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6))
+                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
+                .andThen(new ElevatorDown(elevator).withTimeout(1.6))
+                // intake and score first coral
+                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(4.13 + 0.1))
+                .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6))
+                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
+                .andThen(new ElevatorDown(elevator).withTimeout(1.6))
+                //intake and score second coral  
+        )));
+        
         //i really hope this works ^
 
         SmartDashboard.putData("Auto Selector", autoChooser);
