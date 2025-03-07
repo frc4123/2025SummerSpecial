@@ -95,13 +95,13 @@ public class Vision extends SubsystemBase {
         // Front camera estimator (new 2025 syntax)
         frontEstimator = new PhotonPoseEstimator(
             aprilTagFieldLayout,
-            PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+            PoseStrategy.LOWEST_AMBIGUITY,
             robotToFrontCam
         );
 
         highEstimator = new PhotonPoseEstimator(
             aprilTagFieldLayout,
-            PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+            PoseStrategy.LOWEST_AMBIGUITY,
             robotToHighCam
         );
         highEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
@@ -189,7 +189,7 @@ public class Vision extends SubsystemBase {
         
         double avgDistance = totalDistance / numTags;
         Matrix<N3, N1> baseDevs = numTags >= 2 ? multiTagStdDevs : singleTagStdDevs;
-        return baseDevs.times(0.2 + (avgDistance * avgDistance / 30));
+        return baseDevs.times(0.2 + (avgDistance * avgDistance / 20));
     }
 
     private void publishTargetTransform(PhotonTrackedTarget target, boolean isFrontCamera) {

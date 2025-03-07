@@ -328,7 +328,7 @@ public class RobotContainer {
                 new CoralIntake(coralManipulator, elevator).withTimeout(2.38)
                 .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6))
                 .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
-                .andThen(new ElevatorDown(elevator).withTimeout(1.6))
+                .andThen(new ElevatorDown(elevator).withTimeout(1.6 + 0.3))
                 // intake and score first coral
                 .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(4.13 + 0.1))
                 .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6))
