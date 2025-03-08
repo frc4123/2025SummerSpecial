@@ -314,7 +314,7 @@ public class RobotContainer {
                 .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
                 .andThen(new ElevatorDown(elevator).withTimeout(1.6+0.25))
                 // intake and score first coral
-                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(3.23))
+                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(3.23 + 0.5))
                 .andThen(new ElevatorAutoVision(elevator).withTimeout(1)) // 4.23
                 .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6))
                 .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
@@ -342,6 +342,11 @@ public class RobotContainer {
         new WaitCommand(0.01),
           new SequentialCommandGroup(new LeftLeave().leftLeave())
         ));
+
+        // autoChooser.addOption("Right Leave", new ParallelCommandGroup(
+        // new WaitCommand(0.01),
+        //   new SequentialCommandGroup(new RightLeave().rightLeave())
+        // ));
            
         //i really hope this works ^
 
