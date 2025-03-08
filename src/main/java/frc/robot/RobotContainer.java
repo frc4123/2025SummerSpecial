@@ -19,6 +19,7 @@ import frc.robot.commands.arm.ArmReef;
 import frc.robot.commands.autos.BlueLeftCoral2;
 import frc.robot.commands.autos.BlueRight2Coralv2;
 import frc.robot.commands.autos.BlueRightCoral2;
+import frc.robot.commands.autos.LeftLeave;
 import frc.robot.commands.autos.MiddleCoral;
 import frc.robot.commands.coral_manipulator.CoralIntake;
 import frc.robot.commands.coral_manipulator.CoralIntakeStop;
@@ -321,21 +322,26 @@ public class RobotContainer {
                 //intake and score second coral
         )));
 
-        autoChooser.addOption("Left 2 Coral", new ParallelCommandGroup(
+        // autoChooser.addOption("Left 2 Coral", new ParallelCommandGroup(
+        // new WaitCommand(0.01),
+        //   new SequentialCommandGroup(new BlueLeftCoral2().blueLeftCoral()),
+        //   new SequentialCommandGroup(
+        //         new CoralIntake(coralManipulator, elevator).withTimeout(2.38)
+        //         .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6))
+        //         .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
+        //         .andThen(new ElevatorDown(elevator).withTimeout(1.6 + 0.3))
+        //         // intake and score first coral
+        //         .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(4.13 + 0.1))
+        //         .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6))
+        //         .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
+        //         .andThen(new ElevatorDown(elevator).withTimeout(1.6))
+        //         //intake and score second coral
+        // )));
+
+        autoChooser.addOption("Left Leave", new ParallelCommandGroup(
         new WaitCommand(0.01),
-          new SequentialCommandGroup(new BlueLeftCoral2().blueLeftCoral()),
-          new SequentialCommandGroup(
-                new CoralIntake(coralManipulator, elevator).withTimeout(2.38)
-                .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6))
-                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
-                .andThen(new ElevatorDown(elevator).withTimeout(1.6 + 0.3))
-                // intake and score first coral
-                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(4.13 + 0.1))
-                .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6))
-                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
-                .andThen(new ElevatorDown(elevator).withTimeout(1.6))
-                //intake and score second coral
-        )));
+          new SequentialCommandGroup(new LeftLeave().leftLeave())
+        ));
            
         //i really hope this works ^
 

@@ -150,26 +150,41 @@ public class Vision extends SubsystemBase {
 
     private void processCamera(PhotonCamera camera, PhotonPoseEstimator estimator) {
         PhotonPipelineResult result = getLatestResults(camera);
-        
-        // Null check first before accessing methods
         if (result == null || !result.hasTargets()) return;
-    
-        estimator.setReferencePose(drivetrain.getState().Pose);
-        Optional<EstimatedRobotPose> poseOptional = estimator.update(result);
         
-        if (poseOptional.isPresent()) {
-            EstimatedRobotPose est = poseOptional.get();
-            Matrix<N3, N1> stdDevs = calculateStdDevs(est, result.getTargets());
+
+        if (isTagReef(result)){
+            // Null check first before accessing methods
             
-            drivetrain.addVisionMeasurement(
-                est.estimatedPose.toPose2d(),
-                Utils.fpgaToCurrentTime(est.timestampSeconds),
-                stdDevs
-            );
+    
+            estimator.setReferencePose(drivetrain.getState().Pose);
+            Optional<EstimatedRobotPose> poseOptional = estimator.update(result);
+        
+            if (poseOptional.isPresent()) {
+                EstimatedRobotPose est = poseOptional.get();
+                Matrix<N3, N1> stdDevs = calculateStdDevs(est, result.getTargets());
             
-            // Publish target transforms
-            publishTargetTransform(result.getBestTarget(), camera.equals(frontCamera));
+                drivetrain.addVisionMeasurement(
+                    est.estimatedPose.toPose2d(),
+                    Utils.fpgaToCurrentTime(est.timestampSeconds),
+                    stdDevs
+                );
+            
+                // Publish target transforms
+                publishTargetTransform(result.getBestTarget(), camera.equals(frontCamera));
+            }
         }
+        
+    }
+
+    private boolean isTagReef(PhotonPipelineResult result){
+        int tagId = result.getBestTarget().getFiducialId();
+        if (Set.of(17,18,19,20,21,22).contains(tagId) && DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Blue) {
+            return true;
+        } else if (Set.of(6,7,8,9,10,11).contains(tagId) && DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
+            return true;
+        }
+        return false;
     }
 
     private Matrix<N3, N1> calculateStdDevs(EstimatedRobotPose est, List<PhotonTrackedTarget> targets) {
