@@ -234,6 +234,7 @@ public class RobotContainer {
         m_buttonBoard.button(8).onFalse(coralIntakeStop);
 
         m_buttonBoard.povLeft().onTrue(elevatorL4); // green (4)
+        m_buttonBoard.povLeft().onFalse(armStow);
         m_buttonBoard.povDown().onTrue(elevatorL2); // blue (2) // find these and order them with L1 being bottom button
         m_buttonBoard.povUp().onTrue(elevatorL1); // red (1)
         m_buttonBoard.povRight().onTrue(elevatorL3); // yellow (3)
