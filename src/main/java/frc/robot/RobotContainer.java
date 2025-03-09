@@ -319,7 +319,8 @@ public class RobotContainer {
                 .andThen(new ElevatorAutoVision(elevator).withTimeout(1)) // 4.23
                 .andThen(new Elevator2CoralAuto(elevator, arm).withTimeout(1.6))
                 .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
-                .andThen(new ElevatorDown(elevator).withTimeout(1.6))
+                .andThen(new ArmStow(arm).withTimeout(0.1))
+                .andThen(new ElevatorDown(elevator).withTimeout(1.5))
                 //intake and score second coral
         )));
 
