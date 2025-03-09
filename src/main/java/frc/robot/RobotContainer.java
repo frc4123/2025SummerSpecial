@@ -26,6 +26,7 @@ import frc.robot.commands.coral_manipulator.CoralIntakeStop;
 import frc.robot.commands.coral_manipulator.CoralReverse;
 import frc.robot.commands.elevator.ElevatorL2;
 import frc.robot.commands.elevator.ElevatorL2Algae;
+import frc.robot.commands.elevator.Elevator2CoralAuto;
 import frc.robot.commands.elevator.ElevatorAlgaeGround;
 import frc.robot.commands.elevator.ElevatorAutoVision;
 import frc.robot.commands.elevator.ElevatorBarge;
@@ -316,7 +317,7 @@ public class RobotContainer {
                 // intake and score first coral
                 .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(3.23 + 0.5))
                 .andThen(new ElevatorAutoVision(elevator).withTimeout(1)) // 4.23
-                .andThen(new ElevatorL4(elevator, arm).withTimeout(1.6))
+                .andThen(new Elevator2CoralAuto(elevator, arm).withTimeout(1.6))
                 .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
                 .andThen(new ElevatorDown(elevator).withTimeout(1.6))
                 //intake and score second coral
