@@ -73,6 +73,7 @@ public class Constants {
         public static final double gearRatio = 96.66;
 
         public static final double stowPosition = 0.34;
+        public static final double upAutoPosition = 0.31;
         public static final double upPosition = 0.30; // tune
         public static final double bargePosition = 0.22; //tune
         public static final double reefPosition = 0.125; // was 0.15

@@ -19,7 +19,7 @@ public class ElevatorL4 extends Command{
 
     @Override
     public void execute(){
-        arm.setPosition(Constants.Arm.upPosition);
+        arm.setPosition(Constants.Arm.upAutoPosition);
         elevator.setPosition(Constants.Elevator.l4);
     }
     
