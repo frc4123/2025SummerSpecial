@@ -183,10 +183,29 @@ public class Constants {
             new Pose2d(13.474446, 3.3063179999999996, new Rotation2d(-60 * Math.PI / 180.0))
         };
 
+        public static final Pose2d[] BLUE_CORALSTATION_POSES = {
+            new Pose2d(0.8511, 0.65532, new Rotation2d(55 * Math.PI / 180.0)),
+            new Pose2d(0.8511, 7.3964, new Rotation2d(-55 * Math.PI / 180.0))
+        };
+
+        public static final Pose2d[] RED_CORALSTATION_POSES = {
+            new Pose2d(16.697, 7.3964, new Rotation2d(55 * Math.PI / 180.0)),
+            new Pose2d(16.697, 0.65532, new Rotation2d(-55 * Math.PI / 180.0))
+        };
+
         public static final double[][] ADDITIONS = {
             {-0.4762, -0.075}, // LEFT ADDITION // {0.342, 0} //0.385
             {-0.4762, -0.47}  // RIGHT ADDITION // {0.342, 0.348} //0.385 was correct in odometry w advantagescope
             // {+forward/back-, +left/right-}
+        };
+
+        public static final double[] ALGAEADDITIONS = {-0.4762, -0.05};
+        
+        
+
+        public static final double[][] CORALSTATIONADDITIONS = {
+            {0.000, 0.508},
+            {0.000, -0.508}
         };
 
     }
