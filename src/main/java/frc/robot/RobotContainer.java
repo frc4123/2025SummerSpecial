@@ -16,9 +16,9 @@ import frc.robot.commands.arm.ArmProcessor;
 import frc.robot.commands.arm.ArmStow;
 import frc.robot.commands.arm.ArmUp;
 import frc.robot.commands.arm.ArmReef;
-import frc.robot.commands.autos.BlueLeftCoral2;
+// import frc.robot.commands.autos.BlueLeftCoral2;
 import frc.robot.commands.autos.BlueRight2Coralv2;
-import frc.robot.commands.autos.BlueRightCoral2;
+// import frc.robot.commands.autos.BlueRightCoral2;
 import frc.robot.commands.autos.LeftLeave;
 import frc.robot.commands.autos.MiddleCoral;
 import frc.robot.commands.coral_manipulator.CoralIntake;
@@ -51,7 +51,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 // import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 
 import frc.robot.commands.generated.TunerConstants;
-import frc.robot.commands.swerve.AutoLineUpProcessor;
+import frc.robot.commands.swerve.AutoLineUpAlgae;
 import frc.robot.commands.swerve.AutoLineUpReef;
 import frc.robot.subsystems.AlgaeManipulator;
 import frc.robot.subsystems.Arm;
@@ -117,7 +117,7 @@ public class RobotContainer {
 
     private final Command leftCoralAutoDrive = new AutoLineUpReef(drivetrain, 0);
     private final Command rightCoralAutoDrive = new AutoLineUpReef(drivetrain, 1);
-    private final Command processorAutoDrive = new AutoLineUpProcessor(drivetrain);
+    private final Command algaeAutoDrive = new AutoLineUpAlgae(drivetrain);
 
     public double currentAngle = drivetrain.getState().Pose.getRotation().getDegrees();
     
@@ -168,7 +168,7 @@ public class RobotContainer {
 
         joystick.rightTrigger().whileTrue(rightCoralAutoDrive);
         joystick.leftTrigger().whileTrue(leftCoralAutoDrive);
-        joystick.rightBumper().whileTrue(processorAutoDrive);
+        joystick.y().whileTrue(algaeAutoDrive);
 
         joystick.povLeft().whileTrue(drivetrain.applyRequest(() -> robotStrafe
             .withVelocityY(0.1 * MaxSpeed)

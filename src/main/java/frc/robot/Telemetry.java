@@ -10,7 +10,7 @@ import edu.wpi.first.networktables.StringPublisher;
 import edu.wpi.first.networktables.StructPublisher;
 
 public class Telemetry {
-    private final double maxSpeed; // Retain maxSpeed for potential use
+    //private final double maxSpeed; // Retain maxSpeed for potential use
     private final NetworkTableInstance inst = NetworkTableInstance.getDefault();
 
     /* Robot swerve drive state */
@@ -31,7 +31,7 @@ public class Telemetry {
      * @param maxSpeed Maximum speed in meters per second
      */
     public Telemetry(double maxSpeed) {
-        this.maxSpeed = maxSpeed;
+        //this.maxSpeed = maxSpeed;
         fieldTypePub.set("Field2d");
     }
 
