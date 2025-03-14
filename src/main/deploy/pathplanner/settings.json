@@ -4,7 +4,8 @@
   "holonomicMode": true,
   "pathFolders": [
     "Blue Left Coral",
-    "Blue Right Coral"
+    "Blue Right Coral",
+    "Blue Right Coral 3"
   ],
   "autoFolders": [],
   "defaultMaxVel": 4.0,

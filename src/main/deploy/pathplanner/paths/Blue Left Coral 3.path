@@ -3,28 +3,28 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.236,
-        "y": 7.035
+        "x": 0.99,
+        "y": 6.879
       },
       "prevControl": null,
       "nextControl": {
-        "x": 3.1945142102618282,
-        "y": 5.957386654124922
+        "x": 6.126314308133187,
+        "y": 6.474358198007642
       },
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 3.429,
-        "y": 4.923
+        "x": 5.098,
+        "y": 5.0
       },
       "prevControl": {
-        "x": 2.8114913675145075,
-        "y": 5.303500952438318
+        "x": 6.335870121451965,
+        "y": 6.682167712882095
       },
       "nextControl": null,
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": null
     }
   ],
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.99999999999999
+    "rotation": -119.99999999999999
   },
   "reversed": false,
   "folder": "Blue Left Coral",

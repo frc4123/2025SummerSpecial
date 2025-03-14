@@ -3,43 +3,38 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.032,
-        "y": 0.501
+        "x": 0.99,
+        "y": 1.121
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.067994823330942,
-        "y": 4.740372994720894
+        "x": 1.9037317912373026,
+        "y": 1.6753321513906565
       },
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.549,
-        "y": 3.129
+        "x": 4.285,
+        "y": 2.648277633101851
       },
       "prevControl": {
-        "x": 6.3183796566200785,
-        "y": 2.243132668729475
+        "x": 3.320623123839986,
+        "y": 2.062589094771694
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.30578741776315754,
-      "rotationDegrees": 119.99999999999999
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 4.0,
-    "maxAcceleration": 4.0,
+    "maxAcceleration": 3.0,
     "maxAngularVelocity": 700.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -47,13 +42,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 119.99999999999999
+    "rotation": 59.99999999999999
   },
   "reversed": false,
-  "folder": "Blue Right Coral",
+  "folder": "Blue Right Coral 3",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 55.0
   },
-  "useDefaultConstraints": true
+  "useDefaultConstraints": false
 }
