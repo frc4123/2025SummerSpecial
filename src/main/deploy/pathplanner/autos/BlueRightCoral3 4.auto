@@ -1,0 +1,25 @@
+{
+  "version": "2025.0",
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Copy of Blue Right Coral 4"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.7
+          }
+        }
+      ]
+    }
+  },
+  "resetOdom": true,
+  "folder": "BlueRightCoral3",
+  "choreoAuto": false
+}

@@ -3,37 +3,32 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.032,
-        "y": 0.501
+        "x": 7.11154296875,
+        "y": 1.8836324508101847
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.067994823330942,
-        "y": 4.740372994720895
+        "x": 6.857150544323949,
+        "y": 1.9093974634367334
       },
-      "isLocked": true,
+      "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.549,
-        "y": 3.129
+        "x": 5.208,
+        "y": 2.931
       },
       "prevControl": {
-        "x": 6.3183796566200785,
-        "y": 2.243132668729475
+        "x": 5.8134852037274385,
+        "y": 2.5852738882056987
       },
       "nextControl": null,
       "isLocked": false,
       "linkedName": null
     }
   ],
-  "rotationTargets": [
-    {
-      "waypointRelativePos": 0.30578741776315754,
-      "rotationDegrees": 119.99999999999999
-    }
-  ],
+  "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [],
@@ -53,7 +48,7 @@
   "folder": "Blue Right Coral 3",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 0.0
+    "rotation": 179.24675323232503
   },
   "useDefaultConstraints": false
 }

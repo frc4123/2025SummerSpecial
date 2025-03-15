@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.960653645833333,
-        "y": 1.9822039930555544
+        "x": 1.1747431132600228,
+        "y": 1.329173038227917
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 5.098,
-        "y": 3.001
+        "x": 4.243,
+        "y": 2.659
       },
       "prevControl": {
-        "x": 5.788427857447596,
-        "y": 2.0404473742497005
+        "x": 4.0492977411243025,
+        "y": 2.5009511629069916
       },
       "nextControl": null,
       "isLocked": false,
@@ -42,7 +42,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 119.99999999999999
+    "rotation": 59.99999999999999
   },
   "reversed": false,
   "folder": "Blue Right Coral 3",

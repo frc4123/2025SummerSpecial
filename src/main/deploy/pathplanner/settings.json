@@ -7,7 +7,9 @@
     "Blue Right Coral",
     "Blue Right Coral 3"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "BlueRightCoral3"
+  ],
   "defaultMaxVel": 4.0,
   "defaultMaxAccel": 4.0,
   "defaultMaxAngVel": 700.0,
