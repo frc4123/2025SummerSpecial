@@ -40,6 +40,7 @@ import frc.robot.commands.elevator.ElevatorL1;
 import frc.robot.commands.elevator.ElevatorL3;
 import frc.robot.commands.elevator.ElevatorL4;
 
+import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
@@ -48,13 +49,14 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandGenericHID;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 // import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
-
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.generated.TunerConstants;
 import frc.robot.commands.swerve.AutoLineUpAlgae;
 import frc.robot.commands.swerve.AutoLineUpReef;
@@ -193,7 +195,13 @@ public class RobotContainer {
     
         joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
 
-        // Final Button Mappings below
+        
+        // joystick.leftTrigger().whileTrue(Commands.runOnce(SignalLogger::start));
+        // joystick.rightTrigger().whileTrue(Commands.runOnce(SignalLogger::stop));
+        // joystick.povUp().whileTrue(drivetrain.sysIdDynamic(Direction.kForward));
+        // joystick.povRight().whileTrue(drivetrain.sysIdDynamic(Direction.kReverse));
+        // joystick.povDown().whileTrue(drivetrain.sysIdQuasistatic(Direction.kForward));
+        // joystick.povLeft().whileTrue(drivetrain.sysIdQuasistatic(Direction.kReverse));
 
         m_buttonBoard.button(1).onTrue(coralReverse);
         m_buttonBoard.button(1).onFalse(coralIntakeStop);
