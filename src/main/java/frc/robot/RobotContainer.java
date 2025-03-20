@@ -59,6 +59,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 // import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Direction;
 import frc.robot.commands.generated.TunerConstants;
 import frc.robot.commands.swerve.AutoLineUpAlgae;
+import frc.robot.commands.swerve.AutoLineUpCoralStation;
 import frc.robot.commands.swerve.AutoLineUpReef;
 import frc.robot.subsystems.AlgaeManipulator;
 import frc.robot.subsystems.Arm;
@@ -125,6 +126,8 @@ public class RobotContainer {
     private final Command leftCoralAutoDrive = new AutoLineUpReef(drivetrain, 0);
     private final Command rightCoralAutoDrive = new AutoLineUpReef(drivetrain, 1);
     private final Command algaeAutoDrive = new AutoLineUpAlgae(drivetrain);
+    private final Command leftCoralStationAutoDrive = new AutoLineUpCoralStation(drivetrain, 0);
+    private final Command rightCoralStationAutoDrive = new AutoLineUpCoralStation(drivetrain, 1);
 
     public double currentAngle = drivetrain.getState().Pose.getRotation().getDegrees();
     
@@ -156,7 +159,7 @@ public class RobotContainer {
             )
         );
 
-        joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
+        //joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
 
         joystick.x().whileTrue(
             drivetrain.applyRequest(() ->
@@ -176,6 +179,8 @@ public class RobotContainer {
         joystick.rightTrigger().whileTrue(rightCoralAutoDrive);
         joystick.leftTrigger().whileTrue(leftCoralAutoDrive);
         joystick.y().whileTrue(algaeAutoDrive);
+        joystick.leftBumper().whileTrue(leftCoralStationAutoDrive);
+        joystick.rightBumper().whileTrue(rightCoralStationAutoDrive);
 
         joystick.povLeft().whileTrue(drivetrain.applyRequest(() -> robotStrafe
             .withVelocityY(0.1 * MaxSpeed)
@@ -193,7 +198,7 @@ public class RobotContainer {
             .withVelocityX(-0.1 * MaxSpeed)
             .withVelocityY(0)));
     
-        joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        joystick.a().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
         
         // joystick.leftTrigger().whileTrue(Commands.runOnce(SignalLogger::start));
         // joystick.rightTrigger().whileTrue(Commands.runOnce(SignalLogger::stop));
