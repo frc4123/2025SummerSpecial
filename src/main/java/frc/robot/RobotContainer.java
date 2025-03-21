@@ -345,8 +345,9 @@ public class RobotContainer {
         autoChooser.addOption("Right 3 Coral (WIP dont use)", new ParallelCommandGroup(
         new WaitCommand(0.01),
           new SequentialCommandGroup(
-            new BlueCoralRight1().blueRightCoral().withTimeout(1.7)
-            .andThen(new AutoLineUpReef(drivetrain, 0)).withTimeout(0.5 + 0.6)
+            new BlueCoralRight1().blueRightCoral().withTimeout(1.74)
+            .andThen(new WaitCommand(0.46 + 0.6))
+            // .andThen(new AutoLineUpReef(drivetrain, 0)).withTimeout(0.46 + 0.6)
             .andThen(new BlueCoralRight2().blueRightCoral().withTimeout(2.53 + 0.7))
             .andThen(new BlueCoralRight3().blueRightCoral().withTimeout(2.1))
             .andThen(new AutoLineUpReef(drivetrain, 1).withTimeout(0.5 + 0.09 + 0.6)) //9.32 // the second 0.5 are donations bc without them were at 13.14
