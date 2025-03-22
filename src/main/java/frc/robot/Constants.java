@@ -103,7 +103,7 @@ public class Constants {
         public static final double l2Algae = 27;
         public static final double l2 = 30;
         public static final double l3 = 50;
-        public static final double l4 = 78; // tune
+        public static final double l4 = 78.5; // tune
         public static final double l4auto = 78.5 - 0.7;
         public static final double up = 88; //technically its 88.4
     }
@@ -154,7 +154,7 @@ public class Constants {
         // new Translation2d(-kWheelBase / 2, kTrackWidth / 2), // back left
         // new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)); // back right
 
-        public static final double CLOSE_TRANSLATION_PP_KP = 6; // 8
+        public static final double CLOSE_TRANSLATION_PP_KP = 3; // 8
         public static final double CLOSE_TRANSLATION_PP_KI = 0.0;
         public static final double CLOSE_TRANSLATION_PP_KD = 0.0;
 

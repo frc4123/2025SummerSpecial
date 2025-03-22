@@ -32,8 +32,8 @@ public class CloseDriveToPose extends Command {
         
         rotationPID.enableContinuousInput(-Math.PI, Math.PI);
 
-        xTranslationPID.setTolerance(0.004);
-        yTranslationPID.setTolerance(0.004);
+        xTranslationPID.setTolerance(0.008);
+        yTranslationPID.setTolerance(0.008);
         rotationPID.setTolerance(0.1);
         
         addRequirements(swerve);
