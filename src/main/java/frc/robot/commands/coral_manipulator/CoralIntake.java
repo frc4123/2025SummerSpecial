@@ -34,5 +34,6 @@ public class CoralIntake extends Command{
     @Override
     public void end(boolean interrupted) {
         intake.setCoralVelo(0.0); 
+        intake.resetLockout();
     }
 }
