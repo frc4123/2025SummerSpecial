@@ -387,11 +387,13 @@ public class RobotContainer {
         autoChooser.addOption("Right 3 Coral", new ParallelCommandGroup(
         new WaitCommand(0.01),
           new SequentialCommandGroup(
-            new BlueCoralRight1().blueRightCoral().withTimeout(2.7) //2.51 but gave extra time
+            new BlueCoralRight1().blueRightCoral().withTimeout(2.51)
+            .andThen(new CoralYolo(coralManipulator).withTimeout(0.2)) //2.51 but gave extra time
             .andThen(new BlueCoralRight2().blueRightCoral().withTimeout(2.6 + 0.7)) // was 2.37
             .andThen(new BlueCoralRight3().blueRightCoral().withTimeout(3.04))
             .andThen(new BlueCoralRight4().blueRightCoral().withTimeout(2.62 + 0.7))
-            .andThen(new BlueCoralRight5().blueRightCoral().withTimeout(4)) // 2.51 butr extra time for the coral outtake
+            .andThen(new BlueCoralRight5().blueRightCoral().withTimeout(2.51))
+            .andThen(new CoralYolo(coralManipulator).withTimeout(0.2)) // 2.51 butr extra time for the coral outtake
             .andThen(new BlueCoralRight6().blueRightCoral().withTimeout(0.1)) 
             )
           ));
