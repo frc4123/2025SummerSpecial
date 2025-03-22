@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.1747431132600228,
-        "y": 1.329173038227917
+        "x": 1.2691764938117687,
+        "y": 1.2764195258299633
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 2.659
       },
       "prevControl": {
-        "x": 4.0492977411243025,
-        "y": 2.5009511629069916
+        "x": 4.117828938691984,
+        "y": 2.442592501490764
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,12 +29,55 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.5474863229442997,
+      "maxWaypointRelativePos": 1.0,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 1.0,
+        "maxAngularVelocity": 700.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "ScoreFast",
+      "waypointRelativePos": 0,
+      "endWaypointRelativePos": 0.515272712201592,
+      "command": null
+    },
+    {
+      "name": "2ScoreL4",
+      "waypointRelativePos": 0.5503564323607456,
+      "endWaypointRelativePos": 1.0,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ElevatorL4"
+        }
+      }
+    },
+    {
+      "name": "Score",
+      "waypointRelativePos": 0.951353199602123,
+      "endWaypointRelativePos": 1.0,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ScoreFast"
+        }
+      }
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.5,
     "maxAngularVelocity": 700.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,

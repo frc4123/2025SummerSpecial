@@ -27,6 +27,7 @@ import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight2;
 import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight3;
 import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight4;
 import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight5;
+import frc.robot.commands.coral_manipulator.CoralFast;
 import frc.robot.commands.coral_manipulator.CoralIntake;
 import frc.robot.commands.coral_manipulator.CoralIntakeStop;
 import frc.robot.commands.coral_manipulator.CoralReverse;
@@ -46,6 +47,7 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.NamedCommands;
+import com.pathplanner.lib.events.EventTrigger;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -106,6 +108,7 @@ public class RobotContainer {
     private final AlgaeIntake algaeIntake = new AlgaeIntake(algaeManipulator);
     private final AlgaeOutake algaeOutake = new AlgaeOutake(algaeManipulator);
     private final AlgaeIntakeStop algaeIntakeStop = new AlgaeIntakeStop(algaeManipulator);
+    private final CoralFast coralFast = new CoralFast(coralManipulator, elevator);
     private final CoralIntake coralIntake = new CoralIntake(coralManipulator, elevator);
     private final CoralReverse coralReverse = new CoralReverse(coralManipulator);
     private final CoralIntakeStop coralIntakeStop = new CoralIntakeStop(coralManipulator);
@@ -145,6 +148,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("CoralIntake", coralIntake);
         NamedCommands.registerCommand("CoralIntakeStop", coralIntakeStop);
         NamedCommands.registerCommand("ElevatorDown", elevatorDown);
+        NamedCommands.registerCommand("ScoreFast", coralFast);
 
     }
 
@@ -347,40 +351,16 @@ public class RobotContainer {
                 //intake and score second coral
         )));
 
-        autoChooser.addOption("Right 3 Coral (WIP dont use)", new ParallelCommandGroup(
+        autoChooser.addOption("Right 3 Coral", new ParallelCommandGroup(
         new WaitCommand(0.01),
           new SequentialCommandGroup(
-            new BlueCoralRight1().blueRightCoral().withTimeout(1.74)
-            .andThen(new WaitCommand(0.46 + 0.6))
-            // .andThen(new AutoLineUpReef(drivetrain, 0)).withTimeout(0.46 + 0.6)
-            .andThen(new BlueCoralRight2().blueRightCoral().withTimeout(2.53 + 0.7))
-            .andThen(new BlueCoralRight3().blueRightCoral().withTimeout(2.1))
-            .andThen(new AutoLineUpReef(drivetrain, 1).withTimeout(0.5 + 0.09 + 0.6)) //9.32 // the second 0.5 are donations bc without them were at 13.14
-            .andThen(new BlueCoralRight4().blueRightCoral().withTimeout(2.19 + 0.7))
-            .andThen(new BlueCoralRight5().blueRightCoral().withTimeout(2.13))
-            .andThen(new AutoLineUpReef(drivetrain, 0).withTimeout(0.6)) // give 0.6 extra
-            ),
-          new SequentialCommandGroup(
-                new ElevatorL4(elevator, arm).withTimeout(1.6 + 0.8)
-                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.4))
-                .andThen(new ElevatorDown(elevator).withTimeout(1.6))
-                // intake and score first coral
-                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.93 + 0.7 + 0.5))
-                .andThen(new ElevatorAutoVision(elevator).withTimeout(0.2)) // 4.23
-                .andThen(new Elevator2CoralAuto(elevator, arm).withTimeout(1.4 + 0.79))
-                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.4))
-                .andThen(new ArmStow(arm).withTimeout(0.2))
-                .andThen(new ElevatorDown(elevator).withTimeout(1.5))
-                //11.72
-                //intake and score second coral
-                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(1.19 + 0.53))
-                .andThen(new ElevatorAutoVision(elevator).withTimeout(0.1)) // 4.23
-                .andThen(new Elevator2CoralAuto(elevator, arm).withTimeout(1.5))
-                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.6))
-                //.andThen(new ArmStow(arm).withTimeout(0.1))
-                //.andThen(new ElevatorDown(elevator).withTimeout(1.5))
-                //intake and score third coral
-        )));
+            new BlueCoralRight1().blueRightCoral().withTimeout(2.51)
+            .andThen(new BlueCoralRight2().blueRightCoral().withTimeout(2.67 + 0.7))
+            .andThen(new BlueCoralRight3().blueRightCoral().withTimeout(3.04))
+            .andThen(new BlueCoralRight4().blueRightCoral().withTimeout(2.62 + 0.7))
+            .andThen(new BlueCoralRight5().blueRightCoral().withTimeout(2.75))
+            )
+          ));
 
         // autoChooser.addOption("Left 2 Coral", new ParallelCommandGroup(
         // new WaitCommand(0.01),
