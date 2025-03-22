@@ -47,7 +47,7 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "ScoreFast",
+      "name": "5ScoreFast",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": 0.515272712201592,
       "command": null
@@ -64,7 +64,7 @@
       }
     },
     {
-      "name": "ScoreFast",
+      "name": "4ScoreFast",
       "waypointRelativePos": 0.951353199602123,
       "endWaypointRelativePos": 1.0,
       "command": {

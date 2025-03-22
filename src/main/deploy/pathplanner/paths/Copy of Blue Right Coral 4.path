@@ -53,7 +53,7 @@
       "command": null
     },
     {
-      "name": "ScoreFast",
+      "name": "7ScoreFast",
       "waypointRelativePos": 0.0,
       "endWaypointRelativePos": 0.047838610742705547,
       "command": {
@@ -64,7 +64,7 @@
       }
     },
     {
-      "name": "ScoreFast",
+      "name": "6ScoreFast",
       "waypointRelativePos": 0.45029633620689696,
       "endWaypointRelativePos": 1.0,
       "command": null

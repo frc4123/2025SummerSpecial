@@ -151,16 +151,20 @@ public class RobotContainer {
         NamedCommands.registerCommand("ScoreFast", coralFast);
 
         new EventTrigger("1ScoreL4").onTrue(elevatorL4);
-        new EventTrigger("ScoreFast").onTrue(coralFast);
+        new EventTrigger("1ScoreFast").onTrue(coralFast);
         new EventTrigger("ElevatorDown").onTrue(elevatorDown);
 
         new EventTrigger("2ScoreL4").onTrue(elevatorL4);
-        new EventTrigger("ScoreFast").onTrue(coralFast);
+        new EventTrigger("2ScoreFast").onTrue(coralFast);
+        new EventTrigger("3ScoreFast").onTrue(coralFast);
 
         new EventTrigger("3ScoreL4").onTrue(elevatorL4);
-
-
-
+        new EventTrigger("4ScoreFast").onTrue(coralFast);
+        new EventTrigger("5ScoreFast").onTrue(coralFast);
+        new EventTrigger("6ScoreFast").onTrue(coralFast);
+        new EventTrigger("7ScoreFast").onTrue(coralFast);
+        new EventTrigger("8ScoreFast").onTrue(coralFast);
+        new EventTrigger("9ScoreFast").onTrue(coralFast);
     }
 
     private void configureBindings() {
