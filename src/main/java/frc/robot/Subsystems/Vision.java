@@ -31,12 +31,12 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 public class Vision extends SubsystemBase {
     private final AprilTagFieldLayout aprilTagFieldLayout;
-    private final PhotonCamera frontCamera;
-    private final PhotonCamera highCamera;
-    private final PhotonPoseEstimator frontEstimator;
-    private final PhotonPoseEstimator highEstimator;
-    private final Transform3d robotToFrontCam;
-    private final Transform3d robotToHighCam;
+    private final PhotonCamera rightCamera;
+    private final PhotonCamera leftCamera;
+    private final PhotonPoseEstimator rightEstimator;
+    private final PhotonPoseEstimator leftEstimator;
+    private final Transform3d robotToRightCam;
+    private final Transform3d robotToLeftCam;
     
     // Standard deviations (tune these based on camera characteristics)
     private final Matrix<N3, N1> singleTagStdDevs = VecBuilder.fill(3, 3, 3);
@@ -52,10 +52,10 @@ public class Vision extends SubsystemBase {
     private Pose2d lastTargetPoseLeft = new Pose2d();
     
     // NetworkTables publishers
-    private final StructPublisher<Pose3d> frontCamPosePublisher;
-    private final StructPublisher<Pose3d> highCamPosePublisher;
-    private final StructPublisher<Transform3d> frontCamTargetTransformPublisher;
-    private final StructPublisher<Transform3d> highCamTargetTransformPublisher;
+    private final StructPublisher<Pose3d> rightCamPosePublisher;
+    private final StructPublisher<Pose3d> leftCamPosePublisher;
+    private final StructPublisher<Transform3d> rightCamTargetTransformPublisher;
+    private final StructPublisher<Transform3d> leftCamTargetTransformPublisher;
     
     private final CommandSwerveDrivetrain drivetrain;
 
@@ -64,45 +64,45 @@ public class Vision extends SubsystemBase {
         this.aprilTagFieldLayout = loadAprilTagFieldLayout("/fields/Reefscape2025.json");
 
         // Camera configuration
-        frontCamera = new PhotonCamera("Arducam_OV9281_USB_Camera");
-        highCamera = new PhotonCamera("Arducam_OV9281_USB_Camera_High");
+        rightCamera = new PhotonCamera("Arducam_OV9281_USB_Camera_Right");
+        leftCamera = new PhotonCamera("Arducam_OV9281_USB_Camera_Left");
         
         // Camera transforms
-        robotToFrontCam = new Transform3d(
+        robotToRightCam = new Transform3d(
             new Translation3d(
-                Constants.VisionConstants.frontX,
-                Constants.VisionConstants.frontY,
-                Constants.VisionConstants.frontZ),
+                Constants.VisionConstants.rightX,
+                Constants.VisionConstants.rightY,
+                Constants.VisionConstants.rightZ),
             new Rotation3d(
-               Constants.VisionConstants.frontRoll,
-                Constants.VisionConstants.frontPitch,
-                Constants.VisionConstants.frontYaw)
+               Constants.VisionConstants.rightRoll,
+                Constants.VisionConstants.rightPitch,
+                Constants.VisionConstants.rightYaw)
         );
 
-        robotToHighCam = new Transform3d(
+        robotToLeftCam = new Transform3d(
             new Translation3d(
-                Constants.VisionConstants.angledX,
-                Constants.VisionConstants.angledY,
-                Constants.VisionConstants.angledZ),
+                Constants.VisionConstants.leftX,
+                Constants.VisionConstants.leftY,
+                Constants.VisionConstants.leftZ),
             new Rotation3d(
-                Constants.VisionConstants.angledRoll,
-                Constants.VisionConstants.angledPitch,
-                Constants.VisionConstants.angledYaw)
+                Constants.VisionConstants.leftRoll,
+                Constants.VisionConstants.leftPitch,
+                Constants.VisionConstants.leftYaw)
         );
 
-        // Front camera estimator (new 2025 syntax)
-        frontEstimator = new PhotonPoseEstimator(
+        // Right camera estimator (new 2025 syntax)
+        rightEstimator = new PhotonPoseEstimator(
             aprilTagFieldLayout,
-            PoseStrategy.LOWEST_AMBIGUITY,
-            robotToFrontCam
+            PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+            robotToRightCam
         );
 
-        highEstimator = new PhotonPoseEstimator(
+        leftEstimator = new PhotonPoseEstimator(
             aprilTagFieldLayout,
-            PoseStrategy.LOWEST_AMBIGUITY,
-            robotToHighCam
+            PoseStrategy.MULTI_TAG_PNP_ON_COPROCESSOR,
+            robotToLeftCam
         );
-        highEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
+        leftEstimator.setMultiTagFallbackStrategy(PoseStrategy.LOWEST_AMBIGUITY);
 
         // Configure alliance inversion
         if (DriverStation.isDSAttached()) {
@@ -112,17 +112,17 @@ public class Vision extends SubsystemBase {
 
         // Initialize NetworkTables publishers
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
-        frontCamPosePublisher = inst.getStructTopic("/Vision/FrontCameraPose", Pose3d.struct).publish();
-        highCamPosePublisher = inst.getStructTopic("/Vision/HighCameraPose", Pose3d.struct).publish();
-        frontCamTargetTransformPublisher = inst.getStructTopic("/Vision/FrontCamTargetTransform", Transform3d.struct).publish();
-        highCamTargetTransformPublisher = inst.getStructTopic("/Vision/HighCamTargetTransform", Transform3d.struct).publish();
+        rightCamPosePublisher = inst.getStructTopic("/Vision/RightCameraPose", Pose3d.struct).publish();
+        leftCamPosePublisher = inst.getStructTopic("/Vision/LeftCameraPose", Pose3d.struct).publish();
+        rightCamTargetTransformPublisher = inst.getStructTopic("/Vision/RightCamTargetTransform", Transform3d.struct).publish();
+        leftCamTargetTransformPublisher = inst.getStructTopic("/Vision/LeftCamTargetTransform", Transform3d.struct).publish();
     }
 
     @Override
     public void periodic() {
         // Process both cameras
-        processCamera(frontCamera, frontEstimator);
-        processCamera(highCamera, highEstimator);
+        processCamera(rightCamera, rightEstimator);
+        processCamera(leftCamera, leftEstimator);
         
         // Update game piece tracking
         updateGamePieceTracking();
@@ -169,7 +169,7 @@ public class Vision extends SubsystemBase {
                 );
             
                 // Publish target transforms
-                publishTargetTransform(result.getBestTarget(), camera.equals(frontCamera));
+                publishTargetTransform(result.getBestTarget(), camera.equals(rightCamera));
             }
         }
         
@@ -205,19 +205,19 @@ public class Vision extends SubsystemBase {
         return baseDevs.times(0.2 + (avgDistance * avgDistance / 20));
     }
 
-    private void publishTargetTransform(PhotonTrackedTarget target, boolean isFrontCamera) {
+    private void publishTargetTransform(PhotonTrackedTarget target, boolean isRightCamera) {
         Optional<Pose3d> tagPose = aprilTagFieldLayout.getTagPose(target.getFiducialId());
         if (tagPose.isEmpty()) return;
 
         Transform3d cameraToTarget = target.getBestCameraToTarget();
-        Transform3d robotToTarget = isFrontCamera ? 
-            robotToFrontCam.plus(cameraToTarget) :
-            robotToHighCam.plus(cameraToTarget);
+        Transform3d robotToTarget = isRightCamera ? 
+            robotToRightCam.plus(cameraToTarget) :
+            robotToLeftCam.plus(cameraToTarget);
 
-        if (isFrontCamera) {
-            frontCamTargetTransformPublisher.set(robotToTarget);
+        if (isRightCamera) {
+            rightCamTargetTransformPublisher.set(robotToTarget);
         } else {
-            highCamTargetTransformPublisher.set(robotToTarget);
+            leftCamTargetTransformPublisher.set(robotToTarget);
         }
     }
 
@@ -230,8 +230,8 @@ public class Vision extends SubsystemBase {
 
     private void publishCameraPoses() {
         Pose3d robotPose = new Pose3d(drivetrain.getState().Pose);
-        frontCamPosePublisher.set(robotPose.plus(robotToFrontCam));
-        highCamPosePublisher.set(robotPose.plus(robotToHighCam));
+        rightCamPosePublisher.set(robotPose.plus(robotToRightCam));
+        leftCamPosePublisher.set(robotPose.plus(robotToLeftCam));
     }
 
     private int findClosestAprilTag() {

@@ -90,9 +90,9 @@ public class Constants {
         public static final double kA = 0;
         public static final double kG = 16;
 
-        public static final double velocity = 72; // try 120; // max is 250 (don't go 250)
-        public static final double acceleration = 225; //100;
-        public static final double jerk = 380; //80; 
+        public static final double velocity = 80; // theoretically max is 290 (never go above 250) but irl doesnt go above 80
+        public static final double acceleration = 400; //100;
+        public static final double jerk = 650; //80; 
 
         public static final double gearRatio = -1;
 
@@ -103,7 +103,7 @@ public class Constants {
         public static final double l2Algae = 27;
         public static final double l2 = 30;
         public static final double l3 = 50;
-        public static final double l4 = 78.5; // tune
+        public static final double l4 = 78; // tune
         public static final double l4auto = 78.5 - 0.7;
         public static final double up = 88; //technically its 88.4
     }
@@ -194,12 +194,12 @@ public class Constants {
         };
 
         public static final double[][] ADDITIONS = {
-            {-0.4762, -0.075}, // LEFT ADDITION // {0.342, 0} //0.385
-            {-0.4762, -0.47}  // RIGHT ADDITION // {0.342, 0.348} //0.385 was correct in odometry w advantagescope
+            {-0.485, -0.1}, // LEFT ADDITION // {0.342, 0} //0.385
+            {-0.485, -0.445}  // RIGHT ADDITION // {0.342, 0.348} //0.385 was correct in odometry w advantagescope
             // {+forward/back-, +left/right-}
         };
 
-        public static final double[] ALGAEADDITIONS = {-0.53, 0.12};
+        public static final double[] ALGAEADDITIONS = {-0.65, 0.12};
 
         public static final double[][] CORALSTATIONADDITIONS = {
             {0.4762, 0.408},
@@ -249,21 +249,21 @@ public class MathUtils {
 
     public static final class VisionConstants{
         //Front Forward Camera Translation and Angle
-        public static final double frontX = Units.inchesToMeters(7.176364); // 7.495 7.176364 -7.176364
-        public static final double frontY = Units.inchesToMeters(7.495000); // -7.176364 7.495000 -7.495000
-        public static final double frontZ = Units.inchesToMeters(6.857670); // 7.02
+        public static final double leftX = Units.inchesToMeters(9.911500); // 7.495 7.176364 -7.176364
+        public static final double leftY = Units.inchesToMeters(13.492853); // -7.176364 7.495000 -7.495000
+        public static final double leftZ = Units.inchesToMeters(8.186116); // 7.02
 
-        public static final double frontRoll = Math.toRadians(0);
-        public static final double frontPitch = Math.toRadians(-25); // 25
-        public static final double frontYaw = Math.toRadians(0);
+        public static final double leftRoll = Math.toRadians(0);
+        public static final double leftPitch = Math.toRadians(-20); // 25
+        public static final double leftYaw = Math.toRadians(20);
 
         //Front Angled Camera Translation and Angle
-        public static final double angledX = Units.inchesToMeters(13.351494); // -11.7 12.75
-        public static final double angledY = Units.inchesToMeters(2.766400); // 1.900142 3
-        public static final double angledZ = Units.inchesToMeters(9.240711);
+        public static final double rightX = Units.inchesToMeters(12.132983); // -11.7 12.75
+        public static final double rightY = Units.inchesToMeters(9.487773); // 1.900142 3
+        public static final double rightZ = Units.inchesToMeters(7.715023);
 
-        public static final double angledRoll = Math.toRadians(0);
-        public static final double angledPitch = Math.toRadians(-10); // 10
-        public static final double angledYaw = Math.toRadians(55); // -55
+        public static final double rightRoll = Math.toRadians(0);
+        public static final double rightPitch = Math.toRadians(-25); // 10
+        public static final double rightYaw = Math.toRadians(-30); // -55
     }
 }
