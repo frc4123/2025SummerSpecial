@@ -31,6 +31,7 @@ import frc.robot.commands.coral_manipulator.CoralFast;
 import frc.robot.commands.coral_manipulator.CoralIntake;
 import frc.robot.commands.coral_manipulator.CoralIntakeStop;
 import frc.robot.commands.coral_manipulator.CoralReverse;
+import frc.robot.commands.coral_manipulator.CoralYolo;
 import frc.robot.commands.elevator.ElevatorL2;
 import frc.robot.commands.elevator.ElevatorL2Algae;
 import frc.robot.commands.elevator.Elevator2CoralAuto;
@@ -112,6 +113,7 @@ public class RobotContainer {
     private final CoralIntake coralIntake = new CoralIntake(coralManipulator, elevator);
     private final CoralReverse coralReverse = new CoralReverse(coralManipulator);
     private final CoralIntakeStop coralIntakeStop = new CoralIntakeStop(coralManipulator);
+    private final CoralYolo coralYolo = new CoralYolo(coralManipulator);
     private final ArmStow armStow = new ArmStow(arm);
     private final ArmOut armOut = new ArmOut(arm);
     private final ArmReef armReef = new ArmReef(arm);
@@ -151,12 +153,12 @@ public class RobotContainer {
         NamedCommands.registerCommand("1ScoreFast", coralFast);
         NamedCommands.registerCommand("2ScoreFast", coralFast);
         NamedCommands.registerCommand("3ScoreFast", coralFast);
-        NamedCommands.registerCommand("4ScoreFast", coralFast);
+        NamedCommands.registerCommand("4ScoreFast", coralYolo);
         NamedCommands.registerCommand("5ScoreFast", coralFast);
         NamedCommands.registerCommand("6ScoreFast", coralFast);
-        NamedCommands.registerCommand("7ScoreFast", coralFast);
+        NamedCommands.registerCommand("7ScoreFast", coralYolo);
         NamedCommands.registerCommand("8ScoreFast", coralFast);
-        NamedCommands.registerCommand("9ScoreFast", coralFast);
+        NamedCommands.registerCommand("9ScoreFast", coralYolo);
 
 
         new EventTrigger("1ScoreL4").onTrue(elevatorL4);
@@ -168,12 +170,12 @@ public class RobotContainer {
         new EventTrigger("3ScoreFast").onTrue(coralFast);
 
         new EventTrigger("3ScoreL4").onTrue(elevatorL4);
-        new EventTrigger("4ScoreFast").onTrue(coralFast);
+        new EventTrigger("4ScoreFast").onTrue(coralYolo);
         new EventTrigger("5ScoreFast").onTrue(coralFast);
         new EventTrigger("6ScoreFast").onTrue(coralFast);
-        new EventTrigger("7ScoreFast").onTrue(coralFast);
+        new EventTrigger("7ScoreFast").onTrue(coralYolo);
         new EventTrigger("8ScoreFast").onTrue(coralFast);
-        new EventTrigger("9ScoreFast").onTrue(coralFast);
+        new EventTrigger("9ScoreFast").onTrue(coralYolo);
     }
 
     private void configureBindings() {
