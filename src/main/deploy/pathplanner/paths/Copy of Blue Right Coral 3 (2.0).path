@@ -64,7 +64,7 @@
       }
     },
     {
-      "name": "Score",
+      "name": "ScoreFast",
       "waypointRelativePos": 0.951353199602123,
       "endWaypointRelativePos": 1.0,
       "command": {

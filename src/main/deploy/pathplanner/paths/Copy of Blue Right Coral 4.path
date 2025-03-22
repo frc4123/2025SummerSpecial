@@ -64,7 +64,7 @@
       }
     },
     {
-      "name": "CoralIntake",
+      "name": "ScoreFast",
       "waypointRelativePos": 0.45029633620689696,
       "endWaypointRelativePos": 1.0,
       "command": null

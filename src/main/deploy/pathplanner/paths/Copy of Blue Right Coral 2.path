@@ -69,7 +69,7 @@
       }
     },
     {
-      "name": "Intake",
+      "name": "ScoreFast",
       "waypointRelativePos": 0.2500621684350133,
       "endWaypointRelativePos": 1.0,
       "command": {

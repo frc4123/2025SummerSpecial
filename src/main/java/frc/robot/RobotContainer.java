@@ -150,6 +150,17 @@ public class RobotContainer {
         NamedCommands.registerCommand("ElevatorDown", elevatorDown);
         NamedCommands.registerCommand("ScoreFast", coralFast);
 
+        new EventTrigger("1ScoreL4").onTrue(elevatorL4);
+        new EventTrigger("ScoreFast").onTrue(coralFast);
+        new EventTrigger("ElevatorDown").onTrue(elevatorDown);
+
+        new EventTrigger("2ScoreL4").onTrue(elevatorL4);
+        new EventTrigger("ScoreFast").onTrue(coralFast);
+
+        new EventTrigger("3ScoreL4").onTrue(elevatorL4);
+
+
+
     }
 
     private void configureBindings() {
