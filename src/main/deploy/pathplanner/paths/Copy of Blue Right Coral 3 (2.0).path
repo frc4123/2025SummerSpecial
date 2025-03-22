@@ -70,7 +70,7 @@
     },
     {
       "name": "4ScoreFast",
-      "waypointRelativePos": 0.951353199602123,
+      "waypointRelativePos": 0.9651131465517252,
       "endWaypointRelativePos": 1.0,
       "command": {
         "type": "named",
