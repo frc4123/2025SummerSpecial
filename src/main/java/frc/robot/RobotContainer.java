@@ -128,6 +128,7 @@ public class RobotContainer {
     private final ElevatorL2 elevatorL2 = new ElevatorL2(elevator);
     private final ElevatorL3 elevatorL3 = new ElevatorL3(elevator);
     private final ElevatorL4 elevatorL4 = new ElevatorL4(elevator, arm);
+    private final Elevator2CoralAuto autoelevatorL4 = new Elevator2CoralAuto(elevator, arm);
 
     private final Command leftCoralAutoDrive = new AutoLineUpReef(drivetrain, 0);
     private final Command rightCoralAutoDrive = new AutoLineUpReef(drivetrain, 1);
@@ -147,6 +148,7 @@ public class RobotContainer {
         faceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
 
         NamedCommands.registerCommand("ElevatorL4", elevatorL4);
+        NamedCommands.registerCommand("ElevatorL4Auto", autoelevatorL4);
         NamedCommands.registerCommand("CoralIntake", coralIntake);
         NamedCommands.registerCommand("CoralIntakeStop", coralIntakeStop);
         NamedCommands.registerCommand("ElevatorDown", elevatorDown);
@@ -162,14 +164,15 @@ public class RobotContainer {
 
 
         new EventTrigger("1ScoreL4").onTrue(elevatorL4);
+        
         new EventTrigger("1ScoreFast").onTrue(coralFast);
         new EventTrigger("ElevatorDown").onTrue(elevatorDown);
 
-        new EventTrigger("2ScoreL4").onTrue(elevatorL4);
+        new EventTrigger("2ScoreL4").onTrue(autoelevatorL4);
         new EventTrigger("2ScoreFast").onTrue(coralFast);
         new EventTrigger("3ScoreFast").onTrue(coralFast);
 
-        new EventTrigger("3ScoreL4").onTrue(elevatorL4);
+        new EventTrigger("3ScoreL4").onTrue(autoelevatorL4);
         new EventTrigger("4ScoreFast").onTrue(coralYolo);
         new EventTrigger("5ScoreFast").onTrue(coralFast);
         new EventTrigger("6ScoreFast").onTrue(coralFast);
