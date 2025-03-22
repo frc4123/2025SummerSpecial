@@ -157,8 +157,8 @@ public class RobotContainer {
         NamedCommands.registerCommand("5ScoreFast", coralFast);
         NamedCommands.registerCommand("6ScoreFast", coralFast);
         NamedCommands.registerCommand("7ScoreFast", coralYolo);
-        NamedCommands.registerCommand("8ScoreFast", coralFast);
-        NamedCommands.registerCommand("9ScoreFast", coralYolo);
+        NamedCommands.registerCommand("8ScoreFast", coralYolo);
+        NamedCommands.registerCommand("9ScoreFast", coralFast);
 
 
         new EventTrigger("1ScoreL4").onTrue(elevatorL4);
@@ -174,8 +174,8 @@ public class RobotContainer {
         new EventTrigger("5ScoreFast").onTrue(coralFast);
         new EventTrigger("6ScoreFast").onTrue(coralFast);
         new EventTrigger("7ScoreFast").onTrue(coralYolo);
-        new EventTrigger("8ScoreFast").onTrue(coralFast);
-        new EventTrigger("9ScoreFast").onTrue(coralYolo);
+        new EventTrigger("8ScoreFast").onTrue(coralYolo);
+        new EventTrigger("9ScoreFast").onTrue(coralFast);
     }
 
     private void configureBindings() {
