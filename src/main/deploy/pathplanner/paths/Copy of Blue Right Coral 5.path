@@ -50,7 +50,12 @@
       "name": "9ScoreFast",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": 0.3047082228116707,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "9ScoreFast"
+        }
+      }
     },
     {
       "name": "3ScoreL4",
@@ -70,7 +75,7 @@
       "command": {
         "type": "named",
         "data": {
-          "name": "ScoreFast"
+          "name": "8ScoreFast"
         }
       }
     }

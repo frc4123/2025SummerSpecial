@@ -64,7 +64,7 @@
       "command": {
         "type": "named",
         "data": {
-          "name": "ScoreFast"
+          "name": "3ScoreFast"
         }
       }
     },
@@ -75,7 +75,7 @@
       "command": {
         "type": "named",
         "data": {
-          "name": "ScoreFast"
+          "name": "2ScoreFast"
         }
       }
     }

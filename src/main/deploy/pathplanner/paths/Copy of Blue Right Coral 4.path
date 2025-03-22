@@ -59,7 +59,7 @@
       "command": {
         "type": "named",
         "data": {
-          "name": "ScoreFast"
+          "name": "7ScoreFast"
         }
       }
     },
@@ -67,7 +67,12 @@
       "name": "6ScoreFast",
       "waypointRelativePos": 0.45029633620689696,
       "endWaypointRelativePos": 1.0,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "6ScoreFast"
+        }
+      }
     }
   ],
   "globalConstraints": {
