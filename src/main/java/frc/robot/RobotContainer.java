@@ -384,10 +384,11 @@ public class RobotContainer {
         new WaitCommand(0.01),
           new SequentialCommandGroup(
             new BlueCoralRight1().blueRightCoral().withTimeout(2.51)
-            .andThen(new BlueCoralRight2().blueRightCoral().withTimeout(2.67 + 0.7))
+            .andThen(new BlueCoralRight2().blueRightCoral().withTimeout(2.37 + 0.7))
             .andThen(new BlueCoralRight3().blueRightCoral().withTimeout(3.04))
             .andThen(new BlueCoralRight4().blueRightCoral().withTimeout(2.62 + 0.7))
             .andThen(new BlueCoralRight5().blueRightCoral().withTimeout(2.75))
+            .andThen(new CoralYolo(coralManipulator))
             )
           ));
 
