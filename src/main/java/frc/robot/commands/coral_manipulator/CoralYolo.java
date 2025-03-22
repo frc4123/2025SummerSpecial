@@ -19,6 +19,5 @@ public class CoralYolo extends Command{
 
     @Override
     public void end(boolean interrupted) {
-        intake.setCoralVelo(0.0);
     }
 }

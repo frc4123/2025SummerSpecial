@@ -27,6 +27,7 @@ import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight2;
 import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight3;
 import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight4;
 import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight5;
+import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight6;
 import frc.robot.commands.coral_manipulator.CoralFast;
 import frc.robot.commands.coral_manipulator.CoralIntake;
 import frc.robot.commands.coral_manipulator.CoralIntakeStop;
@@ -141,6 +142,7 @@ public class RobotContainer {
     public RobotContainer() {
         configureBindings();
         initializeAutoChooser();
+        
 
         faceAngle.HeadingController.setP(5);  // 10
         faceAngle.HeadingController.setI(0.0);
@@ -152,7 +154,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("CoralIntake", coralIntake);
         NamedCommands.registerCommand("CoralIntakeStop", coralIntakeStop);
         NamedCommands.registerCommand("ElevatorDown", elevatorDown);
-        NamedCommands.registerCommand("1ScoreFast", coralFast);
+        NamedCommands.registerCommand("1ScoreFast", coralYolo);
         NamedCommands.registerCommand("2ScoreFast", coralIntake);
         NamedCommands.registerCommand("3ScoreFast", coralIntake);
         NamedCommands.registerCommand("4ScoreFast", coralYolo);
@@ -161,11 +163,12 @@ public class RobotContainer {
         NamedCommands.registerCommand("7ScoreFast", coralYolo);
         NamedCommands.registerCommand("8ScoreFast", coralYolo);
         NamedCommands.registerCommand("9ScoreFast", coralIntake);
+        NamedCommands.registerCommand("10ScoreFast", coralYolo);
 
 
         new EventTrigger("1ScoreL4").onTrue(elevatorL4);
         
-        new EventTrigger("1ScoreFast").onTrue(coralFast);
+        new EventTrigger("1ScoreFast").onTrue(coralYolo);
         new EventTrigger("ElevatorDown").onTrue(elevatorDown);
 
         new EventTrigger("2ScoreL4").onTrue(autoelevatorL4);
@@ -179,6 +182,7 @@ public class RobotContainer {
         new EventTrigger("7ScoreFast").onTrue(coralYolo);
         new EventTrigger("8ScoreFast").onTrue(coralYolo);
         new EventTrigger("9ScoreFast").onTrue(coralIntake);
+        new EventTrigger("10ScoreFast").onTrue(coralYolo);
     }
 
     private void configureBindings() {
@@ -299,7 +303,7 @@ public class RobotContainer {
 
     public void initializeAutoChooser(){
 
-        autoChooser.setDefaultOption("1 Middle Coral" , new ParallelCommandGroup(
+        autoChooser.setDefaultOption("1 Middle Coral (dont use)" , new ParallelCommandGroup(
         new WaitCommand(0.01),
           new SequentialCommandGroup(new MiddleCoral().middleCoral()),
           new SequentialCommandGroup(
@@ -383,12 +387,12 @@ public class RobotContainer {
         autoChooser.addOption("Right 3 Coral", new ParallelCommandGroup(
         new WaitCommand(0.01),
           new SequentialCommandGroup(
-            new BlueCoralRight1().blueRightCoral().withTimeout(2.51)
-            .andThen(new BlueCoralRight2().blueRightCoral().withTimeout(2.37 + 0.7))
+            new BlueCoralRight1().blueRightCoral().withTimeout(2.7) //2.51 but gave extra time
+            .andThen(new BlueCoralRight2().blueRightCoral().withTimeout(2.6 + 0.7)) // was 2.37
             .andThen(new BlueCoralRight3().blueRightCoral().withTimeout(3.04))
             .andThen(new BlueCoralRight4().blueRightCoral().withTimeout(2.62 + 0.7))
-            .andThen(new BlueCoralRight5().blueRightCoral().withTimeout(2.75))
-            .andThen(new CoralYolo(coralManipulator))
+            .andThen(new BlueCoralRight5().blueRightCoral().withTimeout(4)) // 2.51 butr extra time for the coral outtake
+            .andThen(new BlueCoralRight6().blueRightCoral().withTimeout(0.1)) 
             )
           ));
 
