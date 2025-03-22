@@ -165,20 +165,20 @@ public class RobotContainer {
 
         new EventTrigger("1ScoreL4").onTrue(elevatorL4);
         
-        new EventTrigger("1ScoreFast").onTrue(coralFast);
+        new EventTrigger("1ScoreFast").onTrue(coralIntake);
         new EventTrigger("ElevatorDown").onTrue(elevatorDown);
 
         new EventTrigger("2ScoreL4").onTrue(autoelevatorL4);
-        new EventTrigger("2ScoreFast").onTrue(coralFast);
-        new EventTrigger("3ScoreFast").onTrue(coralFast);
+        new EventTrigger("2ScoreFast").onTrue(coralIntake);
+        new EventTrigger("3ScoreFast").onTrue(coralIntake);
 
         new EventTrigger("3ScoreL4").onTrue(autoelevatorL4);
         new EventTrigger("4ScoreFast").onTrue(coralYolo);
-        new EventTrigger("5ScoreFast").onTrue(coralFast);
-        new EventTrigger("6ScoreFast").onTrue(coralFast);
+        new EventTrigger("5ScoreFast").onTrue(coralIntake);
+        new EventTrigger("6ScoreFast").onTrue(coralIntake);
         new EventTrigger("7ScoreFast").onTrue(coralYolo);
         new EventTrigger("8ScoreFast").onTrue(coralYolo);
-        new EventTrigger("9ScoreFast").onTrue(coralFast);
+        new EventTrigger("9ScoreFast").onTrue(coralIntake);
     }
 
     private void configureBindings() {
