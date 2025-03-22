@@ -14,7 +14,7 @@ public class CoralYolo extends Command{
 
     @Override
     public void execute() {
-        intake.setCoralVelo(-0.9);
+        intake.setCoralVelo(-0.4);
     }
 
     @Override
