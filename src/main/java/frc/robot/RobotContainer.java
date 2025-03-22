@@ -152,7 +152,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("CoralIntake", coralIntake);
         NamedCommands.registerCommand("CoralIntakeStop", coralIntakeStop);
         NamedCommands.registerCommand("ElevatorDown", elevatorDown);
-        NamedCommands.registerCommand("1ScoreFast", coralIntake);
+        NamedCommands.registerCommand("1ScoreFast", coralFast);
         NamedCommands.registerCommand("2ScoreFast", coralIntake);
         NamedCommands.registerCommand("3ScoreFast", coralIntake);
         NamedCommands.registerCommand("4ScoreFast", coralYolo);
@@ -165,7 +165,7 @@ public class RobotContainer {
 
         new EventTrigger("1ScoreL4").onTrue(elevatorL4);
         
-        new EventTrigger("1ScoreFast").onTrue(coralIntake);
+        new EventTrigger("1ScoreFast").onTrue(coralFast);
         new EventTrigger("ElevatorDown").onTrue(elevatorDown);
 
         new EventTrigger("2ScoreL4").onTrue(autoelevatorL4);

@@ -49,7 +49,7 @@
     {
       "name": "9ScoreFast",
       "waypointRelativePos": 0,
-      "endWaypointRelativePos": 0.3047082228116707,
+      "endWaypointRelativePos": 0.46551724137931033,
       "command": {
         "type": "named",
         "data": {
