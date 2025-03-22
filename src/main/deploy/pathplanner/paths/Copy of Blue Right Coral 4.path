@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.8812502400159703,
-        "y": 1.981262780095603
+        "x": 3.7737167424035105,
+        "y": 2.4354322673334368
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 1.121
       },
       "prevControl": {
-        "x": 1.5125079767382463,
-        "y": 1.355621991578179
+        "x": 5.687170903552498,
+        "y": 3.364457967755197
       },
       "nextControl": null,
       "isLocked": false,
@@ -29,12 +29,50 @@
     }
   ],
   "rotationTargets": [],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.0,
+      "maxWaypointRelativePos": 0.7269147877984089,
+      "constraints": {
+        "maxVelocity": 1.0,
+        "maxAcceleration": 1.0,
+        "maxAngularVelocity": 700.0,
+        "maxAngularAcceleration": 720.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "ElevatorDown",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "ScoreFast",
+      "waypointRelativePos": 0.0,
+      "endWaypointRelativePos": 0.047838610742705547,
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "ScoreFast"
+        }
+      }
+    },
+    {
+      "name": "CoralIntake",
+      "waypointRelativePos": 0.45029633620689696,
+      "endWaypointRelativePos": 1.0,
+      "command": null
+    }
+  ],
   "globalConstraints": {
-    "maxVelocity": 4.0,
-    "maxAcceleration": 3.0,
+    "maxVelocity": 4.5,
+    "maxAcceleration": 4.5,
     "maxAngularVelocity": 700.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
