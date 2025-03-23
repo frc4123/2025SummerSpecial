@@ -50,12 +50,7 @@
       "name": "1ScoreL4",
       "waypointRelativePos": 0.4250663129973477,
       "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "ElevatorL4"
-        }
-      }
+      "command": null
     },
     {
       "name": "CoralYolo",
