@@ -28,7 +28,7 @@ import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight3;
 import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight4;
 import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight5;
 import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight6;
-import frc.robot.commands.coral_manipulator.CoralFast;
+//import frc.robot.commands.coral_manipulator.CoralFast;
 import frc.robot.commands.coral_manipulator.CoralIntake;
 import frc.robot.commands.coral_manipulator.CoralIntakeStop;
 import frc.robot.commands.coral_manipulator.CoralReverse;
@@ -80,7 +80,7 @@ public class RobotContainer {
     private final SwerveRequest.FieldCentric drive = new SwerveRequest.FieldCentric()
             .withDeadband(MaxSpeed * 0.02).withRotationalDeadband(MaxAngularRate * 0.02)
             .withDriveRequestType(DriveRequestType.OpenLoopVoltage); 
-    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
+    //private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
     //private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
     private final SwerveRequest.FieldCentricFacingAngle faceAngle = new SwerveRequest.FieldCentricFacingAngle()
             .withDriveRequestType(DriveRequestType.Velocity)
@@ -110,7 +110,7 @@ public class RobotContainer {
     private final AlgaeIntake algaeIntake = new AlgaeIntake(algaeManipulator);
     private final AlgaeOutake algaeOutake = new AlgaeOutake(algaeManipulator);
     private final AlgaeIntakeStop algaeIntakeStop = new AlgaeIntakeStop(algaeManipulator);
-    private final CoralFast coralFast = new CoralFast(coralManipulator, elevator);
+    //private final CoralFast coralFast = new CoralFast(coralManipulator, elevator);
     private final CoralIntake coralIntake = new CoralIntake(coralManipulator, elevator);
     private final CoralReverse coralReverse = new CoralReverse(coralManipulator);
     private final CoralIntakeStop coralIntakeStop = new CoralIntakeStop(coralManipulator);
@@ -317,7 +317,7 @@ public class RobotContainer {
 
         autoChooser.addOption("5mtest" , new ParallelCommandGroup(
         new WaitCommand(0.01),
-          new SequentialCommandGroup(new mtest().mtest())));
+          new SequentialCommandGroup(new mtest().metertest())));
 
         // autoChooser.addOption("Right 2 Coral", new ParallelCommandGroup(
         // new WaitCommand(0.01),
