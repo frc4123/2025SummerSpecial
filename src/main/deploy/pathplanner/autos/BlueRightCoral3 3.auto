@@ -9,6 +9,12 @@
           "data": {
             "pathName": "Copy of Blue Right Coral 3 (2.0)"
           }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "CoralYolo"
+          }
         }
       ]
     }
