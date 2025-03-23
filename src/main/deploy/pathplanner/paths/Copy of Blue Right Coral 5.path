@@ -47,35 +47,25 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "9ScoreFast",
+      "name": "Intake",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": 0.46551724137931033,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "9ScoreFast"
-        }
-      }
+      "command": null
     },
     {
       "name": "3ScoreL4",
       "waypointRelativePos": 0.3534379144562335,
       "endWaypointRelativePos": 1.0,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "ElevatorL4"
-        }
-      }
+      "command": null
     },
     {
-      "name": "8ScoreFast",
+      "name": "CoralYolo",
       "waypointRelativePos": 0.9432402188328927,
       "endWaypointRelativePos": 1.0,
       "command": {
         "type": "named",
         "data": {
-          "name": "8ScoreFast"
+          "name": "CoralYolo"
         }
       }
     }

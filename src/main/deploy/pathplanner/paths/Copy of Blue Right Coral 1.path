@@ -58,13 +58,13 @@
       }
     },
     {
-      "name": "1ScoreFast",
+      "name": "CoralYolo",
       "waypointRelativePos": 0.9467734582228208,
       "endWaypointRelativePos": 1.0,
       "command": {
         "type": "named",
         "data": {
-          "name": "1ScoreFast"
+          "name": "CoralYolo"
         }
       }
     }

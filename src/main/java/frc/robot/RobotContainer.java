@@ -149,40 +149,42 @@ public class RobotContainer {
         faceAngle.HeadingController.setD(0);  // 0.4123
         faceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
 
-        NamedCommands.registerCommand("ElevatorL4", elevatorL4);
-        NamedCommands.registerCommand("ElevatorL4Auto", autoelevatorL4);
-        NamedCommands.registerCommand("CoralIntake", coralIntake);
-        NamedCommands.registerCommand("CoralIntakeStop", coralIntakeStop);
-        NamedCommands.registerCommand("ElevatorDown", elevatorDown);
-        NamedCommands.registerCommand("1ScoreFast", coralYolo);
-        NamedCommands.registerCommand("2ScoreFast", coralIntake);
-        NamedCommands.registerCommand("3ScoreFast", coralIntake);
-        NamedCommands.registerCommand("4ScoreFast", coralYolo);
-        NamedCommands.registerCommand("5ScoreFast", coralIntake);
-        NamedCommands.registerCommand("6ScoreFast", coralIntake);
-        NamedCommands.registerCommand("7ScoreFast", coralYolo);
-        NamedCommands.registerCommand("8ScoreFast", coralYolo);
-        NamedCommands.registerCommand("9ScoreFast", coralIntake);
-        NamedCommands.registerCommand("10ScoreFast", coralYolo);
+        // NamedCommands.registerCommand("ElevatorL4", elevatorL4);
+        // NamedCommands.registerCommand("ElevatorL4Auto", autoelevatorL4);
+        // NamedCommands.registerCommand("CoralIntake", coralIntake);
+        // NamedCommands.registerCommand("CoralIntakeStop", coralIntakeStop);
+        // NamedCommands.registerCommand("ElevatorDown", elevatorDown);
+        NamedCommands.registerCommand("CoralYolo", coralYolo);
+        // NamedCommands.registerCommand("2ScoreFast", coralIntake);
+        // NamedCommands.registerCommand("3ScoreFast", coralIntake);
+        // NamedCommands.registerCommand("4ScoreFast", coralYolo);
+        // NamedCommands.registerCommand("5ScoreFast", coralIntake);
+        // NamedCommands.registerCommand("6ScoreFast", coralIntake);
+        // NamedCommands.registerCommand("7ScoreFast", coralYolo);
+        // NamedCommands.registerCommand("8ScoreFast", coralYolo);
+        // NamedCommands.registerCommand("9ScoreFast", coralIntake);
+        // NamedCommands.registerCommand("10ScoreFast", coralYolo);
 
 
         new EventTrigger("1ScoreL4").onTrue(elevatorL4);
-        
-        new EventTrigger("1ScoreFast").onTrue(coralYolo);
+        new EventTrigger("2ScoreL4").onTrue(autoelevatorL4);
+        new EventTrigger("3ScoreL4").onTrue(autoelevatorL4);
+        new EventTrigger("Intake").onTrue(coralIntake);
+        new EventTrigger("CoralYolo").whileTrue(coralYolo);
         new EventTrigger("ElevatorDown").onTrue(elevatorDown);
 
-        new EventTrigger("2ScoreL4").onTrue(autoelevatorL4);
-        new EventTrigger("2ScoreFast").onTrue(coralIntake);
-        new EventTrigger("3ScoreFast").onTrue(coralIntake);
+        
+        // new EventTrigger("2ScoreFast").onTrue(coralIntake);
+        // new EventTrigger("3ScoreFast").onTrue(coralIntake);
 
-        new EventTrigger("3ScoreL4").onTrue(autoelevatorL4);
-        new EventTrigger("4ScoreFast").onTrue(coralYolo);
-        new EventTrigger("5ScoreFast").onTrue(coralIntake);
-        new EventTrigger("6ScoreFast").onTrue(coralIntake);
-        new EventTrigger("7ScoreFast").onTrue(coralYolo);
-        new EventTrigger("8ScoreFast").onTrue(coralYolo);
-        new EventTrigger("9ScoreFast").onTrue(coralIntake);
-        new EventTrigger("10ScoreFast").onTrue(coralYolo);
+        
+        // new EventTrigger("4ScoreFast").onTrue(coralYolo);
+        // new EventTrigger("5ScoreFast").onTrue(coralIntake);
+        // new EventTrigger("6ScoreFast").onTrue(coralIntake);
+        // new EventTrigger("7ScoreFast").onTrue(coralYolo);
+        // new EventTrigger("8ScoreFast").onTrue(coralYolo);
+        // new EventTrigger("9ScoreFast").onTrue(coralIntake);
+        // new EventTrigger("10ScoreFast").onTrue(coralYolo);
     }
 
     private void configureBindings() {
@@ -387,13 +389,11 @@ public class RobotContainer {
         autoChooser.addOption("Right 3 Coral", new ParallelCommandGroup(
         new WaitCommand(0.01),
           new SequentialCommandGroup(
-            new BlueCoralRight1().blueRightCoral().withTimeout(2.51)
-            .andThen(new CoralYolo(coralManipulator).withTimeout(0.2)) //2.51 but gave extra time
+            new BlueCoralRight1().blueRightCoral().withTimeout(2.51) //2.51 but gave extra time
             .andThen(new BlueCoralRight2().blueRightCoral().withTimeout(2.6 + 0.7)) // was 2.37
             .andThen(new BlueCoralRight3().blueRightCoral().withTimeout(3.04))
             .andThen(new BlueCoralRight4().blueRightCoral().withTimeout(2.62 + 0.7))
-            .andThen(new BlueCoralRight5().blueRightCoral().withTimeout(2.51))
-            .andThen(new CoralYolo(coralManipulator).withTimeout(0.2)) // 2.51 butr extra time for the coral outtake
+            .andThen(new BlueCoralRight5().blueRightCoral().withTimeout(2.51)) // 2.51 butr extra time for the coral outtake
             .andThen(new BlueCoralRight6().blueRightCoral().withTimeout(0.1)) 
             )
           ));

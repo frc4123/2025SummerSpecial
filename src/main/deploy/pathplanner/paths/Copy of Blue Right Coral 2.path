@@ -50,34 +50,24 @@
       "name": "ElevatorDown",
       "waypointRelativePos": 0.0,
       "endWaypointRelativePos": 0.803506299734752,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "ElevatorDown"
-        }
-      }
+      "command": null
     },
     {
-      "name": "3ScoreFast",
+      "name": "CoralYolo",
       "waypointRelativePos": 0,
       "endWaypointRelativePos": 0.04958968832891247,
       "command": {
         "type": "named",
         "data": {
-          "name": "3ScoreFast"
+          "name": "CoralYolo"
         }
       }
     },
     {
-      "name": "2ScoreFast",
+      "name": "Intake",
       "waypointRelativePos": 0.7027001823607443,
       "endWaypointRelativePos": 1.0,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "2ScoreFast"
-        }
-      }
+      "command": null
     }
   ],
   "globalConstraints": {

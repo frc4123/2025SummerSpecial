@@ -53,26 +53,21 @@
       "command": null
     },
     {
-      "name": "7ScoreFast",
+      "name": "CoralYolo",
       "waypointRelativePos": 0.0,
       "endWaypointRelativePos": 0.047838610742705547,
       "command": {
         "type": "named",
         "data": {
-          "name": "7ScoreFast"
+          "name": "CoralYolo"
         }
       }
     },
     {
-      "name": "6ScoreFast",
+      "name": "Intake",
       "waypointRelativePos": 0.45029633620689696,
       "endWaypointRelativePos": 1.0,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "6ScoreFast"
-        }
-      }
+      "command": null
     }
   ],
   "globalConstraints": {
