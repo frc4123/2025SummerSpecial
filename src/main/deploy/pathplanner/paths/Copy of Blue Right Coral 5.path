@@ -32,11 +32,11 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.35189406498673814,
+      "minWaypointRelativePos": 0.8,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 1.3,
-        "maxAcceleration": 1.3,
+        "maxVelocity": 4.0,
+        "maxAcceleration": 0.75,
         "maxAngularVelocity": 700.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -47,25 +47,13 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": 0.46551724137931033,
-      "command": null
-    },
-    {
-      "name": "3ScoreL4",
-      "waypointRelativePos": 0.3534379144562335,
-      "endWaypointRelativePos": 1.0,
-      "command": null
-    },
-    {
-      "name": "CoralYolo",
-      "waypointRelativePos": 0.9432402188328927,
+      "name": "ScoreL4",
+      "waypointRelativePos": 0.6,
       "endWaypointRelativePos": 1.0,
       "command": {
         "type": "named",
         "data": {
-          "name": "CoralYolo"
+          "name": "ScoreL4"
         }
       }
     }

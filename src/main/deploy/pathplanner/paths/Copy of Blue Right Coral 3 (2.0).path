@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.2691764938117687,
-        "y": 1.2764195258299633
+        "x": 1.2640317934266077,
+        "y": 1.2694185912161229
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 2.659
       },
       "prevControl": {
-        "x": 4.117828938691984,
-        "y": 2.442592501490764
+        "x": 4.107461392736039,
+        "y": 2.448930283141654
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,11 +32,11 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.5474863229442997,
+      "minWaypointRelativePos": 0.8,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 1.0,
+        "maxVelocity": 0.5,
+        "maxAcceleration": 0.5,
         "maxAngularVelocity": 700.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -47,25 +47,13 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "Intake",
-      "waypointRelativePos": 0,
-      "endWaypointRelativePos": 0.515272712201592,
-      "command": null
-    },
-    {
-      "name": "2ScoreL4",
-      "waypointRelativePos": 0.5503564323607456,
-      "endWaypointRelativePos": 1.0,
-      "command": null
-    },
-    {
-      "name": "CoralYolo",
-      "waypointRelativePos": 0.9478614058355439,
-      "endWaypointRelativePos": 1.0,
+      "name": "ScoreL4",
+      "waypointRelativePos": 0.6956521739130422,
+      "endWaypointRelativePos": null,
       "command": {
         "type": "named",
         "data": {
-          "name": "CoralYolo"
+          "name": "ScoreL4"
         }
       }
     }

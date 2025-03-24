@@ -18,9 +18,11 @@ import frc.robot.commands.arm.ArmUp;
 import frc.robot.commands.arm.ArmReef;
 // import frc.robot.commands.autos.BlueLeftCoral2;
 import frc.robot.commands.autos.BlueRight2Coralv2;
+import frc.robot.commands.autos.DiegoAuto;
 // import frc.robot.commands.autos.BlueRightCoral2;
 import frc.robot.commands.autos.LeftLeave;
 import frc.robot.commands.autos.MiddleCoral;
+import frc.robot.commands.autos.DiegoAuto;
 import frc.robot.commands.autos.mtest;
 import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight1;
 import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight2;
@@ -129,7 +131,7 @@ public class RobotContainer {
     private final ElevatorL2 elevatorL2 = new ElevatorL2(elevator);
     private final ElevatorL3 elevatorL3 = new ElevatorL3(elevator);
     private final ElevatorL4 elevatorL4 = new ElevatorL4(elevator, arm);
-    private final Elevator2CoralAuto autoelevatorL4 = new Elevator2CoralAuto(elevator, arm);
+
 
     private final Command leftCoralAutoDrive = new AutoLineUpReef(drivetrain, 0);
     private final Command rightCoralAutoDrive = new AutoLineUpReef(drivetrain, 1);
@@ -141,6 +143,12 @@ public class RobotContainer {
     
     public RobotContainer() {
         configureBindings();
+
+        NamedCommands.registerCommand("CoralYolo", coralYolo);
+        NamedCommands.registerCommand("Intake", coralIntake);
+        NamedCommands.registerCommand("ElevatorDown", elevatorDown);
+        NamedCommands.registerCommand("ScoreL4", elevatorL4);
+
         initializeAutoChooser();
         
 
@@ -148,43 +156,6 @@ public class RobotContainer {
         faceAngle.HeadingController.setI(0.0);
         faceAngle.HeadingController.setD(0);  // 0.4123
         faceAngle.HeadingController.enableContinuousInput(-Math.PI, Math.PI);
-
-        // NamedCommands.registerCommand("ElevatorL4", elevatorL4);
-        // NamedCommands.registerCommand("ElevatorL4Auto", autoelevatorL4);
-        // NamedCommands.registerCommand("CoralIntake", coralIntake);
-        // NamedCommands.registerCommand("CoralIntakeStop", coralIntakeStop);
-        // NamedCommands.registerCommand("ElevatorDown", elevatorDown);
-        NamedCommands.registerCommand("CoralYolo", coralYolo);
-        // NamedCommands.registerCommand("2ScoreFast", coralIntake);
-        // NamedCommands.registerCommand("3ScoreFast", coralIntake);
-        // NamedCommands.registerCommand("4ScoreFast", coralYolo);
-        // NamedCommands.registerCommand("5ScoreFast", coralIntake);
-        // NamedCommands.registerCommand("6ScoreFast", coralIntake);
-        // NamedCommands.registerCommand("7ScoreFast", coralYolo);
-        // NamedCommands.registerCommand("8ScoreFast", coralYolo);
-        // NamedCommands.registerCommand("9ScoreFast", coralIntake);
-        // NamedCommands.registerCommand("10ScoreFast", coralYolo);
-
-
-        new EventTrigger("1ScoreL4").onTrue(elevatorL4);
-        new EventTrigger("2ScoreL4").onTrue(autoelevatorL4);
-        new EventTrigger("3ScoreL4").onTrue(autoelevatorL4);
-        new EventTrigger("Intake").onTrue(coralIntake);
-        new EventTrigger("CoralYolo").whileTrue(coralYolo);
-        new EventTrigger("ElevatorDown").onTrue(elevatorDown);
-
-        
-        // new EventTrigger("2ScoreFast").onTrue(coralIntake);
-        // new EventTrigger("3ScoreFast").onTrue(coralIntake);
-
-        
-        // new EventTrigger("4ScoreFast").onTrue(coralYolo);
-        // new EventTrigger("5ScoreFast").onTrue(coralIntake);
-        // new EventTrigger("6ScoreFast").onTrue(coralIntake);
-        // new EventTrigger("7ScoreFast").onTrue(coralYolo);
-        // new EventTrigger("8ScoreFast").onTrue(coralYolo);
-        // new EventTrigger("9ScoreFast").onTrue(coralIntake);
-        // new EventTrigger("10ScoreFast").onTrue(coralYolo);
     }
 
     private void configureBindings() {
@@ -315,9 +286,10 @@ public class RobotContainer {
                 .andThen(new ElevatorDown(elevator).withTimeout(2))
         )));
 
-        autoChooser.addOption("5mtest" , new ParallelCommandGroup(
+        autoChooser.addOption("Diego Right 3 Coral", new ParallelCommandGroup(
         new WaitCommand(0.01),
-          new SequentialCommandGroup(new mtest().metertest())));
+          new SequentialCommandGroup(new DiegoAuto().diegoAuto())
+        ));
 
         // autoChooser.addOption("Right 2 Coral", new ParallelCommandGroup(
         // new WaitCommand(0.01),

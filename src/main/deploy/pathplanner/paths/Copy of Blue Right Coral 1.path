@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.11154296875,
-        "y": 1.8836324508101847
+        "x": 7.014823008854993,
+        "y": 1.960674778766223
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.812914329210121,
-        "y": 2.047725954488245
+        "x": 5.331455543946733,
+        "y": 2.8683366569666027
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 2.931
       },
       "prevControl": {
-        "x": 5.216589927770368,
-        "y": 2.681147617299935
+        "x": 5.460944180925771,
+        "y": 2.7613073583011825
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,11 +32,11 @@
   "constraintZones": [
     {
       "name": "Constraints Zone",
-      "minWaypointRelativePos": 0.3998570125994716,
+      "minWaypointRelativePos": 0.6,
       "maxWaypointRelativePos": 1.0,
       "constraints": {
-        "maxVelocity": 1.0,
-        "maxAcceleration": 1.0,
+        "maxVelocity": 4.0,
+        "maxAcceleration": 0.75,
         "maxAngularVelocity": 700.0,
         "maxAngularAcceleration": 720.0,
         "nominalVoltage": 12.0,
@@ -47,26 +47,20 @@
   "pointTowardsZones": [],
   "eventMarkers": [
     {
-      "name": "1ScoreL4",
-      "waypointRelativePos": 0.4250663129973477,
+      "name": "ScoreL4",
+      "waypointRelativePos": 0.25,
       "endWaypointRelativePos": null,
-      "command": null
-    },
-    {
-      "name": "CoralYolo",
-      "waypointRelativePos": 0.9467734582228208,
-      "endWaypointRelativePos": 1.0,
       "command": {
         "type": "named",
         "data": {
-          "name": "CoralYolo"
+          "name": "ScoreL4"
         }
       }
     }
   ],
   "globalConstraints": {
-    "maxVelocity": 4.5,
-    "maxAcceleration": 4.5,
+    "maxVelocity": 4.0,
+    "maxAcceleration": 4.0,
     "maxAngularVelocity": 700.0,
     "maxAngularAcceleration": 720.0,
     "nominalVoltage": 12.0,
@@ -80,7 +74,7 @@
   "folder": "Blue Right Coral 3",
   "idealStartingState": {
     "velocity": 0,
-    "rotation": 179.24675323232503
+    "rotation": 126.65779867075491
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }
