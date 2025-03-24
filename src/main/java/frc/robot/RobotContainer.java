@@ -116,7 +116,7 @@ public class RobotContainer {
     private final CoralIntake coralIntake = new CoralIntake(coralManipulator, elevator);
     private final CoralReverse coralReverse = new CoralReverse(coralManipulator);
     private final CoralIntakeStop coralIntakeStop = new CoralIntakeStop(coralManipulator);
-    private final CoralYolo coralYolo = new CoralYolo(coralManipulator);
+    private final CoralYolo coralYolo = new CoralYolo(coralManipulator, elevator);
     private final ArmStow armStow = new ArmStow(arm);
     private final ArmOut armOut = new ArmOut(arm);
     private final ArmReef armReef = new ArmReef(arm);

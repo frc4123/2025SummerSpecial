@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 4.687155837316748,
-        "y": 2.7414748081270397
+        "x": 4.814299610894942,
+        "y": 2.6037572957198436
       },
       "isLocked": false,
       "linkedName": null
@@ -20,8 +20,8 @@
         "y": 1.121
       },
       "prevControl": {
-        "x": 5.915450564737783,
-        "y": 3.0641001726709582
+        "x": 6.034946498054475,
+        "y": 2.9451969844357975
       },
       "nextControl": null,
       "isLocked": false,
@@ -56,17 +56,6 @@
           "name": "ElevatorDown"
         }
       }
-    },
-    {
-      "name": "Intake",
-      "waypointRelativePos": 0.9,
-      "endWaypointRelativePos": null,
-      "command": {
-        "type": "named",
-        "data": {
-          "name": "Intake"
-        }
-      }
     }
   ],
   "globalConstraints": {
@@ -87,5 +76,5 @@
     "velocity": 0,
     "rotation": 119.99999999999999
   },
-  "useDefaultConstraints": false
+  "useDefaultConstraints": true
 }

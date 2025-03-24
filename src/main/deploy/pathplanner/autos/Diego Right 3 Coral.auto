@@ -11,6 +11,12 @@
           }
         },
         {
+          "type": "wait",
+          "data": {
+            "waitTime": 0.1
+          }
+        },
+        {
           "type": "deadline",
           "data": {
             "commands": [
@@ -23,7 +29,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "CoralYolo"
+                  "name": "Intake"
                 }
               }
             ]
@@ -48,7 +54,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "CoralYolo"
                 }
               }
             ]
@@ -67,13 +73,13 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.4
+                  "waitTime": 0.3
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "CoralYolo"
+                  "name": "Intake"
                 }
               }
             ]
@@ -98,7 +104,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "CoralYolo"
                 }
               }
             ]
@@ -117,13 +123,13 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 0.4
+                  "waitTime": 0.3
                 }
               },
               {
                 "type": "named",
                 "data": {
-                  "name": "CoralYolo"
+                  "name": "Intake"
                 }
               }
             ]
