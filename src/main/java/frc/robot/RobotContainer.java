@@ -17,19 +17,11 @@ import frc.robot.commands.arm.ArmStow;
 import frc.robot.commands.arm.ArmUp;
 import frc.robot.commands.arm.ArmReef;
 // import frc.robot.commands.autos.BlueLeftCoral2;
-import frc.robot.commands.autos.BlueRight2Coralv2;
-import frc.robot.commands.autos.DiegoAuto;
+import frc.robot.commands.autos.CoralRight3;
 // import frc.robot.commands.autos.BlueRightCoral2;
 import frc.robot.commands.autos.LeftLeave;
 import frc.robot.commands.autos.MiddleCoral;
-import frc.robot.commands.autos.DiegoAuto;
-import frc.robot.commands.autos.mtest;
-import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight1;
-import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight2;
-import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight3;
-import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight4;
-import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight5;
-import frc.robot.commands.autos.BlueCoralRight3.BlueCoralRight6;
+import frc.robot.commands.coral_manipulator.CheckIntake;
 //import frc.robot.commands.coral_manipulator.CoralFast;
 import frc.robot.commands.coral_manipulator.CoralIntake;
 import frc.robot.commands.coral_manipulator.CoralIntakeStop;
@@ -37,9 +29,7 @@ import frc.robot.commands.coral_manipulator.CoralReverse;
 import frc.robot.commands.coral_manipulator.CoralYolo;
 import frc.robot.commands.elevator.ElevatorL2;
 import frc.robot.commands.elevator.ElevatorL2Algae;
-import frc.robot.commands.elevator.Elevator2CoralAuto;
 import frc.robot.commands.elevator.ElevatorAlgaeGround;
-import frc.robot.commands.elevator.ElevatorAutoVision;
 import frc.robot.commands.elevator.ElevatorBarge;
 import frc.robot.commands.elevator.ElevatorDown;
 import frc.robot.commands.elevator.ElevatorL1;
@@ -51,7 +41,6 @@ import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.events.EventTrigger;
 
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -117,6 +106,7 @@ public class RobotContainer {
     private final CoralReverse coralReverse = new CoralReverse(coralManipulator);
     private final CoralIntakeStop coralIntakeStop = new CoralIntakeStop(coralManipulator);
     private final CoralYolo coralYolo = new CoralYolo(coralManipulator, elevator);
+    private final CheckIntake checkIntake = new CheckIntake(coralManipulator);
     private final ArmStow armStow = new ArmStow(arm);
     private final ArmOut armOut = new ArmOut(arm);
     private final ArmReef armReef = new ArmReef(arm);
@@ -146,6 +136,7 @@ public class RobotContainer {
 
         NamedCommands.registerCommand("CoralYolo", coralYolo);
         NamedCommands.registerCommand("Intake", coralIntake);
+        NamedCommands.registerCommand("CheckIntake", checkIntake);
         NamedCommands.registerCommand("ElevatorDown", elevatorDown);
         NamedCommands.registerCommand("ScoreL4", elevatorL4);
 
@@ -274,22 +265,15 @@ public class RobotContainer {
         drivetrain.registerTelemetry(logger::telemeterize);
     }
 
-    public void initializeAutoChooser(){
-
-        autoChooser.setDefaultOption("1 Middle Coral (dont use)" , new ParallelCommandGroup(
+    public void initializeAutoChooser() {
+        autoChooser.setDefaultOption("Right 3 Coral", new ParallelCommandGroup(
         new WaitCommand(0.01),
-          new SequentialCommandGroup(new MiddleCoral().middleCoral()),
-          new SequentialCommandGroup(
-                new CoralIntake(coralManipulator, elevator).withTimeout(5)
-                .andThen(new ElevatorL4(elevator, arm).withTimeout(2))
-                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.5))
-                .andThen(new ElevatorDown(elevator).withTimeout(2))
-        )));
-
-        autoChooser.addOption("Diego Right 3 Coral", new ParallelCommandGroup(
-        new WaitCommand(0.01),
-          new SequentialCommandGroup(new DiegoAuto().diegoAuto())
+          new SequentialCommandGroup(new CoralRight3().coralRight3())
         ));
+
+        autoChooser.addOption("Middle Coral (haven't tested)" , new ParallelCommandGroup(
+        new WaitCommand(0.01),
+          new SequentialCommandGroup(new MiddleCoral().middleCoral())));
 
         // autoChooser.addOption("Right 2 Coral", new ParallelCommandGroup(
         // new WaitCommand(0.01),
@@ -340,35 +324,35 @@ public class RobotContainer {
         //         //intake and score second coral
         // )));
 
-        autoChooser.addOption("(use this) Right 2 Coral v2", new ParallelCommandGroup(
-        new WaitCommand(0.01),
-          new SequentialCommandGroup(new BlueRight2Coralv2().blueRightCoral()),
-          new SequentialCommandGroup(
-                new CoralIntake(coralManipulator, elevator).withTimeout(2.38)
-                .andThen(new ElevatorL4(elevator, arm).withTimeout(1.65))
-                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
-                .andThen(new ElevatorDown(elevator).withTimeout(1.6+0.25))
-                // intake and score first coral
-                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(3.23 + 0.5))
-                .andThen(new ElevatorAutoVision(elevator).withTimeout(1)) // 4.23
-                .andThen(new Elevator2CoralAuto(elevator, arm).withTimeout(1.6))
-                .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
-                .andThen(new ArmStow(arm).withTimeout(0.1))
-                .andThen(new ElevatorDown(elevator).withTimeout(1.5))
-                //intake and score second coral
-        )));
+        // autoChooser.addOption("Right 2 Coral v2", new ParallelCommandGroup(
+        // new WaitCommand(0.01),
+        //   new SequentialCommandGroup(new BlueRight2Coralv2().blueRightCoral()),
+        //   new SequentialCommandGroup(
+        //         new CoralIntake(coralManipulator, elevator).withTimeout(2.38)
+        //         .andThen(new ElevatorL4(elevator, arm).withTimeout(1.65))
+        //         .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
+        //         .andThen(new ElevatorDown(elevator).withTimeout(1.6+0.25))
+        //         // intake and score first coral
+        //         .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(3.23 + 0.5))
+        //         .andThen(new ElevatorAutoVision(elevator).withTimeout(1)) // 4.23
+        //         .andThen(new Elevator2CoralAuto(elevator, arm).withTimeout(1.6))
+        //         .andThen(new CoralIntake(coralManipulator, elevator).withTimeout(0.3))
+        //         .andThen(new ArmStow(arm).withTimeout(0.1))
+        //         .andThen(new ElevatorDown(elevator).withTimeout(1.5))
+        //         //intake and score second coral
+        // )));
 
-        autoChooser.addOption("Right 3 Coral", new ParallelCommandGroup(
-        new WaitCommand(0.01),
-          new SequentialCommandGroup(
-            new BlueCoralRight1().blueRightCoral().withTimeout(2.51 + 0.1) //2.51 but gave extra time
-            .andThen(new BlueCoralRight2().blueRightCoral().withTimeout(2.6 + 0.7)) // was 2.37
-            .andThen(new BlueCoralRight3().blueRightCoral().withTimeout(3.04 + 0.1))
-            .andThen(new BlueCoralRight4().blueRightCoral().withTimeout(2.62 + 0.7))
-            .andThen(new BlueCoralRight5().blueRightCoral().withTimeout(2.51)) // 2.51 butr extra time for the coral outtake
-            .andThen(new BlueCoralRight6().blueRightCoral().withTimeout(0.1)) 
-            )
-          ));
+        // autoChooser.addOption("Right 3 Coral", new ParallelCommandGroup(
+        // new WaitCommand(0.01),
+        //   new SequentialCommandGroup(
+        //     new BlueCoralRight1().blueRightCoral().withTimeout(2.51 + 0.1) //2.51 but gave extra time
+        //     .andThen(new BlueCoralRight2().blueRightCoral().withTimeout(2.6 + 0.7)) // was 2.37
+        //     .andThen(new BlueCoralRight3().blueRightCoral().withTimeout(3.04 + 0.1))
+        //     .andThen(new BlueCoralRight4().blueRightCoral().withTimeout(2.62 + 0.7))
+        //     .andThen(new BlueCoralRight5().blueRightCoral().withTimeout(2.51)) // 2.51 butr extra time for the coral outtake
+        //     .andThen(new BlueCoralRight6().blueRightCoral().withTimeout(0.1)) 
+        //     )
+        //   ));
 
         // autoChooser.addOption("Left 2 Coral", new ParallelCommandGroup(
         // new WaitCommand(0.01),
@@ -390,6 +374,11 @@ public class RobotContainer {
         new WaitCommand(0.01),
           new SequentialCommandGroup(new LeftLeave().leftLeave())
         ));
+
+        // autoChooser.addOption("5 meter test", new ParallelCommandGroup(
+        // new WaitCommand(0.01),
+        //   new SequentialCommandGroup(new mtest().metertest())
+        // ));
 
         // autoChooser.addOption("Right Leave", new ParallelCommandGroup(
         // new WaitCommand(0.01),

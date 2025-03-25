@@ -7,6 +7,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class MiddleCoral extends SubsystemBase{
     public Command middleCoral(){
-        return AutoBuilder.buildAuto("middleCoral");
+        return AutoBuilder.buildAuto("Middle Coral");
     }
 }

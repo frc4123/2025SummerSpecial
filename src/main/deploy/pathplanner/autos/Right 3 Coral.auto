@@ -29,7 +29,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "CoralYolo"
                 }
               }
             ]
@@ -54,16 +54,23 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "CoralYolo"
+                  "name": "Intake"
                 }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Copy of Blue Right Coral 3 (2.0)"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Copy of Blue Right Coral 3 (2.0)"
+                }
+              }
+            ]
           }
         },
         {
@@ -79,7 +86,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "CoralYolo"
                 }
               }
             ]
@@ -104,16 +111,23 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "CoralYolo"
+                  "name": "Intake"
                 }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "parallel",
           "data": {
-            "pathName": "Copy of Blue Right Coral 5"
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Copy of Blue Right Coral 5"
+                }
+              }
+            ]
           }
         },
         {
@@ -129,7 +143,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Intake"
+                  "name": "CoralYolo"
                 }
               }
             ]

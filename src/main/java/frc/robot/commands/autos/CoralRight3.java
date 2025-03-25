@@ -5,8 +5,8 @@ import com.pathplanner.lib.auto.AutoBuilder;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class DiegoAuto extends SubsystemBase{
-    public Command diegoAuto(){
-        return AutoBuilder.buildAuto("Diego Right 3 Coral");
+public class CoralRight3 extends SubsystemBase{
+    public Command coralRight3(){
+        return AutoBuilder.buildAuto("Right 3 Coral");
     }
 }

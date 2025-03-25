@@ -42,6 +42,11 @@ public class CoralManipulator extends SubsystemBase {
         intake.set(velo);
     }
 
+    public boolean getPreviousDetection(){
+        return isCoralDetected();
+        //must be run in command intializer
+    }
+
     public boolean isLocked(){
         boolean currentDetection = isCoralDetected();
         if (currentDetection && !m_previousDetection) {

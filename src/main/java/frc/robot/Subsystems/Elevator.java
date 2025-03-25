@@ -49,6 +49,7 @@ public class Elevator extends SubsystemBase {
     public double getElevatorSwerveReduction(){
         double percentOfMaxHeight = getRelativePosition() / Constants.Elevator.up;
         double elevatorReductionPercent = Math.abs(percentOfMaxHeight - 1);
+        
         return elevatorReductionPercent <= 0.1 ? 0.1 : elevatorReductionPercent;
     }
 
