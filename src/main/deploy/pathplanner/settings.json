@@ -3,14 +3,10 @@
   "robotLength": 0.9,
   "holonomicMode": true,
   "pathFolders": [
-    "Blue Left Coral",
-    "Blue Right Coral",
-    "Blue Right Coral 3",
-    "Blue Left Coral 3"
+    "Blue Left Coral 3",
+    "Blue Right Coral 3"
   ],
-  "autoFolders": [
-    "BlueRightCoral3"
-  ],
+  "autoFolders": [],
   "defaultMaxVel": 4.5,
   "defaultMaxAccel": 4.5,
   "defaultMaxAngVel": 700.0,
