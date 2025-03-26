@@ -24,9 +24,9 @@ public class CoralIntake extends Command{
     public void execute() {
         if(!intake.isLocked()){
             double elevatorPose = elevator.getRelativePosition();
-            if(elevatorPose >= 25 || elevatorPose <= 10){
-                intake.setCoralVelo(-0.6);
-            } else intake.setCoralVelo(-0.4); 
+            if(elevatorPose <= 10){
+                intake.setCoralVelo(-0.9);
+            } else intake.setCoralVelo(-0.5); 
 
         } else intake.setCoralVelo(0); 
     }

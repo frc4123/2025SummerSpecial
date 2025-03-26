@@ -16,6 +16,7 @@ import frc.robot.commands.arm.ArmProcessor;
 import frc.robot.commands.arm.ArmStow;
 import frc.robot.commands.arm.ArmUp;
 import frc.robot.commands.arm.ArmReef;
+import frc.robot.commands.autos.CoralLeft3;
 // import frc.robot.commands.autos.BlueLeftCoral2;
 import frc.robot.commands.autos.CoralRight3;
 // import frc.robot.commands.autos.BlueRightCoral2;
@@ -370,6 +371,11 @@ public class RobotContainer {
         //         //intake and score second coral
         // )));
 
+        autoChooser.addOption("Left 3 Coral", new ParallelCommandGroup(
+        new WaitCommand(0.01),
+          new SequentialCommandGroup(new CoralLeft3().coralLeft3())
+        ));
+        
         autoChooser.addOption("Left Leave", new ParallelCommandGroup(
         new WaitCommand(0.01),
           new SequentialCommandGroup(new LeftLeave().leftLeave())
