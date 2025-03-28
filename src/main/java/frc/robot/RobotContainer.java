@@ -182,7 +182,8 @@ public class RobotContainer {
         joystick.rightTrigger().whileTrue(rightCoralAutoDrive);
         joystick.leftTrigger().whileTrue(leftCoralAutoDrive);
         joystick.y().whileTrue(algaeAutoDrive);
-        joystick.leftBumper().whileTrue(leftCoralStationAutoDrive);
+        joystick.leftBumper().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        // joystick.leftBumper().whileTrue(leftCoralStationAutoDrive);
         joystick.rightBumper().whileTrue(rightCoralStationAutoDrive);
 
         joystick.povLeft().whileTrue(drivetrain.applyRequest(() -> robotStrafe
