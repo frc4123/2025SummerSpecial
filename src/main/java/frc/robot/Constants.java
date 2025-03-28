@@ -154,7 +154,7 @@ public class Constants {
         // new Translation2d(-kWheelBase / 2, kTrackWidth / 2), // back left
         // new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)); // back right
 
-        public static final double CLOSE_TRANSLATION_PP_KP = 3; // 8
+        public static final double CLOSE_TRANSLATION_PP_KP = 2.5; // 8
         public static final double CLOSE_TRANSLATION_PP_KI = 0.0;
         public static final double CLOSE_TRANSLATION_PP_KD = 0.0;
 
@@ -194,8 +194,8 @@ public class Constants {
         };
 
         public static final double[][] ADDITIONS = {
-            {-0.5, -0.1}, // LEFT ADDITION // {0.342, 0} //0.385
-            {-0.5, -0.445}  // RIGHT ADDITION // {0.342, 0.348} //0.385 was correct in odometry w advantagescope
+            {-0.5, -0.125}, // LEFT ADDITION // {0.342, 0} //0.385
+            {-0.5, -0.45}  // RIGHT ADDITION // {0.342, 0.348} //0.385 was correct in odometry w advantagescope
             // {+forward/back-, +left/right-}
         };
 
