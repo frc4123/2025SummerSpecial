@@ -5,12 +5,12 @@ import frc.robot.Constants;
 import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.Elevator;
 
-public class Elevator2CoralAuto extends Command{
+public class Elevator3CoralAuto extends Command{
 
     Elevator elevator;
     Arm arm;
 
-    public Elevator2CoralAuto(Elevator elevator, Arm arm){
+    public Elevator3CoralAuto(Elevator elevator, Arm arm){
         this.elevator = elevator;
         this.arm = arm;
         addRequirements(elevator);

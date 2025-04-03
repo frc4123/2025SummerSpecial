@@ -31,6 +31,7 @@ import frc.robot.commands.coral_manipulator.CoralReverse;
 import frc.robot.commands.coral_manipulator.CoralYolo;
 import frc.robot.commands.elevator.ElevatorL2;
 import frc.robot.commands.elevator.ElevatorL2Algae;
+import frc.robot.commands.elevator.Elevator3CoralAuto;
 import frc.robot.commands.elevator.ElevatorAlgaeGround;
 import frc.robot.commands.elevator.ElevatorBarge;
 import frc.robot.commands.elevator.ElevatorDown;
@@ -123,6 +124,7 @@ public class RobotContainer {
     private final ElevatorL2 elevatorL2 = new ElevatorL2(elevator);
     private final ElevatorL3 elevatorL3 = new ElevatorL3(elevator);
     private final ElevatorL4 elevatorL4 = new ElevatorL4(elevator, arm);
+    private final Elevator3CoralAuto elevatorL4auto = new Elevator3CoralAuto(elevator, arm);
 
 
     private final Command leftCoralAutoDrive = new AutoLineUpReef(drivetrain, 0);
@@ -140,7 +142,7 @@ public class RobotContainer {
         NamedCommands.registerCommand("Intake", coralIntake);
         NamedCommands.registerCommand("CheckIntake", checkIntake);
         NamedCommands.registerCommand("ElevatorDown", elevatorDown);
-        NamedCommands.registerCommand("ScoreL4", elevatorL4);
+        NamedCommands.registerCommand("ScoreL4", elevatorL4auto);
 
         initializeAutoChooser();
         
