@@ -104,7 +104,7 @@ public class Constants {
         public static final double l2 = 30;
         public static final double l3 = 50;
         public static final double l4 = 78.5; // tune
-        public static final double l4auto = l4 - 0.8;
+        public static final double l4auto = l4 - 0.75;
         public static final double up = 88; //technically its 88.4
     }
 
