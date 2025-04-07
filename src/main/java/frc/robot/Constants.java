@@ -110,50 +110,6 @@ public class Constants {
 
     public static final class SwerveConstants {
 
-        // public static final boolean kInvertLeftSide = false;
-        // public static final boolean kInvertRightSide = true;
-
-        // public static final double kWheelBase = 24.75;
-        // public static final double kTrackWidth = Units.inchesToMeters(24.75);
-
-        // //Front Left
-        // public static final Angle kFrontLeftEncoderOffset = Rotations.of(-0.427734375);
-        // public static final boolean kFrontLeftSteerMotorInverted = false;
-        // public static final boolean kFrontLeftEncoderInverted = false;
-
-        // public static final Distance kFrontLeftXPos = Inches.of(12.375);
-        // public static final Distance kFrontLeftYPos = Inches.of(12.375);
-
-        // //Front Right
-        // public static final Angle kFrontRightEncoderOffset = Rotations.of(-0.444580078125);
-        // public static final boolean kFrontRightSteerMotorInverted = false;
-        // public static final boolean kFrontRightEncoderInverted = false;
-
-        // public static final Distance kFrontRightXPos = Inches.of(12.375);
-        // public static final Distance kFrontRightYPos = Inches.of(-12.375);
-
-        // //Back Left
-        // public static final Angle kBackLeftEncoderOffset = Rotations.of(0.3447265625);
-        // public static final boolean kBackLeftSteerMotorInverted = false;
-        // public static final boolean kBackLeftEncoderInverted = false;
-    
-        // public static final Distance kBackLeftXPos = Inches.of(-12.375);
-        // public static final Distance kBackLeftYPos = Inches.of(12.375);
-
-        // //Back Right
-        // public static final Angle kBackRightEncoderOffset = Rotations.of(-0.191162109375);
-        // public static final boolean kBackRightSteerMotorInverted = false;
-        // public static final boolean kBackRightEncoderInverted = false;
-
-        // public static final Distance kBackRightXPos = Inches.of(-12.375);
-        // public static final Distance kBackRightYPos = Inches.of(-12.375);
-
-        // public static final SwerveDriveKinematics kDriveKinematics = new SwerveDriveKinematics(
-        // new Translation2d(kWheelBase / 2, kTrackWidth / 2), // front left
-        // new Translation2d(kWheelBase / 2, -kTrackWidth / 2), // front right
-        // new Translation2d(-kWheelBase / 2, kTrackWidth / 2), // back left
-        // new Translation2d(-kWheelBase / 2, -kTrackWidth / 2)); // back right
-
         public static final double CLOSE_TRANSLATION_PP_KP = 2.5; // 8
         public static final double CLOSE_TRANSLATION_PP_KI = 0.0;
         public static final double CLOSE_TRANSLATION_PP_KD = 0.0;
