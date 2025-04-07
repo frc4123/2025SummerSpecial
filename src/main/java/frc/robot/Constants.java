@@ -195,7 +195,7 @@ public class Constants {
 
         public static final double[][] ADDITIONS = {
             {-0.5, -0.125}, // LEFT ADDITION // {0.342, 0} //0.385
-            {-0.5, -0.45}  // RIGHT ADDITION // {0.342, 0.348} //0.385 was correct in odometry w advantagescope
+            {-0.5, -0.4}  // RIGHT ADDITION // {0.342, 0.348} //0.385 was correct in odometry w advantagescope
             // {+forward/back-, +left/right-}
         };
 
