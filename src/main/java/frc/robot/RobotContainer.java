@@ -65,6 +65,7 @@ import frc.robot.subsystems.Arm;
 import frc.robot.subsystems.CommandSwerveDrivetrain;
 import frc.robot.subsystems.CoralManipulator;
 import frc.robot.subsystems.Elevator;
+import frc.robot.subsystems.Oculus;
 import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
@@ -86,8 +87,9 @@ public class RobotContainer {
     private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
     private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();  
+    private final Oculus oculus = new Oculus();
     private final Telemetry logger = new Telemetry(MaxSpeed);
-    private final Vision vision = new Vision(drivetrain);
+    private final Vision vision = new Vision(drivetrain, oculus);
     private final AlgaeManipulator algaeManipulator = new AlgaeManipulator();
     private final CoralManipulator coralManipulator = new CoralManipulator();
     private final Arm arm = new Arm();
@@ -116,7 +118,6 @@ public class RobotContainer {
     private final ElevatorL3 elevatorL3 = new ElevatorL3(elevator);
     private final ElevatorL4 elevatorL4 = new ElevatorL4(elevator, arm);
     private final Elevator3CoralAuto elevatorL4auto = new Elevator3CoralAuto(elevator, arm);
-
 
     private final Command leftCoralAutoDrive = new AutoLineUpReef(drivetrain, 0);
     private final Command rightCoralAutoDrive = new AutoLineUpReef(drivetrain, 1);

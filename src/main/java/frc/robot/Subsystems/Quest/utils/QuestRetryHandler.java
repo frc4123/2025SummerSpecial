@@ -1,4 +1,4 @@
-package frc.robot.subsystems.Oculus.utils;
+package frc.robot.subsystems.Quest.utils;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.networktables.IntegerPublisher;

@@ -12,6 +12,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
@@ -58,9 +59,9 @@ public class Vision extends SubsystemBase {
     private final StructPublisher<Transform3d> leftCamTargetTransformPublisher;
     
     private final CommandSwerveDrivetrain drivetrain;
-    //QuestNav questNav = new QuestNav();
+    private Oculus oculus;
 
-    public Vision(CommandSwerveDrivetrain drivetrain) {
+    public Vision(CommandSwerveDrivetrain drivetrain, Oculus oculus) {
         this.drivetrain = drivetrain;
         this.aprilTagFieldLayout = loadAprilTagFieldLayout("/fields/Reefscape2025.json");
 
@@ -124,6 +125,8 @@ public class Vision extends SubsystemBase {
         // Process both cameras
         processCamera(rightCamera, rightEstimator);
         processCamera(leftCamera, leftEstimator);
+        processOculus();
+
         
         // Update game piece tracking
         updateGamePieceTracking();
@@ -191,6 +194,25 @@ public class Vision extends SubsystemBase {
             }
         }
         
+    }
+
+    private void processOculus(){
+        if (oculus.isConnected()) {
+            // Get pose with the method outlined above
+            Pose2d pose = oculus.getRobotPose();
+            // Get timestamp from the QuestNav instance
+            double timestamp = oculus.getTime();
+        
+            // Convert FPGA timestamp to CTRE's time domain using Phoenix 6 utility
+            double ctreTimestamp = Utils.fpgaToCurrentTime(timestamp);
+        
+            // You can put some sort of filtering here if you would like!
+        
+            // Add the measurement to our estimator
+            drivetrain.addVisionMeasurement(pose, ctreTimestamp, Constants.Oculus.OCULUS_STD_DEVS);
+        }
+
+        oculus.processHeartbeat();
     }
 
     private boolean isTagReef(PhotonPipelineResult result){

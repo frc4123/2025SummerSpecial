@@ -60,8 +60,8 @@ public class Telemetry {
     private final double[] poseArray = new double[3];
 
     //todelete
-    private final double[] m_moduleStatesArray = new double[8];
-    private final double[] m_moduleTargetsArray = new double[8];
+   // private final double[] m_moduleStatesArray = new double[8];
+    //private final double[] m_moduleTargetsArray = new double[8];
     //todelete
 
     /**

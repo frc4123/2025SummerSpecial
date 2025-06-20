@@ -1,10 +1,10 @@
-package frc.robot.subsystems.Oculus.io;
+package frc.robot.subsystems.Quest.io;
 
 
 import static edu.wpi.first.units.Units.Milliseconds;
 import static frc.robot.Constants.Oculus.*;
-import static frc.robot.subsystems.Oculus.utils.OculusStatus.Miso.*;
-import static frc.robot.subsystems.Oculus.utils.OculusStatus.Mosi.*;
+import static frc.robot.subsystems.Quest.utils.OculusStatus.Miso.*;
+import static frc.robot.subsystems.Quest.utils.OculusStatus.Mosi.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Quaternion;

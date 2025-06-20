@@ -1,19 +1,17 @@
-package frc.robot.subsystems.Oculus.io;
+package frc.robot.subsystems.Quest.io;
 
-
-import frc.robot.subsystems.Oculus.utils.QuestRetryHandler;
 
 import static edu.wpi.first.units.Units.Microseconds;
 import static edu.wpi.first.units.Units.Seconds;
-
-import static frc.robot.subsystems.Oculus.utils.OculusStatus.Miso.*;
-import static frc.robot.subsystems.Oculus.utils.OculusStatus.Mosi.*;
 import static frc.robot.Constants.Oculus.OCULUS_CONNECTION_TIMEOUT;
 import static frc.robot.commands.utils.DashboardNotifs.Oculus.*;
+import static frc.robot.subsystems.Quest.utils.OculusStatus.Miso.*;
+import static frc.robot.subsystems.Quest.utils.OculusStatus.Mosi.*;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.Timer;
+import frc.robot.subsystems.Quest.utils.QuestRetryHandler;
 
 import org.littletonrobotics.junction.Logger;
 
