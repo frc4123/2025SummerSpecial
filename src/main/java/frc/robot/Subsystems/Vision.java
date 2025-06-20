@@ -58,6 +58,7 @@ public class Vision extends SubsystemBase {
     private final StructPublisher<Transform3d> leftCamTargetTransformPublisher;
     
     private final CommandSwerveDrivetrain drivetrain;
+    //QuestNav questNav = new QuestNav();
 
     public Vision(CommandSwerveDrivetrain drivetrain) {
         this.drivetrain = drivetrain;
@@ -145,6 +146,23 @@ public class Vision extends SubsystemBase {
         return null;  // No valid results found
     }
     ////////
+    
+    // private void updateOculus(){
+    //     if (questNav.isConnected() && questNav.isTracking()) {
+    //         // Get pose with the method outlined above
+    //         Pose2d pose = getPose();
+    //         // Get timestamp from the QuestNav instance
+    //         double timestamp = questNav.getDataTimestamp();
+        
+    //         // Convert FPGA timestamp to CTRE's time domain using Phoenix 6 utility
+    //         double ctreTimestamp = Utils.fpgaToCurrentTime(timestamp);
+        
+    //         // You can put some sort of filtering here if you would like!
+        
+    //         // Add the measurement to our estimator
+    //         drivetrain.addVisionMeasurement(pose, ctreTimestamp, Constants.Oculus.OCULUS_STD_DEVS);
+    //     }
+    // }
 
     private void processCamera(PhotonCamera camera, PhotonPoseEstimator estimator) {
         PhotonPipelineResult result = getLatestResults(camera);

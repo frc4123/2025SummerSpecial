@@ -1,14 +1,20 @@
 package frc.robot;
 
-// import static edu.wpi.first.units.Units.*;
+import static edu.wpi.first.units.Units.Milliseconds;
 
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.VecBuilder;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Transform2d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 // import edu.wpi.first.math.geometry.Translation2d;
 // import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.util.Units;
 // import edu.wpi.first.units.measure.Angle;
 // import edu.wpi.first.units.measure.Distance;
+import edu.wpi.first.units.measure.Time;
 
 public class Constants {
     
@@ -106,6 +112,41 @@ public class Constants {
         public static final double l4 = 78.5; // tune
         public static final double l4auto = l4 - 0.75;
         public static final double up = 88; //technically its 88.4
+    }
+
+    public static final class Oculus{
+        public static final double BATTERY_LOW_PERCENT = 25;
+        public static final double BATTERY_CRITICAL_PERCENT = 10;
+
+        public static enum PoseResetStrategy {ROBOT_SIDE,OCULUS_SIDE}
+        
+        /** The strategy used to reset the pose */
+        public static final PoseResetStrategy POSE_RESET_STRATEGY = PoseResetStrategy.OCULUS_SIDE;
+
+        public static final Transform2d ROBOT_TO_OCULUS =
+            new Transform2d(0, -0, Rotation2d.fromDegrees(0)); /*TODO: make these values correct */
+
+        /** Timeout threshold for considering Quest disconnected (seconds) */
+        public static final Time OCULUS_CONNECTION_TIMEOUT = Milliseconds.of(350);
+
+        public static final Matrix<N3, N1> OCULUS_STD_DEVS =
+            VecBuilder.fill(
+                 0.02, // Trust down to 50mm
+                 0.02, // Trust down to 50mm
+                 0.0872665 // 5deg
+            );
+
+        /**
+        * The divisor to divide the translational std devs by for simulation (how much we trust our sim)
+        * Higher = more trust
+        */
+        public static final double SIM_TRUST_TRANSLATION = 5.0;
+
+        /**
+        * The divisor to divide the rotational std devs by for simulation (how much we trust our sim)
+        * Higher = more trust
+        */
+        public static final double SIM_TRUST_ROTATION = 10.0;
     }
 
     public static final class SwerveConstants {

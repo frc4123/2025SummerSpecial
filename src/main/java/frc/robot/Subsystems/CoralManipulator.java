@@ -44,7 +44,7 @@ public class CoralManipulator extends SubsystemBase {
 
     public boolean getPreviousDetection(){
         return isCoralDetected();
-        //must be run in command intializer
+        //must be run in command intializer sdfit 
     }
 
     public boolean isLocked(){
