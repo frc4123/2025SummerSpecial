@@ -30,6 +30,8 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import com.ctre.phoenix6.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import frc.robot.commands.utils.DashboardNotifs;
+
 public class Vision extends SubsystemBase {
     private final AprilTagFieldLayout aprilTagFieldLayout;
     private final PhotonCamera rightCamera;
@@ -126,6 +128,7 @@ public class Vision extends SubsystemBase {
         processCamera(rightCamera, rightEstimator);
         processCamera(leftCamera, leftEstimator);
         processOculus();
+        processOculusNotifications();
 
         
         // Update game piece tracking
@@ -213,6 +216,22 @@ public class Vision extends SubsystemBase {
         }
 
         oculus.processHeartbeat();
+    }
+
+    private void processOculusNotifications(){
+        // Notify if we are disconnected
+        if (!oculus.isConnected()) {
+            DashboardNotifs.Oculus.sendOculusDisconnectedNotification();
+        } else {
+            DashboardNotifs.Oculus.sendOculusReconnectedNotification();
+        }
+
+        // Notify for battery levels
+        if (oculus.getBatteryPercent() < Constants.Oculus.BATTERY_CRITICAL_PERCENT) {
+            DashboardNotifs.Oculus.sendOculusBatteryCriticalNotification();
+        } else if (oculus.getBatteryPercent() < Constants.Oculus.BATTERY_CRITICAL_PERCENT) {
+            DashboardNotifs.Oculus.sendOculusBatteryLowNotification();
+        }
     }
 
     private boolean isTagReef(PhotonPipelineResult result){
