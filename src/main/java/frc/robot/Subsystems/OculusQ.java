@@ -22,7 +22,7 @@ import frc.robot.subsystems.Quest.utils.RollingAveragePose2d;
  * Interface with the QuestNav on VR headset for pose estimation. See
  * https://www.chiefdelphi.com/t/questnav-the-best-robot-pose-tracking-system-in-frc/
  */
-public class Oculus {
+public class OculusQ {
   // Configure Network Tables topics (questnav/...) to communicate with the Quest HMD
   NetworkTableInstance nt4Instance = NetworkTableInstance.getDefault();
   NetworkTable nt4Table = nt4Instance.getTable("questnav");
@@ -69,7 +69,7 @@ public class Oculus {
   private final RollingAveragePose2d rollingAvg;
 
   /* Constructor */
-  public Oculus(int windowSize) {
+  public OculusQ(int windowSize) {
     // Zero the absolute 3D position of the robot (similar to long-pressing the quest logo)
     if (questMiso.get() != 99) {
       questMosi.set(1);
@@ -78,7 +78,7 @@ public class Oculus {
     rollingAvg = new RollingAveragePose2d(windowSize);
   }
 
-  public Oculus() {
+  public OculusQ() {
     this(2);
   }
 
