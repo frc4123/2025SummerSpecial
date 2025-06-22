@@ -53,15 +53,7 @@ public class OculusQ {
   /** Last processed heartbeat request ID */
   private double lastProcessedHeartbeatId = 0;
 
-  /** Process heartbeat requests from Quest and respond with the same ID */
-  public void processHeartbeat() {
-    double requestId = heartbeatRequestSub.get();
-    // Only respond to new requests to avoid flooding
-    if (requestId > 0 && requestId != lastProcessedHeartbeatId) {
-      heartbeatResponsePub.set(requestId);
-      lastProcessedHeartbeatId = requestId;
-    }
-  }
+  //private Oculus oculus = new Oculus();
 
   private final Transform2d robotToQuest =
       new Transform2d(inchesToMeters(0.5), inchesToMeters(9.207), Rotation2d.fromDegrees(90));
@@ -80,6 +72,16 @@ public class OculusQ {
 
   public OculusQ() {
     this(2);
+  }
+
+  /** Process heartbeat requests from Quest and respond with the same ID */
+  public void processHeartbeat() {
+    double requestId = heartbeatRequestSub.get();
+    // Only respond to new requests to avoid flooding
+    if (requestId > 0 && requestId != lastProcessedHeartbeatId) {
+      heartbeatResponsePub.set(requestId);
+      lastProcessedHeartbeatId = requestId;
+    }
   }
 
   public void updateAverageRobotPose() {

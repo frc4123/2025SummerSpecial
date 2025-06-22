@@ -114,6 +114,9 @@ public class Vision extends SubsystemBase {
             redInversionFactor = 180 - blueInversionFactor;
         }
 
+        // Configure Quest
+        oculus.resetPoseOculus(drivetrain.getState().Pose);
+
         // Initialize NetworkTables publishers
         NetworkTableInstance inst = NetworkTableInstance.getDefault();
         rightCamPosePublisher = inst.getStructTopic("/Vision/RightCameraPose", Pose3d.struct).publish();
@@ -128,7 +131,7 @@ public class Vision extends SubsystemBase {
         processCamera(rightCamera, rightEstimator);
         processCamera(leftCamera, leftEstimator);
         processOculus();
-        processOculusNotifications();
+        oculus.processOculusNotifications();
 
         
         // Update game piece tracking
@@ -200,7 +203,9 @@ public class Vision extends SubsystemBase {
     }
 
     private void processOculus(){
-        if (oculus.isConnected()) {
+        oculus.sendHeartbeat();
+
+        if (oculus.isConnected() && oculus.isTracking()) {
             // Get pose with the method outlined above
             Pose2d pose = oculus.getRobotPose();
             // Get timestamp from the QuestNav instance
@@ -209,30 +214,14 @@ public class Vision extends SubsystemBase {
             // Convert FPGA timestamp to CTRE's time domain using Phoenix 6 utility
             double ctreTimestamp = Utils.fpgaToCurrentTime(timestamp);
         
-            // You can put some sort of filtering here if you would like!
+            oculus.resetPoseOculus(drivetrain.getState().Pose);
         
             // Add the measurement to our estimator
-            drivetrain.addVisionMeasurement(pose, ctreTimestamp, Constants.Oculus.OCULUS_STD_DEVS);
-        }
-
-        oculus.processHeartbeat();
-    }
-
-    private void processOculusNotifications(){
-        // Notify if we are disconnected
-        if (!oculus.isConnected()) {
-            DashboardNotifs.Oculus.sendOculusDisconnectedNotification();
-        } else {
-            DashboardNotifs.Oculus.sendOculusReconnectedNotification();
-        }
-
-        // Notify for battery levels
-        if (oculus.getBatteryPercent() < Constants.Oculus.BATTERY_CRITICAL_PERCENT) {
-            DashboardNotifs.Oculus.sendOculusBatteryCriticalNotification();
-        } else if (oculus.getBatteryPercent() < Constants.Oculus.BATTERY_CRITICAL_PERCENT) {
-            DashboardNotifs.Oculus.sendOculusBatteryLowNotification();
+            drivetrain.addVisionMeasurement(pose, ctreTimestamp, Constants.OculusQuest.OCULUS_STD_DEVS);
         }
     }
+
+    
 
     private boolean isTagReef(PhotonPipelineResult result){
         int tagId = result.getBestTarget().getFiducialId();
