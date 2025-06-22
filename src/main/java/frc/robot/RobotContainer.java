@@ -122,7 +122,7 @@ public class RobotContainer {
     private final Command leftCoralAutoDrive = new AutoLineUpReef(drivetrain, 0);
     private final Command rightCoralAutoDrive = new AutoLineUpReef(drivetrain, 1);
     private final Command algaeAutoDrive = new AutoLineUpAlgae(drivetrain);
-    private final Command leftCoralStationAutoDrive = new AutoLineUpCoralStation(drivetrain, 0);
+    //private final Command leftCoralStationAutoDrive = new AutoLineUpCoralStation(drivetrain, 0);
     private final Command rightCoralStationAutoDrive = new AutoLineUpCoralStation(drivetrain, 1);
 
     public double currentAngle = drivetrain.getState().Pose.getRotation().getDegrees();
