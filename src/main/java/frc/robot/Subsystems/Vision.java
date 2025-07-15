@@ -129,8 +129,9 @@ public class Vision extends SubsystemBase {
         processCamera(rightCamera, rightEstimator);
         processCamera(leftCamera, leftEstimator);
         processOculus();
-        oculus.processOculusNotifications();
-
+        if(this.oculus != null) {
+            oculus.processOculusNotifications();
+        }
         
         // Update game piece tracking
         updateGamePieceTracking();
@@ -201,9 +202,10 @@ public class Vision extends SubsystemBase {
     }
 
     private void processOculus(){
-        oculus.sendHeartbeat();
 
-        if (oculus.isConnected() && oculus.isTracking()) {
+        if (this.oculus != null && oculus.isConnected() && oculus.isTracking()) {
+
+            oculus.sendHeartbeat();
 
             Pose2d pose = oculus.getRobotPose();
             double timestamp = oculus.getTime();
