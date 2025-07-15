@@ -114,14 +114,9 @@ public class Constants {
         public static final double up = 88; //technically its 88.4
     }
 
-    public static final class Oculus{
+    public static final class OculusQuest{
         public static final double BATTERY_LOW_PERCENT = 25;
         public static final double BATTERY_CRITICAL_PERCENT = 10;
-
-        public static enum PoseResetStrategy {ROBOT_SIDE,OCULUS_SIDE}
-        
-        /** The strategy used to reset the pose */
-        public static final PoseResetStrategy POSE_RESET_STRATEGY = PoseResetStrategy.OCULUS_SIDE;
 
         public static final Transform2d ROBOT_TO_OCULUS =
             new Transform2d(0, -0, Rotation2d.fromDegrees(0)); /*TODO: make these values correct */

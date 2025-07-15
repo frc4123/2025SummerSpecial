@@ -3,30 +3,14 @@ package frc.robot.subsystems;
 import static edu.wpi.first.math.util.Units.inchesToMeters;
 
 import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Quaternion;
 import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.networktables.DoublePublisher;
-import edu.wpi.first.networktables.DoubleSubscriber;
-import edu.wpi.first.networktables.FloatArraySubscriber;
-import edu.wpi.first.networktables.IntegerPublisher;
-import edu.wpi.first.networktables.IntegerSubscriber;
-import edu.wpi.first.networktables.NetworkTable;
-import edu.wpi.first.networktables.NetworkTableInstance;
-import edu.wpi.first.wpilibj.RobotController;
-import frc.robot.Constants;
+
 import frc.robot.Constants.OculusQuest;
 import frc.robot.commands.utils.DashboardNotifs;
-import frc.robot.subsystems.Quest.utils.RollingAveragePose2d;
 
 import gg.questnav.questnav.QuestNav;
 
-/**
- * Interface with the QuestNav on VR headset for pose estimation. See
- * https://www.chiefdelphi.com/t/questnav-the-best-robot-pose-tracking-system-in-frc/
- */
 public class Oculus{
 
   // Pose of the Quest when the pose was reset
@@ -34,8 +18,7 @@ public class Oculus{
 
   private QuestNav quest = new QuestNav();
 
-  private final Transform2d robotToQuest =
-      new Transform2d(inchesToMeters(0.5), inchesToMeters(9.207), Rotation2d.fromDegrees(90));
+  private final Transform2d robotToQuest = new Transform2d(inchesToMeters(0.5), inchesToMeters(9.207), Rotation2d.fromDegrees(90));
 
   //private final RollingAveragePose2d rollingAvg;
 

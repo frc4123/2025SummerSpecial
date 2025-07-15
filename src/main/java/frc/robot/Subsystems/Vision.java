@@ -30,8 +30,6 @@ import org.photonvision.targeting.PhotonPipelineResult;
 import com.ctre.phoenix6.Utils;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import frc.robot.commands.utils.DashboardNotifs;
-
 public class Vision extends SubsystemBase {
     private final AprilTagFieldLayout aprilTagFieldLayout;
     private final PhotonCamera rightCamera;
@@ -206,17 +204,17 @@ public class Vision extends SubsystemBase {
         oculus.sendHeartbeat();
 
         if (oculus.isConnected() && oculus.isTracking()) {
-            // Get pose with the method outlined above
+
             Pose2d pose = oculus.getRobotPose();
-            // Get timestamp from the QuestNav instance
             double timestamp = oculus.getTime();
         
             // Convert FPGA timestamp to CTRE's time domain using Phoenix 6 utility
             double ctreTimestamp = Utils.fpgaToCurrentTime(timestamp);
         
+            // Mando reset as of QuestNav 25.1.0
             oculus.resetPoseOculus(drivetrain.getState().Pose);
         
-            // Add the measurement to our estimator
+            // addVisionMeasurement to our estimator
             drivetrain.addVisionMeasurement(pose, ctreTimestamp, Constants.OculusQuest.OCULUS_STD_DEVS);
         }
     }
