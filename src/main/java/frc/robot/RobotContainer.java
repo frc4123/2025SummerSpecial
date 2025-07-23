@@ -48,6 +48,7 @@ import com.pathplanner.lib.auto.NamedCommands;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 // import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -69,6 +70,7 @@ import frc.robot.subsystems.Oculus;
 import frc.robot.subsystems.Vision;
 
 public class RobotContainer {
+    private final double MaxSpeedinit = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond);
     private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12Volts desired top speed
     private double MaxAngularRate = RotationsPerSecond.of(0.75).in(RadiansPerSecond); // 3/4 of a rotation per second max angular velocity
 
@@ -138,7 +140,6 @@ public class RobotContainer {
 
         initializeAutoChooser();
         
-
         faceAngle.HeadingController.setP(5);  // 10
         faceAngle.HeadingController.setI(0.0);
         faceAngle.HeadingController.setD(0);  // 0.4123
@@ -195,7 +196,21 @@ public class RobotContainer {
             .withVelocityX(-0.1 * MaxSpeed)
             .withVelocityY(0)));
     
-        joystick.a().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric()));
+        joystick.a().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric())); 
+
+        /* 
+        -------------SIM KEYBINDS--------------
+        */joystick.a().and(joystick.x().onTrue((
+            Commands.runOnce(() -> {
+                if (MaxSpeedinit != MaxSpeed) {
+                    MaxSpeed = MaxSpeedinit;
+                    if (MaxSpeed == 1.0) {
+                        MaxSpeed *= 0.7;
+                    }
+                }
+            })
+        ))); 
+        
         
         // joystick.leftTrigger().whileTrue(Commands.runOnce(SignalLogger::start));
         // joystick.rightTrigger().whileTrue(Commands.runOnce(SignalLogger::stop));
@@ -224,6 +239,11 @@ public class RobotContainer {
         m_buttonBoard.button(4).onFalse(algaeIntakeStop);
 
         m_buttonBoard.button(5).onTrue(algaeIntake);
+        m_buttonBoard.button(5).whileTrue(drivetrain.applyRequest(() 
+            -> robotStrafe
+                .withVelocityY(0.04 * MaxSpeed)
+                .withVelocityX(0))
+                .withTimeout(3));
         m_buttonBoard.button(5).onTrue(elevatorL2Algae);
         m_buttonBoard.button(5).onTrue(armReef);
         m_buttonBoard.button(5).onFalse(elevatorDown);
@@ -231,6 +251,11 @@ public class RobotContainer {
         m_buttonBoard.button(5).onFalse(algaeIntakeStop);
 
         m_buttonBoard.button(6).onTrue(algaeIntake);
+        m_buttonBoard.button(6).whileTrue(drivetrain.applyRequest(() 
+            -> robotStrafe
+                .withVelocityY(0.04 * MaxSpeed)
+                .withVelocityX(0))
+                .withTimeout(3));
         m_buttonBoard.button(6).onTrue(elevatorL3);
         m_buttonBoard.button(6).onTrue(armReef);
         m_buttonBoard.button(6).onFalse(elevatorDown);
