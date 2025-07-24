@@ -78,13 +78,13 @@ public class Constants {
 
         public static final double gearRatio = 96.66;
 
-        public static final double stowPosition = 0.34;
-        public static final double upAutoPosition = 0.304;
-        public static final double upPosition = 0.30; // tune
-        public static final double bargePosition = 0.22; //tune
-        public static final double reefPosition = 0.125; // was 0.15
-        public static final double processorPosition = 0; 
-        public static final double outPosition = -0.035;
+        public static final double stowPosition = 0.34 + 0.047;
+        public static final double upAutoPosition = 0.304 + 0.047;
+        public static final double upPosition = 0.30 + 0.047;
+        public static final double bargePosition = 0.22 + 0.047; 
+        public static final double reefPosition = 0.125 + 0.047; // was 0.15
+        public static final double processorPosition = 0 + 0.047; 
+        public static final double outPosition = -0.035 + 0.047;
     }
 
     public static final class Elevator {

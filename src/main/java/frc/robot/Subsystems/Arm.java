@@ -5,12 +5,15 @@ import com.ctre.phoenix6.controls.DynamicMotionMagicTorqueCurrentFOC;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.networktables.NetworkTable;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
 public class Arm extends SubsystemBase {
     private final TalonFX arm = new TalonFX(Constants.CanIdCanivore.Algae_Arm, "Canivore");
     private final DynamicMotionMagicTorqueCurrentFOC m_motionMagicCtrl = new DynamicMotionMagicTorqueCurrentFOC(Constants.Arm.stowPosition, Constants.Arm.velocity, Constants.Arm.acceleration, Constants.Arm.jerk);
+     private final NetworkTable armStateTable = NetworkTableInstance.getDefault().getTable("Arm State");
 
     // private final NetworkTable armStateTable = NetworkTableInstance.getDefault().getTable("ArmState");
 
@@ -44,5 +47,6 @@ public class Arm extends SubsystemBase {
     @Override
     public void periodic() {
         // arm.setPosition(getAbsolutePosition());
+        armStateTable.getEntry("Elevator RelativePosition").setDouble(getRelativePosition());
     }
 }
