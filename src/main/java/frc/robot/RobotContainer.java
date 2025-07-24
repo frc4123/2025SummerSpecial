@@ -241,8 +241,8 @@ public class RobotContainer {
         m_buttonBoard.button(5).onTrue(algaeIntake);
         m_buttonBoard.button(5).whileTrue(drivetrain.applyRequest(() 
             -> robotStrafe
-                .withVelocityY(0.04 * MaxSpeed)
-                .withVelocityX(0))
+                .withVelocityX(0.04 * MaxSpeed)
+                .withVelocityY(0))
                 .withTimeout(3));
         m_buttonBoard.button(5).onTrue(elevatorL2Algae);
         m_buttonBoard.button(5).onTrue(armReef);
@@ -253,8 +253,8 @@ public class RobotContainer {
         m_buttonBoard.button(6).onTrue(algaeIntake);
         m_buttonBoard.button(6).whileTrue(drivetrain.applyRequest(() 
             -> robotStrafe
-                .withVelocityY(0.04 * MaxSpeed)
-                .withVelocityX(0))
+                .withVelocityX(0.04 * MaxSpeed)
+                .withVelocityY(0))
                 .withTimeout(3));
         m_buttonBoard.button(6).onTrue(elevatorL3);
         m_buttonBoard.button(6).onTrue(armReef);
@@ -275,7 +275,10 @@ public class RobotContainer {
         m_buttonBoard.povLeft().onTrue(elevatorL4); // green (4)
         m_buttonBoard.povLeft().onFalse(armStow);
         m_buttonBoard.povDown().onTrue(elevatorL2); // blue (2) // find these and order them with L1 being bottom button
-        m_buttonBoard.povUp().onTrue(elevatorL1); // red (1)
+        m_buttonBoard.povUp().onTrue(armBarge); 
+        m_buttonBoard.povUp().onTrue(new WaitCommand(0.8).andThen(algaeOutake)); 
+        m_buttonBoard.povUp().onFalse(armStow); 
+        m_buttonBoard.povUp().onFalse(algaeIntakeStop); 
         m_buttonBoard.povRight().onTrue(elevatorL3); // yellow (3)
 
         m_buttonBoard.povCenter().onTrue(elevatorDown);
