@@ -150,7 +150,7 @@ public class RobotContainer {
                         .withRotationalRate(-joystick.getRightX() * MaxAngularRate)
                 )
             );
-        } else {}
+        } else {
             drivetrain.setDefaultCommand(
                 // Drivetrain will execute this command periodically
                 drivetrain.applyRequest(() ->
