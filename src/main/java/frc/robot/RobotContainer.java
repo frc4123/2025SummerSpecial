@@ -6,7 +6,6 @@ package frc.robot;
 
 import static edu.wpi.first.units.Units.*;
 
-//import frc.robot.Constants.InputConstants;
 import frc.robot.commands.algae_manipulator.AlgaeIntake;
 import frc.robot.commands.algae_manipulator.AlgaeIntakeStop;
 import frc.robot.commands.algae_manipulator.AlgaeOutake;
@@ -17,14 +16,11 @@ import frc.robot.commands.arm.ArmStow;
 import frc.robot.commands.arm.ArmUp;
 import frc.robot.commands.arm.ArmReef;
 import frc.robot.commands.autos.CoralLeft3;
-// import frc.robot.commands.autos.BlueLeftCoral2;
 import frc.robot.commands.autos.CoralRight3;
-// import frc.robot.commands.autos.BlueRightCoral2;
 import frc.robot.commands.autos.LeftLeave;
 import frc.robot.commands.autos.MiddleCoral;
 import frc.robot.commands.autos.mtest;
 import frc.robot.commands.coral_manipulator.CheckIntake;
-//import frc.robot.commands.coral_manipulator.CoralFast;
 import frc.robot.commands.coral_manipulator.CoralIntake;
 import frc.robot.commands.coral_manipulator.CoralIntakeStop;
 import frc.robot.commands.coral_manipulator.CoralReverse;
@@ -35,21 +31,19 @@ import frc.robot.commands.elevator.Elevator3CoralAuto;
 import frc.robot.commands.elevator.ElevatorAlgaeGround;
 import frc.robot.commands.elevator.ElevatorBarge;
 import frc.robot.commands.elevator.ElevatorDown;
-import frc.robot.commands.elevator.ElevatorL1;
 import frc.robot.commands.elevator.ElevatorL3;
 import frc.robot.commands.elevator.ElevatorL4;
 
-// import com.ctre.phoenix6.SignalLogger;
 import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
 import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
-// import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
@@ -114,7 +108,6 @@ public class RobotContainer {
     private final ElevatorDown elevatorDown = new ElevatorDown(elevator);
     private final ElevatorAlgaeGround elevatorAlgaeGround = new ElevatorAlgaeGround(elevator);
     private final ElevatorBarge elevatorBarge = new ElevatorBarge(elevator);
-    private final ElevatorL1 elevatorL1 = new ElevatorL1(elevator);
     private final ElevatorL2Algae elevatorL2Algae = new ElevatorL2Algae(elevator);
     private final ElevatorL2 elevatorL2 = new ElevatorL2(elevator);
     private final ElevatorL3 elevatorL3 = new ElevatorL3(elevator);
@@ -147,14 +140,27 @@ public class RobotContainer {
     }
 
     private void configureBindings() {
-        drivetrain.setDefaultCommand(
-            // Drivetrain will execute this command periodically
-            drivetrain.applyRequest(() ->
-                drive.withVelocityX(-joystick.getLeftY() * MaxSpeed * elevator.getElevatorSwerveReduction()) 
-                    .withVelocityY(-joystick.getLeftX() * MaxSpeed * elevator.getElevatorSwerveReduction()) 
-                    .withRotationalRate(-joystick.getRightX() * MaxAngularRate)
-            )
-        );
+
+        if (RobotBase.isSimulation()) {
+            drivetrain.setDefaultCommand(
+                // Drivetrain will execute this command periodically
+                drivetrain.applyRequest(() ->
+                    drive.withVelocityX(-joystick.getLeftY() * MaxSpeed * 0.6 * elevator.getElevatorSwerveReduction()) 
+                        .withVelocityY(-joystick.getLeftX() * MaxSpeed * elevator.getElevatorSwerveReduction()) 
+                        .withRotationalRate(-joystick.getRightX() * MaxAngularRate)
+                )
+            );
+        } else {}
+            drivetrain.setDefaultCommand(
+                // Drivetrain will execute this command periodically
+                drivetrain.applyRequest(() ->
+                    drive.withVelocityX(-joystick.getLeftY() * MaxSpeed * 0.6 * elevator.getElevatorSwerveReduction()) 
+                        .withVelocityY(-joystick.getLeftX() * MaxSpeed * elevator.getElevatorSwerveReduction()) 
+                        .withRotationalRate(-joystick.getRightX() * MaxAngularRate)
+                )
+            );
+        }
+
 
         //joystick.a().whileTrue(drivetrain.applyRequest(() -> brake));
 
@@ -198,18 +204,6 @@ public class RobotContainer {
     
         joystick.a().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric())); 
 
-        /* 
-        -------------SIM KEYBINDS--------------
-        */joystick.a().and(joystick.x().onTrue((
-            Commands.runOnce(() -> {
-                if (MaxSpeedinit != MaxSpeed) {
-                    MaxSpeed = MaxSpeedinit;
-                    if (MaxSpeed == 1.0) {
-                        MaxSpeed *= 0.7;
-                    }
-                }
-            })
-        ))); 
         
         
         // joystick.leftTrigger().whileTrue(Commands.runOnce(SignalLogger::start));
