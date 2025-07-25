@@ -305,6 +305,8 @@ public class Vision extends SubsystemBase {
             case 15: case 5: return Rotation2d.fromDegrees(180 + redInversionFactor);
             case 14: case 4: return Rotation2d.fromDegrees(blueInversionFactor);
             case 3: case 16: return Rotation2d.fromDegrees(270);
+            case 13: case 1: return Rotation2d.fromDegrees(55);
+            case 12: case 2: return Rotation2d.fromDegrees(305);
             default: return Rotation2d.fromDegrees(0);
         }
     }

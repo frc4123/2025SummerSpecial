@@ -160,9 +160,9 @@ public class RobotContainer {
 
         joystick.x().whileTrue(
             drivetrain.applyRequest(() ->
-            drive.withVelocityX(-joystick.getLeftY() * MaxSpeed/10) 
-                .withVelocityY(-joystick.getLeftX() * MaxSpeed/10) 
-                .withRotationalRate(-joystick.getRightX() * MaxAngularRate/10)
+            drive.withVelocityX(-joystick.getLeftY() * MaxSpeed/4) 
+                .withVelocityY(-joystick.getLeftX() * MaxSpeed/4) 
+                .withRotationalRate(-joystick.getRightX() * MaxAngularRate/4)
             )
         );
         joystick.b().whileTrue(
@@ -181,19 +181,19 @@ public class RobotContainer {
         joystick.rightBumper().whileTrue(rightCoralStationAutoDrive);
 
         joystick.povLeft().whileTrue(drivetrain.applyRequest(() -> robotStrafe
-            .withVelocityY(0.1 * MaxSpeed)
+            .withVelocityY(0.25 * MaxSpeed)
             .withVelocityX(0)));
 
         joystick.povRight().whileTrue(drivetrain.applyRequest(() -> robotStrafe
-            .withVelocityY(-0.1 * MaxSpeed)
+            .withVelocityY(-0.25 * MaxSpeed)
             .withVelocityX(0)));
         
         joystick.povUp().whileTrue(drivetrain.applyRequest(() -> robotStrafe
-            .withVelocityX(0.1 * MaxSpeed)
+            .withVelocityX(0.25 * MaxSpeed)
             .withVelocityY(0)));
 
         joystick.povDown().whileTrue(drivetrain.applyRequest(() -> robotStrafe
-            .withVelocityX(-0.1 * MaxSpeed)
+            .withVelocityX(-0.25 * MaxSpeed)
             .withVelocityY(0)));
     
         joystick.a().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric())); 
