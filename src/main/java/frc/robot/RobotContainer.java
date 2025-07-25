@@ -39,6 +39,7 @@ import com.ctre.phoenix6.swerve.SwerveModule.SteerRequestType;
 import com.ctre.phoenix6.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.NamedCommands;
 
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -75,7 +76,7 @@ public class RobotContainer {
             .withDriveRequestType(DriveRequestType.Velocity)
             .withSteerRequestType(SteerRequestType.Position);
     private final SwerveRequest.RobotCentric robotStrafe = new SwerveRequest.RobotCentric()
-            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);   
+            .withDriveRequestType(DriveRequestType.OpenLoopVoltage);
 
     private final CommandXboxController joystick = new CommandXboxController(Constants.InputConstants.kDriverControllerPort0);
     private final CommandGenericHID m_buttonBoard = new CommandGenericHID(Constants.InputConstants.kDriverControllerPort1);
@@ -186,21 +187,51 @@ public class RobotContainer {
         // joystick.leftBumper().whileTrue(leftCoralStationAutoDrive);
         joystick.rightBumper().whileTrue(rightCoralStationAutoDrive);
 
+        /*joystick.x().and(joystick.povLeft()).whileTrue(drivetrain.applyRequest(() -> robotStrafe
+            .withVelocityY(MaxSpeed)
+            .withVelocityX(0)));
+
+        joystick.x().and(joystick.povRight()).whileTrue(drivetrain.applyRequest(() -> robotStrafe
+            .withVelocityY(-MaxSpeed)
+            .withVelocityX(0)));
+        
+        joystick.x().and(joystick.povUp()).whileTrue(drivetrain.applyRequest(() -> robotStrafe
+            .withVelocityX(MaxSpeed)
+            .withVelocityY(0)));
+
+        joystick.x().and(joystick.povDown()).whileTrue(drivetrain.applyRequest(() -> robotStrafe
+            .withVelocityX(-MaxSpeed)
+            .withVelocityY(0)));
+        */
+        //fast mode up there
+        //slow mode below
+
         joystick.povLeft().whileTrue(drivetrain.applyRequest(() -> robotStrafe
-            .withVelocityY(0.25 * MaxSpeed)
+            .withVelocityY(MaxSpeed * 0.25)
             .withVelocityX(0)));
 
         joystick.povRight().whileTrue(drivetrain.applyRequest(() -> robotStrafe
-            .withVelocityY(-0.25 * MaxSpeed)
+            .withVelocityY(-MaxSpeed * 0.25)
             .withVelocityX(0)));
         
         joystick.povUp().whileTrue(drivetrain.applyRequest(() -> robotStrafe
-            .withVelocityX(0.25 * MaxSpeed)
+            .withVelocityX(MaxSpeed * 0.25)
             .withVelocityY(0)));
 
-        joystick.povDown().whileTrue(drivetrain.applyRequest(() -> robotStrafe
-            .withVelocityX(-0.25 * MaxSpeed)
-            .withVelocityY(0)));
+                // Replace your existing povDown() binding with this:
+        joystick.povDown().whileTrue(drivetrain.applyRequest(() -> {
+            // Get current robot rotation
+            double robotAngle = vision.getLastGamePieceAngle().getRadians();
+    
+            // Convert robot-centric "backward" movement to field-centric coordinates
+            double fieldX = -MaxSpeed * 0.25 * Math.cos(robotAngle);
+            double fieldY = -MaxSpeed * 0.25 * Math.sin(robotAngle);
+    
+            return faceAngle
+                .withVelocityX(fieldX)
+                .withVelocityY(fieldY)
+                .withTargetDirection(vision.getLastGamePieceAngle());
+        }));
     
         joystick.a().onTrue(drivetrain.runOnce(() -> drivetrain.seedFieldCentric())); 
 
