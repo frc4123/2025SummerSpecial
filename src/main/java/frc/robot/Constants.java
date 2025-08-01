@@ -42,14 +42,15 @@ public class Constants {
         public static final int Elevator = 15;
 
         public static final int Algae_Arm = 17;
+        public static final int Algae_Intake = 18;
+        public static final int Algae_CANRange = 20;
     }
 
     public static final class CanIdRio{
         public static final int Elevator_CANDi = 16; 
 
-        public static final int Algae_Intake = 18;
         public static final int Algae_CANDi = 19;
-        public static final int Algae_CANRange = 20;
+        
 
         public static final int Coral_Intake = 21;
         public static final int Coral_CANRange = 22;

@@ -19,8 +19,8 @@ public class AlgaeIntake extends Command{
     @Override
     public void execute() {
         if(!intake.isLocked()){
-            intake.setAlgaeVelo(-1);
-        } else intake.setAlgaeVelo(-0.5);
+            intake.setAlgaeVelo(-0.85);
+        } else intake.setAlgaeVelo(-0.15);
         
     }
 
@@ -28,6 +28,6 @@ public class AlgaeIntake extends Command{
     public void end(boolean interrupted) {
         if(!intake.isLocked()){
             intake.setAlgaeVelo(0);
-        } else intake.setAlgaeVelo(-0.5);
+        } else intake.setAlgaeVelo(-0.15);
     }
 }

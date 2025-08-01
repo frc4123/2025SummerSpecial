@@ -1,12 +1,8 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.hardware.CANrange;
-import com.revrobotics.spark.SparkBase.PersistMode;
-import com.revrobotics.spark.SparkBase.ResetMode;
-import com.revrobotics.spark.SparkLowLevel.MotorType;
-import com.revrobotics.spark.SparkMax;
-import com.revrobotics.spark.config.SparkBaseConfig.IdleMode;
-import com.revrobotics.spark.config.SparkMaxConfig;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
@@ -14,22 +10,16 @@ import frc.robot.Constants;
 
 public class AlgaeManipulator extends SubsystemBase{
 
-    private SparkMax intake = new SparkMax(Constants.CanIdRio.Algae_Intake, MotorType.kBrushless);
-    public static final SparkMaxConfig intakeConfig = new SparkMaxConfig();
+    private TalonFX intake = new TalonFX(Constants.CanIdCanivore.Algae_Intake, "Canivore");
 
-    private CANrange canrange = new CANrange(Constants.CanIdRio.Algae_CANRange); 
+    private CANrange canrange = new CANrange(Constants.CanIdCanivore.Algae_CANRange, "Canivore"); 
     private boolean m_previousDetection; 
     private boolean m_lockedOut; 
 
     public AlgaeManipulator(){
-        intakeConfig.idleMode(IdleMode.kBrake).smartCurrentLimit(40).voltageCompensation(12);
-        intake.configure(
-            intakeConfig,
-            ResetMode.kResetSafeParameters,
-            PersistMode.kPersistParameters
-        );
-
-        intake.clearFaults();
+        
+        intake.setNeutralMode(NeutralModeValue.Brake);
+        //STATORCURRENT LIMITS
     }
 
     public double getCurrentDistance(){
@@ -53,6 +43,7 @@ public class AlgaeManipulator extends SubsystemBase{
     
     public void setAlgaeVelo(double velo) {
         intake.set(velo);
+        //CHECK FORWARDS / BACKWARDS
     }
 
     public boolean isLocked(){
