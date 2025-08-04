@@ -34,14 +34,9 @@ public class Constants {
 
         public static final int Pigeon = 10;
 
-        public static final int Front_Left_CANcoder = 11;
-        public static final int Front_Right_CANcoder = 12;
-        public static final int Back_Left_CANcoder = 13;
-        public static final int Back_Right_CANcoder = 14;
-
         public static final int Elevator = 15;
 
-        public static final int Algae_Arm = 17;
+        public static final int Algae_Arm = 30;
         public static final int Algae_Intake = 18;
         public static final int Algae_CANRange = 20;
     }
@@ -86,6 +81,7 @@ public class Constants {
         public static final double reefPosition = 0.125 + 0.047; // was 0.15
         public static final double processorPosition = 0 + 0.047; 
         public static final double outPosition = -0.035 + 0.047;
+        public static final double coralGround = -0.045 + 0.047;
     }
 
     public static final class Elevator {
@@ -104,8 +100,9 @@ public class Constants {
         public static final double gearRatio = -1;
 
         public static final double down = 0;
+        public static final double coralGround = 3.5;
         public static final double auto = 8;
-        public static final double algaeGround = 16; // tune
+        public static final double algaeGround = 13; // tune
         public static final double l1 = 24;
         public static final double l2Algae = 27;
         public static final double l2 = 30;

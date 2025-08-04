@@ -10,6 +10,7 @@ import frc.robot.commands.algae_manipulator.AlgaeIntake;
 import frc.robot.commands.algae_manipulator.AlgaeIntakeStop;
 import frc.robot.commands.algae_manipulator.AlgaeOutake;
 import frc.robot.commands.arm.ArmBarge;
+import frc.robot.commands.arm.ArmCoralGround;
 import frc.robot.commands.arm.ArmOut;
 import frc.robot.commands.arm.ArmProcessor;
 import frc.robot.commands.arm.ArmStow;
@@ -30,6 +31,7 @@ import frc.robot.commands.elevator.ElevatorL2Algae;
 import frc.robot.commands.elevator.Elevator3CoralAuto;
 import frc.robot.commands.elevator.ElevatorAlgaeGround;
 import frc.robot.commands.elevator.ElevatorBarge;
+import frc.robot.commands.elevator.ElevatorCoralGround;
 import frc.robot.commands.elevator.ElevatorDown;
 import frc.robot.commands.elevator.ElevatorL3;
 import frc.robot.commands.elevator.ElevatorL4;
@@ -101,11 +103,13 @@ public class RobotContainer {
     private final CheckIntake checkIntake = new CheckIntake(coralManipulator);
     private final ArmStow armStow = new ArmStow(arm);
     private final ArmOut armOut = new ArmOut(arm);
+    private final ArmCoralGround armCoralGround = new ArmCoralGround(arm);
     private final ArmReef armReef = new ArmReef(arm);
     private final ArmBarge armBarge = new ArmBarge(arm);
     private final ArmProcessor armProcessor = new ArmProcessor(arm);
     private final ArmUp armUp = new ArmUp(arm);
     private final ElevatorDown elevatorDown = new ElevatorDown(elevator);
+    private final ElevatorCoralGround elevatorCoralGround = new ElevatorCoralGround(elevator);
     private final ElevatorAlgaeGround elevatorAlgaeGround = new ElevatorAlgaeGround(elevator);
     private final ElevatorBarge elevatorBarge = new ElevatorBarge(elevator);
     private final ElevatorL2Algae elevatorL2Algae = new ElevatorL2Algae(elevator);
@@ -217,6 +221,7 @@ public class RobotContainer {
             .withVelocityX(MaxSpeed * 0.25)
             .withVelocityY(0)));
 
+
                 // Replace your existing povDown() binding with this:
         joystick.povDown().whileTrue(drivetrain.applyRequest(() -> {
             // Get current robot rotation
@@ -256,8 +261,9 @@ public class RobotContainer {
         m_buttonBoard.button(3).onFalse(armStow);
         m_buttonBoard.button(3).onFalse(algaeIntakeStop);
         
-        m_buttonBoard.button(4).onTrue(elevatorAlgaeGround);
-        m_buttonBoard.button(4).onTrue(armProcessor);
+        m_buttonBoard.button(4).onTrue(algaeIntake);
+        m_buttonBoard.button(4).onTrue(elevatorCoralGround);
+        m_buttonBoard.button(4).onTrue(armCoralGround);
         m_buttonBoard.button(4).onFalse(elevatorDown);
         m_buttonBoard.button(4).onFalse(armStow);
         m_buttonBoard.button(4).onFalse(algaeIntakeStop);
@@ -300,7 +306,7 @@ public class RobotContainer {
         m_buttonBoard.povLeft().onFalse(armStow);
         m_buttonBoard.povDown().onTrue(elevatorL2); // blue (2) // find these and order them with L1 being bottom button
         m_buttonBoard.povUp().onTrue(armBarge); 
-        m_buttonBoard.povUp().onTrue(new WaitCommand(0.8).andThen(algaeOutake)); 
+        //m_buttonBoard.povUp().onTrue(new WaitCommand(0.8).andThen(algaeOutake)); 
         m_buttonBoard.povUp().onFalse(armStow); 
         m_buttonBoard.povUp().onFalse(algaeIntakeStop); 
         m_buttonBoard.povRight().onTrue(elevatorL3); // yellow (3)

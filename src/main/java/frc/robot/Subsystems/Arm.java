@@ -44,9 +44,9 @@ public class Arm extends SubsystemBase {
         return arm.getPosition().getValueAsDouble();
     }
 
-    @Override
-    public void periodic() {
-        // arm.setPosition(getAbsolutePosition());
-        armStateTable.getEntry("Elevator RelativePosition").setDouble(getRelativePosition());
-    }
+    // @Override
+    // public void periodic() {
+    //     // arm.setPosition(getAbsolutePosition());
+    //     armStateTable.getEntry("Elevator RelativePosition").setDouble(getRelativePosition());
+    // }
 }
