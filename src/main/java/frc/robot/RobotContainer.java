@@ -255,25 +255,27 @@ public class RobotContainer {
         m_buttonBoard.button(2).onFalse(algaeIntakeStop);
 
         m_buttonBoard.button(3).onTrue(algaeIntake);
-        m_buttonBoard.button(3).onTrue(elevatorAlgaeGround);
-        m_buttonBoard.button(3).onTrue(armOut);
+        m_buttonBoard.button(3).onTrue(elevatorCoralGround);
+        m_buttonBoard.button(3).onTrue(armCoralGround);
         m_buttonBoard.button(3).onFalse(elevatorDown);
         m_buttonBoard.button(3).onFalse(armStow);
         m_buttonBoard.button(3).onFalse(algaeIntakeStop);
-        
+
         m_buttonBoard.button(4).onTrue(algaeIntake);
-        m_buttonBoard.button(4).onTrue(elevatorCoralGround);
-        m_buttonBoard.button(4).onTrue(armCoralGround);
+        m_buttonBoard.button(4).onTrue(elevatorAlgaeGround);
+        m_buttonBoard.button(4).onTrue(armOut);
         m_buttonBoard.button(4).onFalse(elevatorDown);
         m_buttonBoard.button(4).onFalse(armStow);
         m_buttonBoard.button(4).onFalse(algaeIntakeStop);
+        
+        
 
         m_buttonBoard.button(5).onTrue(algaeIntake);
         m_buttonBoard.button(5).whileTrue(drivetrain.applyRequest(() 
             -> robotStrafe
-                .withVelocityX(0.04 * MaxSpeed)
+                .withVelocityX(0.02 * MaxSpeed)
                 .withVelocityY(0))
-                .withTimeout(3));
+                .withTimeout(2));
         m_buttonBoard.button(5).onTrue(elevatorL2Algae);
         m_buttonBoard.button(5).onTrue(armReef);
         m_buttonBoard.button(5).onFalse(elevatorDown);
