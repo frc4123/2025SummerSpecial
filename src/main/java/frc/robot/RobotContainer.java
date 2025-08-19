@@ -273,9 +273,9 @@ public class RobotContainer {
         m_buttonBoard.button(5).onTrue(algaeIntake);
         m_buttonBoard.button(5).whileTrue(drivetrain.applyRequest(() 
             -> robotStrafe
-                .withVelocityX(0.02 * MaxSpeed)
+                .withVelocityX(0.01 * MaxSpeed)
                 .withVelocityY(0))
-                .withTimeout(2));
+                .withTimeout(1.5));
         m_buttonBoard.button(5).onTrue(elevatorL2Algae);
         m_buttonBoard.button(5).onTrue(armReef);
         m_buttonBoard.button(5).onFalse(elevatorDown);
