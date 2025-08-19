@@ -221,8 +221,6 @@ public class RobotContainer {
             .withVelocityX(MaxSpeed * 0.25)
             .withVelocityY(0)));
 
-
-                // Replace your existing povDown() binding with this:
         joystick.povDown().whileTrue(drivetrain.applyRequest(() -> {
             // Get current robot rotation
             double robotAngle = vision.getLastGamePieceAngle().getRadians();
