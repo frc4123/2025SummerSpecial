@@ -189,7 +189,7 @@ public class Constants {
             // {+forward/back-, +left/right-}
         };
 
-        public static final double[] ALGAEADDITIONS = {-0.65, 0.12};
+        public static final double[] ALGAEADDITIONS = {-0.6, 0.12}; //-0.65
 
         public static final double[][] CORALSTATIONADDITIONS = {
             {0.4762, 0.408},
