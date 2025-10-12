@@ -15,7 +15,6 @@ public class AlgaeIntakeStop extends Command{
     public void execute() {
         if(!intake.isLocked()){
             intake.setAlgaeVelo(0);
-        } else intake.setAlgaeVelo(-0.18);
-        
+        } 
     }
 }

@@ -170,8 +170,8 @@ public class RobotContainer {
 
         joystick.x().whileTrue(
             drivetrain.applyRequest(() ->
-            drive.withVelocityX(-joystick.getLeftY() * MaxSpeed/4) 
-                .withVelocityY(-joystick.getLeftX() * MaxSpeed/4) 
+            drive.withVelocityX(-joystick.getLeftY() * MaxSpeed * 0.35) //was 0.25
+                .withVelocityY(-joystick.getLeftX() * MaxSpeed * 0.35) //was 0.25
                 .withRotationalRate(-joystick.getRightX() * MaxAngularRate/4)
             )
         );
@@ -226,8 +226,8 @@ public class RobotContainer {
             double robotAngle = vision.getLastGamePieceAngle().getRadians();
     
             // Convert robot-centric "backward" movement to field-centric coordinates
-            double fieldX = -MaxSpeed * 0.25 * Math.cos(robotAngle);
-            double fieldY = -MaxSpeed * 0.25 * Math.sin(robotAngle);
+            double fieldX = -MaxSpeed * 0.45 * Math.cos(robotAngle); //was 0.25
+            double fieldY = -MaxSpeed * 0.45 * Math.sin(robotAngle); //was 0.25
     
             return faceAngle
                 .withVelocityX(fieldX)

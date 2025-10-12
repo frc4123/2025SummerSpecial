@@ -13,7 +13,7 @@ public class AlgaeOutake extends Command{
 
     @Override
     public void execute() {
-        outake.setAlgaeVelo(0.75);// 0.5 before
+        outake.setAlgaeVelo(1);// 0.5 before
     }
 
     @Override
